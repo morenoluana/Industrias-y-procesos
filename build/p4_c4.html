@@ -1,0 +1,601 @@
+<!-- ======================= CLASE 4 ======================= -->
+<section class="cls c4">
+  <div class="cls-hd hd4">
+    <div class="num">4</div>
+    <div><h2>Criterios de escalado: potencia, mezclado y k<sub>L</sub>a</h2>
+    <div class="sub">Los 5 criterios · número de potencia · tip speed · mecanismos y tiempo de mezclado · k<sub>L</sub>a y su determinación experimental · scale-up vs scale-down</div></div>
+  </div>
+
+  <h3 class="sec">4.1 · El problema central del escalado <span class="pill p4">respuesta de examen</span></h3>
+  <div class="box warn">
+    <span class="bt">La frase que hay que saber decir</span>
+    <b>Mantener todo constante de manera simultánea es físicamente imposible.</b>
+    Si se mantiene constante la <b>potencia por unidad de volumen</b>, la <b>velocidad de punta aumenta</b>.
+    Si se mantiene constante la <b>velocidad de punta</b>, la <b>potencia por unidad de volumen disminuye</b>.
+    El ingeniero <b>debe elegir qué parámetro conservar</b> y aceptar las contrapartidas que eso conlleva para los demás.
+  </div>
+  <table>
+    <tr><th class="ctr" style="width:8mm">#</th><th style="width:34mm">Criterio</th><th style="width:40mm">Qué conserva</th><th>Cuándo se usa / qué sacrifica</th></tr>
+    <tr><td class="ctr">1</td><td><b>Número de Reynolds (Re)</b></td><td>El <b>régimen de flujo</b></td><td>Raro en la práctica: al estar ligado directamente a N, cambiarlo implica cambiar k<sub>L</sub>a o P/V, afectando el desempeño microbiano.</td></tr>
+    <tr><td class="ctr">2</td><td><b>Potencia volumétrica (P/V)</b></td><td>La <b>tasa promedio de disipación de energía por unidad de volumen</b> → niveles similares de <b>turbulencia</b> y, aproximadamente, características de transferencia de masa similares</td><td>Procesos que <b>no requieren alta tasa de aireación</b>: fermentaciones alcohólicas, células eucariotas. Sacrifica v<sub>tip</sub> (sube con la escala).</td></tr>
+    <tr><td class="ctr">3</td><td><b>Velocidad de punta (v<sub>tip</sub>)</b></td><td>El <b>esfuerzo cortante máximo</b> que sufren las células al pasar por la zona del impulsor</td><td>Cultivos <b>sensibles a la cizalla</b>, sobre todo <b>células de mamífero</b>. <b>Es el criterio principal en producción de anticuerpos con células CHO.</b> Sacrifica P/V, que cae y puede quedar por debajo de lo necesario para buena mezcla y transferencia de O₂.</td></tr>
+    <tr><td class="ctr">4</td><td><b>k<sub>L</sub>a</b></td><td>La <b>capacidad de transferencia de oxígeno</b></td><td>Procesos <b>aerobios</b>: antibióticos, polisacáridos, <i>E. coli</i> recombinante. Es el criterio más usado en fermentación microbiana.</td></tr>
+    <tr><td class="ctr">5</td><td><b>Tiempo de mezclado (t<sub>m</sub>)</b></td><td>La <b>homogeneidad temporal</b></td><td><b>Casi nunca aplicable:</b> mantenerlo constante exigiría aumentos de potencia impracticables. <b>Es inevitable que t<sub>m</sub> aumente con la escala.</b></td></tr>
+  </table>
+
+  <h3 class="sec">4.2 · Potencia de agitación <span class="pill p4">se calcula casi seguro</span></h3>
+  <div class="cols">
+    <div>
+      <div class="box def">
+        <span class="bt">De dónde viene el consumo de potencia</span>
+        La potencia necesaria para una velocidad dada depende de la magnitud de las <b>fuerzas de fricción y del arrastre de forma</b>
+        que se producen en el agitador. Fricción y arrastre dan lugar al <b>torque en el eje</b>.
+        La <b>fricción en la caja de engranajes y en las juntas</b> reduce la energía transmitida al fluido: por eso la
+        <b>potencia eléctrica del motor es siempre mayor</b> que la potencia de mezcla, en una cantidad que depende de la
+        eficiencia del accionamiento.
+      </div>
+      <div class="f"><span class="lbl">Medición experimental de la potencia (por torque)</span>
+        P = 2π · N<sub>i</sub> · M
+        <span class="note">N<sub>i</sub> = velocidad de agitación (rev/s) · M = torque medido en el eje (N·m)</span>
+      </div>
+      <div class="box key">
+        <span class="bt">P/V: los números a memorizar</span>
+        Los biorreactores <b>pequeños</b> requieren una <b>P/V mayor</b> que los grandes:<br>
+        <b>~10 kW/m³</b> en recipientes pequeños;<br>
+        <b>~1–2 kW/m³</b> en reactores de <b>~100 m³</b>.
+      </div>
+      <h4 class="sub">Las tres variables que hay que reunir</h4>
+      <table>
+        <tr><th style="width:30mm">Grupo</th><th>Variables</th></tr>
+        <tr><td><b>Del líquido</b></td><td>Viscosidad μ (kg/m·s) · Densidad ρ (kg/m³)</td></tr>
+        <tr><td><b>Operativas</b></td><td>Potencia (W) · Gravedad (m/s²) · Velocidad de agitación N (<b>rps</b>)</td></tr>
+        <tr><td><b>Dimensionales (m)</b></td><td>D<sub>a</sub> diámetro del agitador · D<sub>t</sub> diámetro del tanque · E altura del agitador desde el fondo · L largo de paletas · W<sub>a</sub> ancho de paletas · W<sub>b</sub>/J ancho de deflectores · H altura del líquido · L<sub>b</sub> distancia entre paletas</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="cols3" style="gap:2mm">
+        <div class="f" style="font-size:9.6pt"><span class="lbl">Reynolds</span>
+          Re<sub>i</sub> = <span class="frac"><span class="n">ρ N D<sub>a</sub>²</span><span class="d">μ</span></span>
+          <span class="note">resistencia del fluido</span>
+        </div>
+        <div class="f" style="font-size:9.6pt"><span class="lbl">Froude</span>
+          Fr = <span class="frac"><span class="n">D<sub>a</sub> N²</span><span class="d">g</span></span>
+          <span class="note">inercia vs gravedad</span>
+        </div>
+        <div class="f" style="font-size:9.6pt"><span class="lbl">Potencia</span>
+          N<sub>p</sub> = <span class="frac"><span class="n">P</span><span class="d">ρ D<sub>a</sub>⁵ N³</span></span>
+          <span class="note">potencia consumida</span>
+        </div>
+      </div>
+      <div class="box def">
+        <span class="bt">Qué significa cada uno</span>
+        <b>N<sub>p</sub> (número de potencia):</b> relaciona la potencia consumida con las propiedades del fluido y la geometría del agitador.
+        Representa la <b>potencia de referencia teórica</b> que debería requerirse para mover el fluido en esas condiciones.<br>
+        <b>Fr (número de Froude):</b> relaciona las fuerzas de <b>inercia con las de gravedad</b>. Es importantísimo si se quiere
+        <b>mantener un sólido en suspensión</b> o agitar un fluido que tiende a sedimentarse, y también para escalar.
+        <b>Fr alto</b> → el agitador mantiene los sólidos dispersos. <b>Fr bajo</b> → los sólidos van al fondo.
+      </div>
+      <div class="box key">
+        <span class="bt">La lógica del procedimiento (memorizar el orden)</span>
+        <ol style="margin:0;padding-left:1.1em">
+          <li>Pasar todo a <b>kg, m, s</b> (¡N en rev/s, μ en Pa·s!)</li>
+          <li>Calcular <b>Re</b></li>
+          <li>Ver el <b>régimen</b>: laminar (Re&lt;10) o turbulento (Re&gt;10⁴)</li>
+          <li>Buscar <b>N<sub>p</sub></b> (o k₁) en la <b>tabla o el gráfico</b> según el tipo de agitador</li>
+          <li>Aplicar la <b>ecuación de P</b> correspondiente al régimen</li>
+        </ol>
+        <b>Recordar:</b> 1 W = 1 kg·m²/s³
+      </div>
+    </div>
+  </div>
+
+  <figure>
+  <svg viewBox="0 0 700 250" width="660" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+    <text x="350" y="14" font-size="10.5" font-weight="bold" fill="#16202b" text-anchor="middle">Relación N⌄p vs Re (Bates et al., 1963) — la curva maestra de la potencia</text>
+    <line x1="62" y1="200" x2="600" y2="200" stroke="#41536b" stroke-width="1.6"/>
+    <line x1="62" y1="200" x2="62" y2="34" stroke="#41536b" stroke-width="1.6"/>
+    <g font-size="8" fill="#41536b" text-anchor="middle">
+      <text x="62" y="214">10⁰</text><text x="152" y="214">10¹</text><text x="242" y="214">10²</text>
+      <text x="332" y="214">10³</text><text x="422" y="214">10⁴</text><text x="512" y="214">10⁵</text><text x="600" y="214">10⁶</text>
+      <text x="331" y="232" font-size="9" font-weight="bold">Re = ρ N D⌄a² / μ</text>
+    </g>
+    <g font-size="8" fill="#41536b" text-anchor="end">
+      <text x="56" y="198">0,1</text><text x="56" y="144">1</text><text x="56" y="90">10</text><text x="56" y="44">100</text>
+      <text x="24" y="120" font-size="9" font-weight="bold" transform="rotate(-90 24 120)">N⌄p</text>
+    </g>
+    <g stroke="#e8eef4" stroke-width="1">
+      <line x1="152" y1="34" x2="152" y2="200"/><line x1="242" y1="34" x2="242" y2="200"/>
+      <line x1="332" y1="34" x2="332" y2="200"/><line x1="422" y1="34" x2="422" y2="200"/><line x1="512" y1="34" x2="512" y2="200"/>
+      <line x1="62" y1="144" x2="600" y2="144"/><line x1="62" y1="90" x2="600" y2="90"/>
+    </g>
+    <!-- regime bands -->
+    <rect x="62" y="34" width="90" height="166" fill="#1f6f8b" opacity=".07"/>
+    <rect x="152" y="34" width="270" height="166" fill="#e0b100" opacity=".08"/>
+    <rect x="422" y="34" width="178" height="166" fill="#c0392b" opacity=".07"/>
+    <text x="107" y="48" font-size="8" fill="#14556c" text-anchor="middle" font-weight="bold">LAMINAR</text>
+    <text x="107" y="59" font-size="7.4" fill="#14556c" text-anchor="middle">Re &lt; 10</text>
+    <text x="287" y="48" font-size="8" fill="#8a6a00" text-anchor="middle" font-weight="bold">TRANSICIÓN</text>
+    <text x="511" y="48" font-size="8" fill="#c0392b" text-anchor="middle" font-weight="bold">TURBULENTO</text>
+    <text x="511" y="59" font-size="7.4" fill="#c0392b" text-anchor="middle">Re &gt; 10⁴ · N⌄p constante</text>
+    <!-- Rushton curve: Np ~ 71/Re laminar then plateau at 5 -->
+    <path d="M62,44 L152,98 Q200,124 260,124 Q330,124 380,112 Q410,105 422,102 L600,102" fill="none" stroke="#b4531b" stroke-width="2.4"/>
+    <text x="610" y="105" font-size="8.4" fill="#b4531b" font-weight="bold">Rushton</text>
+    <text x="610" y="115" font-size="7.6" fill="#b4531b">N⌄p' ≈ 5</text>
+    <!-- Marine propeller: k1 41, Np' 0.35 -->
+    <path d="M62,56 L152,110 Q210,142 280,156 Q350,166 422,168 L600,168" fill="none" stroke="#0f7a56" stroke-width="2.4"/>
+    <text x="610" y="171" font-size="8.4" fill="#0f7a56" font-weight="bold">Hélice</text>
+    <text x="610" y="181" font-size="7.6" fill="#0f7a56">N⌄p' ≈ 0,35</text>
+    <!-- slope label -->
+    <text x="96" y="86" font-size="7.6" fill="#14556c" transform="rotate(31 96 86)">N⌄p ∝ 1/Re</text>
+  </svg>
+  <figcaption>Para un agitador determinado, la relación entre N<sub>p</sub> y Re depende del régimen. La relación se determinó experimentalmente para muchas configuraciones; una vez conocido N<sub>p</sub>, P se calcula fácilmente.</figcaption>
+  </figure>
+
+  <div class="cols">
+    <div class="box def" style="border-color:#1f6f8b">
+      <span class="bt" style="color:#14556c">RÉGIMEN LAMINAR (Re &lt; 10)</span>
+      Corresponde a Re &lt; 10 para muchos agitadores, incluidas turbinas y hélices. <b>N<sub>p</sub> es proporcional a 1/Re.</b>
+      <div class="f" style="margin:2mm 0">P = k₁ · N² · D<sub>a</sub>³ · μ</div>
+      <b>La potencia es INDEPENDIENTE de la densidad, pero directamente PROPORCIONAL a la viscosidad.</b>
+      En fluidos muy viscosos el motor debe vencer la resistencia interna: <b>mucho consumo de energía</b>.
+      <br><span style="font-size:8pt">k₁ típicos: turbina de 6 paletas planas ≈ <b>71</b> · hélice marina ≈ <b>41</b></span>
+    </div>
+    <div class="box def" style="border-color:#c0392b">
+      <span class="bt" style="color:#c0392b">RÉGIMEN TURBULENTO (Re &gt; 10⁴)</span>
+      Se desarrolla completamente a Re &gt; 10⁴ para la mayoría de los agitadores pequeños en recipientes <b>con deflectores</b>.
+      <div class="f" style="margin:2mm 0">P = N<sub>p</sub>' · N³ · D<sub>a</sub>⁵ · ρ</div>
+      N<sub>p</sub>' es el <b>valor constante</b> del número de potencia en régimen turbulento, <b>independiente de Re</b>.
+      <b>La potencia es INDEPENDIENTE de la viscosidad, pero PROPORCIONAL a la densidad.</b>
+      <br><span style="font-size:8pt">N<sub>p</sub>' típicos: turbina Rushton de 6 paletas planas ≈ <b>5</b> · hélice marina ≈ <b>0,35</b></span>
+    </div>
+  </div>
+  <div class="box key">
+    <span class="bt">Las dos dependencias más "trampa" del examen</span>
+    <b>P ∝ N³</b> → si duplico la velocidad de agitación, la potencia se multiplica por <b>8</b>.<br>
+    <b>P ∝ D<sub>a</sub>⁵</b> → si agrando el agitador un 20 %, la potencia sube <b>≈ 2,5 veces</b> (1,2⁵ = 2,49).
+    Por eso agrandar D<sub>i</sub> mejora el mezclado <b>pero tiene un costo energético enorme</b>.
+  </div>
+
+  <div class="box ex nobrk">
+    <span class="bt">Ejemplo resuelto 3 (Problema 1 de la cátedra) — Potencia de una hélice marina</span>
+    <b>Datos:</b> caldo con μ = 10⁻² Pa·s y ρ = 1000 kg/m³, tanque de 50 m³, <b>hélice marina</b> de D<sub>a</sub> = 1,3 m, N = 240 rpm.
+    <div class="cols" style="margin-top:2mm">
+      <div>
+        <b>1) Unidades:</b> N = 240/60 = <b>4 rev/s</b>.<br>
+        <b>2) Reynolds:</b> Re = ρND<sub>a</sub>²/μ = (1000 × 4 × 1,3²)/0,01 = 6760/0,01 = <b>6,76 × 10⁵</b><br>
+        <b>3) Régimen:</b> 6,76×10⁵ ≫ 10⁴ → <b>TURBULENTO</b><br>
+        <b>4) N<sub>p</sub>':</b> hélice marina según tabla = <b>0,35</b>
+      </div>
+      <div>
+        <b>5) Potencia:</b> P = N<sub>p</sub>' ρ N³ D<sub>a</sub>⁵ = 0,35 × 1000 × 4³ × 1,3⁵<br>
+        &nbsp;&nbsp;&nbsp;= 0,35 × 1000 × 64 × 3,713 = <b>8,3 × 10⁴ kg·m²/s³ = 83 kW</b><br><br>
+        <b>Extras que suelen pedir a continuación:</b><br>
+        <b>P/V</b> = 83.000 W / 50 m³ = <b>1660 W/m³ ≈ 1,7 kW/m³</b> <span style="font-size:7.8pt">(coherente con 1–2 kW/m³ para reactores grandes)</span><br>
+        <b>v<sub>tip</sub></b> = π·N·D<sub>i</sub> = π × 4 × 1,3 = <b>16,3 m/s</b>
+        <span class="pill phot">¡altísimo!</span> Supera ampliamente el límite microbiano de 5 m/s: destrozaría cualquier cultivo sensible.
+      </div>
+    </div>
+  </div>
+
+  <div class="box ex nobrk">
+    <span class="bt">Ejemplo resuelto 4 (Problema 2 de la cátedra) — Turbina de 6 aspas planas, y qué pasa si el fluido se vuelve viscosísimo</span>
+    <b>Datos:</b> D<sub>T</sub> = H = 1,83 m · D<sub>i</sub> = 0,61 m · W = 0,122 m · 4 deflectores de J = 0,15 m · N = 90 rpm · μ = 10 cP · ρ = 929 kg/m³.
+    <div class="cols" style="margin-top:2mm">
+      <div>
+        <b>Caso A — μ = 10 cP</b><br>
+        N = 90/60 = <b>1,5 rev/s</b> · μ = 10 cP = <b>0,01 Pa·s</b><br>
+        Re = (929 × 1,5 × 0,61²)/0,01 = 518,5/0,01 = <b>5,18 × 10⁴</b> → <b>TURBULENTO</b><br>
+        N<sub>p</sub> del gráfico (6 aspas planas, D/W = 5) = <b>5</b><br>
+        P = 5 × 929 × 1,5³ × 0,61⁵ = 5 × 929 × 3,375 × 0,08446 = <b>1324 W ≈ 1,32 kW</b>
+      </div>
+      <div>
+        <b>Caso B — μ = 100.000 cP (= 100 Pa·s)</b><br>
+        Re = 518,5/100 = <b>5,2</b> → <span class="pill p1">¡ahora es LAMINAR!</span> (Re &lt; 10)<br>
+        Cambia la ecuación: P = k₁ N² D<sub>a</sub>³ μ, con <b>k₁ = 71</b><br>
+        P = 71 × 1,5² × 0,61³ × 100 = 71 × 2,25 × 0,22698 × 100 = <b>≈ 3626 W ≈ 3,6 kW</b><br><br>
+        <b>Conclusión que hay que escribir:</b> al multiplicar la viscosidad por 10.000, el flujo <b>pasa de turbulento a laminar</b>
+        y la potencia <b>casi se triplica</b>… <b>pero mezclando peor</b>: sin turbulencia aparecen zonas muertas y el k<sub>L</sub>a se desploma.
+        <b>Más potencia no equivale a mejor mezcla.</b>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">4.3 · Tip speed: el criterio de la cizalla</h3>
+  <div class="cols">
+    <div>
+      <div class="f" style="border-color:var(--c4);border-width:2px"><span class="lbl">Velocidad de punta (velocidad tangencial, m/s)</span>
+        v<sub>tip</sub> = π · N · D<sub>i</sub>
+        <span class="note">Determina el <b>esfuerzo cortante máximo</b> que experimentan las células al pasar por la zona del impulsor</span>
+      </div>
+      <table>
+        <tr><th>Tipo de célula</th><th class="ctr">Límite de v<sub>tip</sub></th></tr>
+        <tr><td><b>Células de mamífero</b></td><td class="ctr">&lt; <b>1,0–1,5 m/s</b><br><span style="font-size:7.6pt">las CHO toleran hasta ~2 m/s con <b>Pluronic F-68</b></span></td></tr>
+        <tr><td><b>Células de insecto</b></td><td class="ctr">&lt; <b>1,0 m/s</b></td></tr>
+        <tr><td><b>Hongos filamentosos</b></td><td class="ctr">&lt; <b>2–3 m/s</b><br><span style="font-size:7.6pt">por fragmentación del micelio</span></td></tr>
+        <tr><td><b>Cultivos microbianos</b></td><td class="ctr">&lt; <b>5 m/s</b><br><span style="font-size:7.6pt">son menos sensibles</span></td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="box warn">
+        <span class="bt">La contrapartida (esto es lo que preguntan)</span>
+        A mayor escala, <b>mantener la misma v<sub>tip</sub> requiere rpm más bajas</b>, dado que D<sub>i</sub> es mayor.
+        Eso implica una <b>disminución de la relación P/V</b>, que puede quedar <b>por debajo del nivel necesario</b>
+        para una mezcla y una transferencia de oxígeno adecuadas.
+      </div>
+      <div class="box key">
+        <span class="bt">¿Cuándo se usa?</span>
+        En cultivos <b>sensibles al esfuerzo cortante</b>, especialmente con <b>células de mamífero</b>.
+        <b>Es el criterio principal para los procesos de producción de anticuerpos con células CHO.</b>
+      </div>
+      <p style="font-size:8.4pt"><b>Cuenta rápida útil:</b> si escalo con similitud geométrica y D<sub>i</sub> se multiplica por 2,15
+      (volumen ×10), para mantener v<sub>tip</sub> constante N debe <b>dividirse por 2,15</b>. Pero entonces
+      P ∝ N³D<sub>i</sub>⁵ cambia por un factor (1/2,15)³ × (2,15)⁵ = 2,15² = <b>4,6</b>, mientras que el volumen creció <b>×10</b>:
+      la <b>P/V cae a la mitad</b>. Ese es exactamente el trade-off.</p>
+    </div>
+  </div>
+
+  <h3 class="sec">4.4 · Mezclado: mecanismos y tiempo de mezclado</h3>
+  <div class="box def">
+    <span class="bt">El mezclado es la combinación de tres procesos físicos</span>
+    Para un mezclado efectivo, la velocidad del fluido alejándose del agitador debe ser <b>suficiente para transportar el material
+    hacia las regiones más remotas</b> del tanque, y el fluido en circulación debe <b>recorrer todo el vaso en un tiempo razonable</b>.
+  </div>
+  <div class="cols3">
+    <div class="box" style="background:var(--c4b);border-color:var(--c4)">
+      <span class="bt" style="color:#8f4115">1 · DISTRIBUCIÓN (macromezclado)</span>
+      Proceso por el cual se <b>transporta un soluto a todas las regiones del vaso</b> mediante su circulación en el seno del fluido.
+      Se caracteriza por el <b>tiempo que demora una molécula en volver al mismo punto</b>.
+      Es lo que se observa al mirar el camino de una gota de colorante colocada arriba del tanque.
+      <b>Es uno de los procesos más importantes, pero a menudo es el PASO MÁS LENTO.</b>
+    </div>
+    <div class="box" style="background:var(--c4b);border-color:var(--c4)">
+      <span class="bt" style="color:#8f4115">2 · DISPERSIÓN (micro o macro)</span>
+      Proceso de <b>romper el flujo del fluido en remolinos cada vez más pequeños</b>.
+      Facilita la rápida transferencia de material a través del vaso.
+      <b>El grado de homogeneidad posible está limitado por el tamaño de los remolinos más pequeños</b> que pueden formarse
+      en ese fluido en particular.
+    </div>
+    <div class="box" style="background:var(--c4b);border-color:var(--c4)">
+      <span class="bt" style="color:#8f4115">3 · DIFUSIÓN (micromezclado)</span>
+      Dentro de los remolinos el flujo es <b>rotacional y ocurre en líneas de corriente</b>, que <b>no facilitan el mezclado</b>:
+      por debajo de la escala de Kolmogorov solo queda la <b>difusión</b>.
+      La difusión molecular es lenta en general, pero <b>a distancias muy cortas es muy rápida</b>:
+      en remolinos de <b>30 a 100 µm</b>, la homogeneidad se alcanza en <b>≈ 1 segundo</b> en fluidos de baja viscosidad.
+      <b>Si la potencia entregada alcanza remolinos de ese tamaño, el mezclado molecular es casi simultáneo.</b>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <div class="f"><span class="lbl">Escala de turbulencia de Kolmogorov</span>
+        λ = ( <span class="frac"><span class="n">ν³</span><span class="d">ε</span></span> )<sup>1/4</sup>
+        <span class="note">λ = tamaño del remolino · ν = μ/ρ = viscosidad cinemática · ε = tasa de energía disipada como calor por unidad de masa (proporcional a P/masa)</span>
+      </div>
+      <p style="font-size:8.4pt">La <b>teoría universal de equilibrio de Kolmogorov</b> trata la turbulencia local de manera <b>isotrópica</b>
+      y provee herramientas para estudiar la estructura de los remolinos más pequeños. A <b>Re alto</b> se genera un
+      <b>amplio espectro de tamaños de remolinos</b>. Se asume <b>equilibrio estadístico</b> a la escala pequeña: la
+      <b>tasa de energía suministrada es igual a la tasa de disipación</b>, una de las premisas de la teoría.</p>
+      <div class="box def">
+        <span class="bt">Eficiencia y tiempo de mezclado</span>
+        Para lograr un mezclado rápido, el agitador debe proveer <b>buena circulación (macromezclado)</b>;
+        el <b>micromezclado</b> también importa pero ocurre en un tiempo mucho menor.
+        <b>La efectividad del mezclado está dada por la tasa de flujo en el seno del tanque.</b>
+        El <b>t<sub>m</sub></b> es el parámetro útil para evaluar la velocidad global de mezclado.
+      </div>
+      <div class="box key">
+        <span class="bt">Definición de t<sub>m</sub> (la exacta)</span>
+        Tiempo requerido para alcanzar un <b>grado de homogeneidad necesario</b> partiendo de un estado <b>completamente segregado</b>.
+        Usualmente es el tiempo tras el cual la concentración del trazador <b>difiere de la concentración final C<sub>f</sub>
+        en menos del 10 %</b> de la diferencia total (C<sub>f</sub> − C<sub>i</sub>).<br><br>
+        <b>Valor industrial de referencia:</b> biorreactores agitados de <b>1 a 100 m³</b> tienen <b>t<sub>m</sub> de 30 a 120 s</b>.
+      </div>
+    </div>
+    <div>
+      <figure>
+      <svg viewBox="0 0 350 240" width="340" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+        <text x="175" y="14" font-size="10" font-weight="bold" fill="#16202b" text-anchor="middle">Respuesta a un pulso de trazador</text>
+        <line x1="44" y1="190" x2="330" y2="190" stroke="#41536b" stroke-width="1.5"/>
+        <line x1="44" y1="190" x2="44" y2="30" stroke="#41536b" stroke-width="1.5"/>
+        <text x="190" y="210" font-size="8.6" fill="#41536b" text-anchor="middle">tiempo</text>
+        <text x="18" y="112" font-size="8.6" fill="#41536b" text-anchor="middle" transform="rotate(-90 18 112)">concentración</text>
+        <!-- band ±10% -->
+        <rect x="44" y="94" width="286" height="24" fill="#0f7a56" opacity=".13"/>
+        <line x1="44" y1="106" x2="330" y2="106" stroke="#0f7a56" stroke-width="1.5" stroke-dasharray="5 3"/>
+        <text x="334" y="109" font-size="8" fill="#0f7a56" font-weight="bold">C⌄f</text>
+        <text x="270" y="90" font-size="7.6" fill="#0f7a56">banda de ±10 %</text>
+        <!-- damped oscillation -->
+        <path d="M50,190 L58,40 C70,36 78,150 90,146 C102,142 108,72 122,76 C136,80 142,132 156,128 C170,124 176,90 190,92 C206,94 210,118 226,116 C242,114 246,99 262,100 C280,101 284,110 302,108 C316,107 322,105 330,105"
+              fill="none" stroke="#b4531b" stroke-width="2.2"/>
+        <!-- tc -->
+        <g stroke="#8a3f8f" stroke-width="1.2">
+          <line x1="58" y1="200" x2="122" y2="200"/>
+          <line x1="58" y1="196" x2="58" y2="204"/><line x1="122" y1="196" x2="122" y2="204"/>
+        </g>
+        <text x="90" y="222" font-size="8.4" fill="#8a3f8f" text-anchor="middle" font-weight="bold">t⌄c (circulación)</text>
+        <!-- tm -->
+        <line x1="258" y1="30" x2="258" y2="190" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="4 3"/>
+        <text x="262" y="44" font-size="9" fill="#c0392b" font-weight="bold">t⌄m</text>
+        <text x="262" y="56" font-size="7.6" fill="#c0392b">entra en la banda</text>
+        <text x="262" y="66" font-size="7.6" fill="#c0392b">y ya no sale</text>
+        <text x="175" y="236" font-size="7.8" fill="#6b7f96" text-anchor="middle">Trazadores usuales: ácidos, bases y soluciones salinas concentradas (con su sensor), o un pulso de fluido caliente.</text>
+      </svg>
+      </figure>
+      <div class="f"><span class="lbl">Correlación de Grenville–Nienow (turbulento)</span>
+        t<sub>m</sub> = 5,9 · D<sub>T</sub><sup>2/3</sup> · ( <span class="frac"><span class="n">P</span><span class="d">ρ V<sub>L</sub></span></span> )<sup>−1/3</sup> · ( <span class="frac"><span class="n">D<sub>i</sub></span><span class="d">D<sub>T</sub></span></span> )<sup>−1/3</sup>
+        <span class="note">Aplica a tanques <b>con deflectores</b>, <b>un único agitador</b> y <b>H<sub>L</sub> = D<sub>T</sub></b>, en régimen turbulento y con el gas efectivamente dispersado (no <i>flooded</i>)</span>
+      </div>
+      <div class="box key">
+        <span class="bt">Las tres conclusiones de la correlación</span>
+        <b>1.</b> t<sub>m</sub> se reduce de manera <b>directamente proporcional a la velocidad del agitador</b> (t<sub>m</sub> ∝ 1/N).<br>
+        <b>2.</b> A <b>N constante</b>, t<sub>m</sub> es directamente proporcional a <b>(D<sub>T</sub>/D<sub>i</sub>)²</b>.<br>
+        <b>3.</b> Los t<sub>m</sub> se reducen mucho usando agitadores con <b>D<sub>i</sub>/D<sub>T</sub> grande</b>… pero
+        <b>aumentar D<sub>i</sub> aumenta el consumo de energía</b>, con su costo asociado.
+      </div>
+    </div>
+  </div>
+
+  <div class="box ex nobrk">
+    <span class="bt">Ejemplo resuelto 5 — Estimación de t<sub>m</sub> (el ejercicio de la cátedra)</span>
+    <b>Datos:</b> D<sub>T</sub> = 0,30 m · H = 0,45 m · N = 300 rpm · ρ = 1000 kg/m³ · N<sub>P</sub> = 6 (Rushton típico) · asumimos D<sub>i</sub> = D<sub>T</sub>/3 = 0,10 m.
+    <div class="cols" style="margin-top:2mm">
+      <div>
+        <b>1) Unidades:</b> N = 300/60 = <b>5 rev/s</b><br>
+        <b>2) Volumen de líquido:</b> V<sub>L</sub> = (π/4)·D<sub>T</sub>²·H = 0,7854 × 0,09 × 0,45 = <b>0,0318 m³ (31,8 L)</b><br>
+        <b>3) Potencia:</b> P = N<sub>P</sub>·ρ·N³·D<sub>i</sub>⁵ = 6 × 1000 × 125 × 1×10⁻⁵ = <b>7,5 W</b><br>
+        <b>4) Potencia específica:</b> P/(ρV<sub>L</sub>) = 7,5/(1000×0,0318) = <b>0,236 W/kg</b>
+      </div>
+      <div>
+        <b>5) Correlación:</b><br>
+        D<sub>T</sub><sup>2/3</sup> = 0,30<sup>0,667</sup> = 0,448<br>
+        (0,236)<sup>−1/3</sup> = 1,62 · (0,333)<sup>−1/3</sup> = 1,44<br>
+        t<sub>m</sub> = 5,9 × 0,448 × 1,62 × 1,44 = <b>≈ 6,2 segundos</b><br><br>
+        <b>Ojo con el supuesto (esto suma puntos):</b> H/D<sub>T</sub> = 0,45/0,30 = <b>1,5</b>, pero la correlación asume
+        <b>H = D<sub>T</sub></b> y un solo impulsor — y con H/D<sub>T</sub> = 1,5 <b>harían falta 2 impulsores</b>.
+        Así que 6,2 s es una <b>subestimación</b>: el t<sub>m</sub> real será mayor.
+      </div>
+    </div>
+    <b>Respuestas a la discusión:</b> <b>¿Y si N fuera mayor?</b> t<sub>m</sub> baja (t<sub>m</sub> ∝ 1/N): al <b>duplicar N</b>,
+    t<sub>m</sub> se reduce a la mitad, pero P se multiplica por <b>8</b>.
+    <b>¿Y si μ fuera mayor?</b> Si Re cae por debajo del régimen turbulento, N<sub>P</sub> = 6 <b>deja de ser válido</b>
+    (N<sub>p</sub> pasa a depender de Re) y la correlación tampoco aplica; además el mezclado empeora mucho.
+    <b>¿Y si el tanque fuera 10 veces más grande?</b> t<sub>m</sub> <b>aumenta</b>: es inevitable que crezca con la escala.
+  </div>
+
+  <div class="cols">
+    <div>
+      <h4 class="sub">Determinación experimental: distribución de tiempos de residencia</h4>
+      <p style="font-size:8.4pt">El comportamiento fluidodinámico real se estudia por la <b>técnica de estímulo–respuesta</b>:
+      se genera una señal a la entrada y se detecta la respuesta a la salida. La sustancia agregada (<b>trazador</b>) debe poder
+      <b>detectarse y cuantificarse</b> midiendo alguna propiedad: <b>conductividad, radiactividad, absorbancia</b>, etc.</p>
+      <ul style="font-size:8.4pt">
+        <li><b>Señal en pulso:</b> se inyecta una cantidad de trazador a la entrada <b>en el menor tiempo posible</b> y se mide su concentración a la salida.</li>
+        <li><b>Señal en escalón:</b> desde t = 0 se inyecta un <b>flujo molar constante</b> de trazador y se mide a la salida hasta que su concentración iguala a la de entrada.</li>
+      </ul>
+      <p style="font-size:8.4pt"><b>t<sub>m</sub> depende de:</b> tamaño del tanque, tamaño del agitador, propiedades del fluido y velocidad de agitación.</p>
+    </div>
+    <div>
+      <h4 class="sub">Efecto de la reología en el mezclado <span class="pill p4">une la Clase 2 con la 4</span></h4>
+      <div class="box warn">
+        <span class="bt">Fluidos viscosos y no newtonianos</span>
+        Para una mezcla eficaz, <b>el flujo debe ser turbulento</b>. Los fluidos viscosos y no newtonianos
+        <b>reducen la turbulencia</b> y generan <b>zonas de estancamiento</b>.
+        Aumentar la potencia parece la solución obvia, pero <b>aumentarla lo suficiente como para conseguir turbulencia
+        suele ser poco práctico</b>. <b>La mayoría de los fluidos no newtonianos en bioprocesos son pseudoplásticos.</b>
+      </div>
+      <div class="box warn">
+        <span class="bt">Las "CAVERNAS" de los pseudoplásticos</span>
+        Su viscosidad aparente <b>disminuye al aumentar el cizallamiento</b>: en un tanque agitado tienen
+        viscosidad aparente <b>baja cerca del agitador</b> (alta cizalla) y <b>alta lejos de él</b>.
+        Forman <b>"cavernas"</b>: zonas tipo pileta que rodean al impulsor, fuera de las cuales el líquido <b>apenas se mueve</b>,
+        porque no se supera el límite elástico. <b>La mezcla dentro de la caverna es intensa, pero casi no hay intercambio
+        con el resto del tanque.</b><br>
+        <b>Solución:</b> modificar la geometría del sistema y/o el diseño del agitador; por ejemplo, el uso de
+        <b>múltiples agitadores mejora significativamente el mezclado</b>.
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">4.5 · k<sub>L</sub>a: transferencia de oxígeno <span class="pill p4">el criterio rey en aerobios</span></h3>
+  <div class="cols">
+    <div>
+      <div class="box def">
+        <span class="bt">Los tres conceptos, bien separados</span>
+        <b>k<sub>L</sub>a</b> (coeficiente volumétrico de transferencia de O₂) y <b>OTR</b> (Oxygen Transfer Rate)
+        describen <b>con qué eficacia el O₂ se transfiere de las burbujas al medio</b>, es decir, <b>cuánto O₂ hay disponible</b>
+        para la biomasa.<br>
+        <b>OUR</b> (Oxygen Uptake Rate) es <b>la velocidad a la que la biomasa absorbe</b> ese oxígeno disponible.
+      </div>
+      <div class="f"><span class="lbl">La ecuación fundamental</span>
+        OTR = k<sub>L</sub>a · (C* − C<sub>L</sub>)
+        <span class="note">El <b>gradiente de concentración</b> es la principal fuerza impulsora de la transferencia desde la interfase gas–líquido al seno del líquido</span>
+      </div>
+      <div class="box key">
+        <span class="bt">k<sub>L</sub>a se compone de dos coeficientes</span>
+        <b>k<sub>L</sub>:</b> coeficiente de transferencia de masa — describe el <b>transporte de O₂ a la fase líquida</b>.<br>
+        <b>a:</b> <b>área de intercambio gas–líquido por unidad de volumen</b> de líquido.<br>
+        Como es <b>difícil medirlos por separado</b>, se combinan en un solo parámetro; por eso k<sub>L</sub>a
+        <b>depende fuertemente de las condiciones del proceso</b>.
+      </div>
+      <h4 class="sub">Importancia de k<sub>L</sub>a (las 3 razones)</h4>
+      <ul style="font-size:8.5pt">
+        <li>Es un parámetro confiable que permite <b>calcular la OTR máxima</b> de un biorreactor.</li>
+        <li>Permite determinar <b>qué biorreactor es adecuado</b> para un proceso (<b>scale-up</b>).</li>
+        <li>Si se desarrolla un proceso a partir de un biorreactor grande preexistente, permite <b>conocer las limitaciones de planta</b> y <b>limitar el alcance de la etapa de I+D</b> (<b>scale-down</b>).</li>
+      </ul>
+      <h4 class="sub">Sobre OUR</h4>
+      <p style="font-size:8.4pt">La velocidad a la que las células consumen O₂ <b>determina la velocidad a la que hay que transferirlo</b>.
+      Influyen: el <b>tipo de m.o.</b>, la <b>fase de crecimiento</b> y la <b>naturaleza de la fuente de carbono</b>.
+      En batch, <b>rO₂ (OUR) varía con el tiempo</b>: la concentración celular aumenta y la absorción total es proporcional
+      al número de células; además <b>q<sub>O2</sub> también varía</b>, alcanzando a menudo un <b>máximo en las primeras fases</b>.
+      Con <b>glucosa</b>, que se consume más rápido que otros azúcares, <b>rO₂ suele ser mayor</b> (por el grado de reducción del sustrato).</p>
+    </div>
+    <div>
+      <h4 class="sub">Los 8 factores que afectan k<sub>L</sub>a <span class="pill p4">lista de examen</span></h4>
+      <table>
+        <tr><th style="width:26mm">Factor</th><th>Efecto</th></tr>
+        <tr><td><b>1. Burbujas</b></td><td>Para un volumen dado de gas, <b>se proporciona más área <i>a</i></b> si el gas se dispersa en <b>muchas burbujas pequeñas</b> en vez de pocas grandes. Las pequeñas son beneficiosas: dan <b>mayor retención de gas y mayor <i>a</i></b>. <b>Pero</b> el <b>k<sub>L</sub> de burbujas menores a 2–3 mm se reduce</b> por efectos superficiales, y deben <b>evitarse las &lt; 1 mm</b>, especialmente en caldos viscosos.</td></tr>
+        <tr><td><b>2. Burbujeador</b></td><td><b>Importancia secundaria</b> frente al agitador: por la continua rotura y dispersión y la coalescencia por colisiones, el <b>tamaño final de burbuja tiene poca relación con el del sparger</b>. El tipo de burbujeador <b>no afecta significativamente</b> la transferencia de masa <b>siempre que esté ubicado debajo del agitador</b>.</td></tr>
+        <tr><td><b>3. Dispersión de gases</b></td><td>Depende de la velocidad de agitación y del flujo de gas; el equilibrio entre ambos determina si hay <b>flooding, loading o dispersión completa</b>.</td></tr>
+        <tr><td><b>4. Coalescencia</b></td><td>Que burbujas pequeñas se fusionen en grandes es <b>indeseable</b>: reduce <i>a</i> y la retención de gas. La frecuencia depende de las propiedades y la composición del líquido. <b>La presencia de sales e iones SUPRIME la coalescencia</b>: por eso los medios de fermentación simples suelen ser <b>no coalescentes</b>.</td></tr>
+        <tr><td><b>5. Viscosidad</b></td><td>Al aumentar μ, <b>aumenta el grosor de las capas límite</b> alrededor de las burbujas → <b>más resistencia</b> a la transferencia. La alta viscosidad también <b>amortigua la turbulencia</b>, cambia el tamaño y estructura de las <b>cavidades ventiladas</b> y reduce la eficacia de la dispersión. <b>Salvo en fluidos de baja viscosidad, k<sub>L</sub>a DISMINUYE al aumentar la viscosidad.</b></td></tr>
+        <tr><td><b>6. Velocidad del agitador y caudal de gas</b></td><td>En condiciones normales, <b>aumentar N y el caudal de gas MEJORA el k<sub>L</sub>a</b>.</td></tr>
+        <tr><td><b>7. Antiespumantes</b></td><td>Disminuyen fuertemente la tensión superficial → <b>reducen el diámetro de burbuja → sube <i>a</i></b>. <b>Pero</b> reducen la <b>movilidad de la interfase</b> → <b>baja k<sub>L</sub></b>. En los de <b>silicona</b>, la caída de k<sub>L</sub> suele ser <b>mayor</b> que el aumento de <i>a</i>: <b>en conjunto k<sub>L</sub>a SE REDUCE</b>. Por eso se prefieren los rompedores <b>mecánicos</b>.</td></tr>
+        <tr><td><b>8. Temperatura</b></td><td>Afecta a C* y a k<sub>L</sub> en sentidos opuestos: al subir T, <b>C* baja</b> pero <b>la difusividad del O₂ en la película líquida aumenta → k<sub>L</sub> sube</b>. Entre <b>10 y 40 °C</b> (el rango operativo de casi toda fermentación), <b>un aumento de T probablemente AUMENTE la transferencia de O₂</b>. <b>Por encima de 40 °C</b> la solubilidad cae significativamente y afecta negativamente la fuerza motriz y la velocidad de transferencia.</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h4 class="sub">Determinación experimental de k<sub>L</sub>a: los 3 métodos <span class="pill p4">comparación de examen</span></h4>
+  <table>
+    <tr><th class="ctr" style="width:8mm">#</th><th style="width:36mm">Método</th><th>Fundamento y ecuación</th><th style="width:48mm">Ventajas / Desventajas</th></tr>
+    <tr><td class="ctr">1</td><td><b>Balance de oxígeno</b><br><span style="font-size:7.6pt">el más fiable</span></td>
+      <td>Se usan <b>analizadores de gas</b> para medir el O₂ en la fase gaseosa: cuánto se suministra, cuánto absorben los m.o. y cuánto se expulsa por el escape.
+        En <b>estado estacionario</b> la concentración de O₂ es constante, así que <b>OTR = OUR</b>:<br>
+        <span class="fr">OTR = Q<sub>O2,IN</sub> − Q<sub>O2,OUT</sub></span> &nbsp;·&nbsp; <span class="fr">OUR = r<sub>O2</sub> · V</span><br>
+        <span class="fr">k<sub>L</sub>a·(C* − C<sub>L</sub>) = OUR/V</span> &nbsp;→&nbsp;
+        <b><span class="fr">k<sub>L</sub>a = (Q<sub>O2,IN</sub> − Q<sub>O2,OUT</sub>) / [V·(C* − C<sub>L</sub>)]</span></b></td>
+      <td><b>+</b> El procedimiento <b>más fiable</b>; permite determinarlo <b>con una medición en un único punto</b>; puede aplicarse <b>durante el funcionamiento normal</b> del fermentador.<br>
+          <b>−</b> Depende críticamente de medir con precisión la <b>composición de gases de entrada y salida, el caudal, la presión y la temperatura</b>: con técnicas inadecuadas pueden introducirse <b>errores de hasta el 100 %</b>. <b>Es más costoso.</b></td></tr>
+    <tr><td class="ctr">2</td><td><b>Método del sulfito</b><br><span style="font-size:7.6pt">método de Cooper</span></td>
+      <td>Fue <b>el primero en aplicarse</b>. Se basa en la <b>oxidación de sulfito de sodio a sulfato</b> en presencia de un catalizador (<b>Cu²⁺ o Co²⁺</b>).
+        En las condiciones de operación, el sulfito remanente en el medio y el O₂ en la alimentación y en el reactor son <b>despreciables</b>
+        frente al sulfito de la alimentación, lo que permite <b>reducir la ecuación</b>.</td>
+      <td><b>Ya NO se recomienda.</b> Si bien es sencillo, los resultados <b>dependen de las condiciones de operación de una manera desconocida</b>
+        y <b>generalmente arrojan valores de k<sub>L</sub>a más altos</b> que otras técnicas.<br>
+        <i>(Aun así, es el que se usa en el TP 2 por su simplicidad didáctica.)</i></td></tr>
+    <tr><td class="ctr">3</td><td><b>Desgasificado dinámico</b><br><span style="font-size:7.6pt">gassing-out — el más usado</span></td>
+      <td>Primero se <b>desoxigena</b> el cultivo (inyectando <b>N₂</b> o <b>deteniendo el aire</b> y dejando que el cultivo consuma el O₂ disuelto).
+        Luego se introduce aire a <b>caudal constante</b> y se <b>monitorea el aumento de O₂ disuelto</b> en el tiempo.
+        El nivel de O₂ debe permanecer <b>por encima de la concentración crítica</b> para que la velocidad de consumo sea
+        independiente de la tensión de O₂. Pronto se alcanza un <b>estado estacionario</b> (equilibrio entre suministro y consumo).</td>
+      <td><b>+</b> Uno de los métodos <b>más ampliamente utilizados</b>; permite determinar k<sub>L</sub>a <b>durante la fermentación</b>.<br>
+          <b>Procedimiento de cálculo:</b> graficar <b>ln(1 − C<sub>L</sub>/C<sub>L</sub>*) vs t</b>: se obtiene una recta de <b>pendiente = −k<sub>L</sub>a</b>.</td></tr>
+  </table>
+
+  <div class="box ex nobrk">
+    <span class="bt">Ejemplo resuelto 6 — Calcular k<sub>L</sub>a con los datos de gassing-out de la cátedra</span>
+    <div class="cols">
+      <div style="flex:0 0 46%">
+        <table style="font-size:7.8pt">
+          <tr><th class="ctr">t (s)</th><th class="ctr">DO (%)</th><th class="ctr">Y = ln(1 − DO/100)</th></tr>
+          <tr><td class="ctr">0</td><td class="ctr">0,0</td><td class="ctr">0,000</td></tr>
+          <tr><td class="ctr">40</td><td class="ctr">32,9</td><td class="ctr">−0,399</td></tr>
+          <tr><td class="ctr">80</td><td class="ctr">55,0</td><td class="ctr">−0,799</td></tr>
+          <tr><td class="ctr">120</td><td class="ctr">69,8</td><td class="ctr">−1,197</td></tr>
+          <tr><td class="ctr">160</td><td class="ctr">79,5</td><td class="ctr">−1,585</td></tr>
+          <tr><td class="ctr">200</td><td class="ctr">85,8</td><td class="ctr">−1,952</td></tr>
+          <tr><td class="ctr">240</td><td class="ctr">90,1</td><td class="ctr">−2,313</td></tr>
+        </table>
+        <b>Procedimiento:</b> C<sub>L</sub>* = 100 %. Para cada punto se calcula ln(1 − DO%/100) y se grafica Y vs t.<br>
+        <b>Pendiente:</b> (−2,313 − 0)/(240 − 0) = <b>−0,0096 s⁻¹</b><br>
+        <b>Resultado:</b> k<sub>L</sub>a ≈ <b>0,0096 s⁻¹ ≈ 35 h⁻¹</b>
+        <span style="font-size:8pt">(orden de magnitud de un fermentador chico o de un proceso poco exigente en O₂)</span>
+      </div>
+      <div>
+        <svg viewBox="0 0 330 200" width="320" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+          <line x1="44" y1="30" x2="44" y2="170" stroke="#41536b" stroke-width="1.4"/>
+          <line x1="44" y1="30" x2="316" y2="30" stroke="#41536b" stroke-width="1.4"/>
+          <text x="180" y="18" font-size="8.6" fill="#41536b" text-anchor="middle">tiempo (s)</text>
+          <g font-size="7.4" fill="#41536b" text-anchor="middle">
+            <text x="44" y="26">0</text><text x="112" y="26">60</text><text x="180" y="26">120</text><text x="248" y="26">180</text><text x="316" y="26">240</text>
+          </g>
+          <g font-size="7.4" fill="#41536b" text-anchor="end">
+            <text x="40" y="33">0</text><text x="40" y="63">−0,6</text><text x="40" y="93">−1,2</text><text x="40" y="123">−1,8</text><text x="40" y="153">−2,4</text>
+          </g>
+          <text x="14" y="100" font-size="8.4" fill="#41536b" text-anchor="middle" transform="rotate(-90 14 100)">ln(1 − C∟/C∟*)</text>
+          <line x1="44" y1="30" x2="316" y2="146" stroke="#b4531b" stroke-width="2"/>
+          <g fill="#8f4115">
+            <circle cx="44" cy="30" r="3"/><circle cx="89" cy="50" r="3"/><circle cx="135" cy="70" r="3"/>
+            <circle cx="180" cy="90" r="3"/><circle cx="225" cy="109" r="3"/><circle cx="271" cy="128" r="3"/><circle cx="316" cy="146" r="3"/>
+          </g>
+          <text x="200" y="128" font-size="8.4" fill="#b4531b" font-weight="bold">pendiente = −k∟a</text>
+          <text x="180" y="192" font-size="7.8" fill="#6b7f96" text-anchor="middle">La linealidad confirma que k∟a es constante en el ensayo.</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">4.6 · Ejercicio integrador de la cátedra: ácido itacónico por <i>A. terreus</i> <span class="pill p4">puede caer textual</span></h3>
+  <table>
+    <tr><th style="width:44mm">Pregunta</th><th>Respuesta modelo</th></tr>
+    <tr><td><b>1. Tipo de biorreactor y por qué es adecuado</b></td>
+      <td><b>Tanque agitado</b> (STR). Es adecuado porque <i>A. terreus</i> es un <b>hongo filamentoso aerobio</b> con <b>alta demanda de O₂</b>:
+        necesita una <b>agitación mecánica intensa</b> que rompa las burbujas (alto k<sub>L</sub>a) y que mantenga en movimiento un caldo
+        que se vuelve <b>viscoso y pseudoplástico</b> por el micelio. Un airlift no lograría suficiente transferencia de O₂ ni evitaría
+        las zonas muertas en un caldo tan viscoso.</td></tr>
+    <tr><td><b>2. Función de cada componente y qué pasa si se lo quita</b></td>
+      <td><b>Impulsor:</b> genera circulación, rompe burbujas y suspende la biomasa → sin él, sedimentación, gradientes y falta de O₂.
+        <b>Baffles:</b> rompen el flujo rotacional → sin ellos, vórtice, mezcla pobre y aspiración de aire.
+        <b>Sparger:</b> introduce el aire como burbujas → sin él, no hay aporte de O₂.
+        <b>Sensor de DO:</b> permite verificar que no se cae por debajo del O₂ crítico y calcular el k<sub>L</sub>a → sin él, se opera a ciegas.
+        <b>Sensor de pH:</b> el ácido itacónico <b>acidifica el medio</b> → sin control, el pH cae y se inhibe la producción.
+        <b>Control de temperatura:</b> la fermentación libera calor → sin él, se desnaturalizan enzimas y muere el cultivo.</td></tr>
+    <tr><td><b>3. Comparación 5 L vs 50 L y semejanza geométrica</b></td>
+      <td>Se calculan <b>H<sub>L</sub>/T</b>, <b>D<sub>i</sub>/T</b> y la relación volumen de trabajo / volumen nominal en cada uno y se comparan.
+        <b>Si las relaciones no coinciden, no hay semejanza geométrica</b>, y entonces <b>no se puede escalar por simple proporcionalidad</b>:
+        los patrones de flujo, la potencia específica y la dispersión de gas no se conservan, y hay que escalar
+        <b>manteniendo un criterio funcional</b> (aquí, k<sub>L</sub>a) en lugar de las dimensiones.</td></tr>
+    <tr><td><b>4. Efecto de la reología del caldo filamentoso</b></td>
+      <td>Al crecer el micelio el caldo se vuelve <b>no newtoniano pseudoplástico</b> y muy viscoso: <b>baja el Re</b> → menos turbulencia →
+        se forman <b>cavernas alrededor del agitador con zonas muertas y anóxicas</b> en la periferia; las burbujas <b>coalescen</b>
+        y las capas límite alrededor de ellas <b>se engrosan</b> → <b>cae el k<sub>L</sub>a</b> y <b>aumenta el t<sub>m</sub></b>,
+        además de subir el consumo de potencia.</td></tr>
+    <tr><td><b>5. Fundamento del static gassing-out</b></td>
+      <td>Se <b>desoxigena</b> el medio (N₂) y luego se airea a caudal constante registrando la subida del DO.
+        Partiendo de <span class="fr">dC<sub>L</sub>/dt = k<sub>L</sub>a·(C* − C<sub>L</sub>)</span>, e integrando con k<sub>L</sub>a constante,
+        se obtiene <span class="fr">ln(1 − C<sub>L</sub>/C*) = −k<sub>L</sub>a·t</span>: la <b>pendiente de la recta es −k<sub>L</sub>a</b>.
+        <i>(En el "static" no hay células consumiendo; en el dinámico con cultivo hay que restar el término de OUR.)</i></td></tr>
+    <tr><td><b>6. Por qué rpm y vvm NO se mantienen constantes al escalar</b></td>
+      <td><b>Datos:</b> 5 L → 200 rpm y 1,5 vvm; 50 L → 180 rpm y 0,5 vvm; <b>mismo k<sub>L</sub>a ≈ 0,02 s⁻¹</b>.
+        <b>Las rpm y el vvm son medios, no fines.</b> Lo que le importa a la célula es <b>recibir oxígeno</b>, y eso lo determina el k<sub>L</sub>a.
+        Al aumentar la escala, el mismo k<sub>L</sub>a se consigue con <b>menos rpm</b> (porque D<sub>i</sub> es mayor y la potencia va con N³D<sub>i</sub>⁵)
+        y con <b>menos vvm</b> (porque el volumen de líquido es mayor y la columna más alta aumenta el tiempo de residencia de la burbuja
+        y la presión hidrostática). Mantener 1,5 vvm en 50 L sería un caudal enorme, innecesario y potencialmente causante de flooding y espuma.
+        <b>Variable conservada: k<sub>L</sub>a.</b> <b>Fundamento biológico:</b> lo que limita el crecimiento y la producción de <i>A. terreus</i>
+        es la <b>disponibilidad de oxígeno</b> (OTR &gt; OUR), no la velocidad de giro en sí.</td></tr>
+  </table>
+
+  <h3 class="sec">4.7 · Scale-up vs scale-down</h3>
+  <div class="cols">
+    <div>
+      <div class="box def">
+        <span class="bt">Scale-up</span>
+        El diseño a escala industrial suele basarse en el <b>rendimiento de prototipos a pequeña escala</b>:
+        estudiar si el proceso funcionará <b>antes de construirlo a tamaño real</b>.
+        Lo ideal es que las condiciones en el recipiente grande sean <b>lo más parecidas posibles</b> a las que dieron buenos
+        resultados a menor escala.
+      </div>
+      <div class="box warn">
+        <span class="bt">Por qué t<sub>m</sub> constante casi nunca se puede usar</span>
+        La eficiencia de mezclado <b>parecería</b> el parámetro deseable a mantener, pero la relación entre t<sub>m</sub>
+        y el consumo de energía lo hace casi imposible.
+        <b>Ejemplo de la cátedra:</b> escalar de <b>1 m³ a 1000 m³</b> manteniendo t<sub>m</sub> implicaría un gasto de potencia
+        <b>2000 veces mayor</b>: un aumento <b>mucho mayor de lo económica o técnicamente factible</b>.
+        Por eso <b>es inevitable que los t<sub>m</sub> aumenten con la escala</b>, y ese es el motivo de que el escalado suela ir
+        acompañado de una <b>reducción del rendimiento y la productividad</b> por menor eficiencia de mezclado y alteración
+        del entorno físico.
+      </div>
+    </div>
+    <div>
+      <div class="box ex">
+        <span class="bt">Scale-down: la estrategia inteligente</span>
+        Una forma de mejorar el procedimiento de diseño es usar <b>métodos de reducción de escala</b>:
+        los experimentos a pequeña escala para determinar los parámetros de funcionamiento se llevan a cabo
+        <b>en condiciones que realmente pueden lograrse, física y económicamente, a escala de producción</b>.
+        <br><br>
+        <b>Ejemplo concreto:</b> si sabemos que la potencia de entrada en el recipiente grande <b>no puede superar cierto límite</b>,
+        calculamos el <b>tiempo de mezcla correspondiente</b> en ese recipiente y luego usamos una potencia adecuada
+        en el reactor pequeño <b>para simular esas condiciones de mezcla</b>.
+        <br><br>
+        De esta forma, <b>siempre que el régimen de flujo sea el mismo</b> en pequeña y gran escala, hay más posibilidades
+        de que los resultados obtenidos en la unidad pequeña sean <b>reproducibles</b> en el sistema grande.
+      </div>
+      <div class="box key">
+        <span class="bt">Cómo responder "¿qué criterio elegirías?"</span>
+        Siempre con la misma estructura: <b>(1)</b> identifico qué <b>limita</b> a mi proceso —¿el O₂? ¿la cizalla? ¿la homogeneidad?—;
+        <b>(2)</b> elijo el criterio que conserva <b>esa</b> variable; <b>(3)</b> <b>digo explícitamente qué sacrifico</b> y
+        <b>(4)</b> propongo cómo compensarlo (más impulsores, cambio de tipo de agitador, enriquecer con O₂, columna más alta, etc.).
+      </div>
+    </div>
+  </div>
+</section>

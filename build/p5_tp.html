@@ -1,0 +1,292 @@
+<!-- ======================= TRABAJOS PRÁCTICOS ======================= -->
+<section class="cls ctp">
+  <div class="cls-hd hdtp">
+    <div class="num">TP</div>
+    <div><h2>Trabajos prácticos de laboratorio 1 y 2</h2>
+    <div class="sub">Qué se mide, cómo se calcula, qué hay que entregar y las respuestas a todas las discusiones</div></div>
+  </div>
+
+  <h3 class="sec">TP 1 · Biorreactores: sus partes, dimensiones y funcionamiento</h3>
+  <div class="box def">
+    <span class="bt">Objetivos generales (los 4)</span>
+    <b>1.</b> Comprender el funcionamiento y la función de las partes principales de un biorreactor de <b>tanque agitado</b> y de un <b>airlift</b>.
+    <b>2.</b> Medir <b>dimensiones clave</b> del equipo disponible y contrastarlas con <b>valores bibliográficos típicos</b>.
+    <b>3.</b> Comparar los <b>principios operativos</b> de ambos tipos y analizar ventajas y limitaciones.
+    <b>4.</b> Proponer <b>mejoras o adaptaciones de diseño</b> según las observaciones y el uso biotecnológico potencial.<br>
+    <b>Equipamiento:</b> biorreactor de tanque agitado marca <b>Figmay de 2 L</b> y biorreactor <b>airlift de construcción propia</b>.
+  </div>
+
+  <div class="cols">
+    <div>
+      <h4 class="sub">Sección 1 — Tanque agitado: qué se mide</h4>
+      <p style="font-size:8.4pt"><b>Partes a identificar:</b> camisa, sensor de temperatura, eje, agitador tipo <b>pitched blade</b>,
+      burbujeador (sparger), tapa, puerto de muestreo y condensador.</p>
+      <table>
+        <tr><th class="ctr" style="width:12mm">Símbolo</th><th>Dimensión a medir (cinta métrica o calibre)</th></tr>
+        <tr><td class="ctr"><b>D<sub>T</sub></b></td><td>Diámetro interno del tanque</td></tr>
+        <tr><td class="ctr"><b>H<sub>L</sub></b></td><td>Altura útil del líquido</td></tr>
+        <tr><td class="ctr"><b>D<sub>i</sub></b></td><td>Diámetro del agitador</td></tr>
+        <tr><td class="ctr"><b>L<sub>B</sub></b></td><td>Largo de la paleta</td></tr>
+        <tr><td class="ctr"><b>W<sub>B</sub></b></td><td>Ancho de la paleta</td></tr>
+        <tr><td class="ctr"><b>W<sub>BF</sub></b></td><td>Ancho del deflector</td></tr>
+        <tr><td class="ctr"><b>C<sub>i</sub></b></td><td>Altura del agitador respecto al fondo</td></tr>
+      </table>
+      <p style="font-size:8.4pt"><b>Proporciones a calcular:</b>
+      <b>D<sub>i</sub>/D<sub>T</sub> · H<sub>L</sub>/D<sub>T</sub> · W<sub>BF</sub>/D<sub>T</sub> · C<sub>i</sub>/D<sub>i</sub> · L<sub>B</sub>/D<sub>i</sub> · W<sub>B</sub>/D<sub>i</sub></b>,
+      y contrastar con la <b>Tabla 1 de García-Ochoa</b> (ver los rangos en la página de la Clase 3).</p>
+      <h4 class="sub">Sección 2 — Airlift: qué se mide</h4>
+      <p style="font-size:8.4pt"><b>Partes a identificar:</b> cámara del <b>riser</b>, cámara del <b>downcomer</b>, <b>sparger</b>,
+      zona de recirculación, entrada/salida de aire.</p>
+      <table>
+        <tr><th class="ctr" style="width:12mm">Símbolo</th><th>Dimensión</th></tr>
+        <tr><td class="ctr"><b>H<sub>T</sub></b></td><td>Altura total del reactor</td></tr>
+        <tr><td class="ctr"><b>H<sub>L</sub></b></td><td>Altura del líquido</td></tr>
+        <tr><td class="ctr"><b>D<sub>T</sub></b></td><td>Diámetro externo del tanque</td></tr>
+        <tr><td class="ctr"><b>D<sub>D</sub></b></td><td>Diámetro del tubo draft</td></tr>
+        <tr><td class="ctr"><b>H<sub>D</sub></b></td><td>Altura del tubo draft</td></tr>
+      </table>
+      <p style="font-size:8.4pt"><b>Proporciones:</b> <b>D<sub>T</sub>/H<sub>T</sub> · D<sub>D</sub>/D<sub>T</sub> · H<sub>D</sub>/H<sub>T</sub></b>.
+      Referencia: <b>D<sub>D</sub>/D<sub>T</sub> ≈ 0,6</b> y relación <b>H:D de 6–10:1</b>.</p>
+    </div>
+    <div>
+      <h4 class="sub">Respuestas modelo a la discusión del tanque agitado</h4>
+      <table>
+        <tr><th style="width:34mm">Pregunta</th><th>Respuesta</th></tr>
+        <tr><td><b>¿Qué función cumple cada parte?</b></td>
+          <td><b>Camisa:</b> intercambio térmico (calienta y enfría sin contacto con el medio).
+            <b>Sensor de T:</b> lectura para el lazo de control; va en bolsa de acero inoxidable.
+            <b>Eje:</b> transmite el torque del motor a las paletas, resiste flexión y soporta el peso sin vibrar.
+            <b>Agitador pitched-blade:</b> genera flujo mixto (axial + radial), fuerte circulación, menor cizalla que una Rushton.
+            <b>Sparger:</b> inyecta el aire como burbujas por debajo del agitador.
+            <b>Tapa:</b> cierre estéril con los puertos de sondas, adiciones y muestreo.
+            <b>Puerto de muestreo:</b> toma aséptica de muestra sin abrir el reactor.
+            <b>Condensador:</b> condensa el vapor de agua del gas de salida y lo devuelve al medio, evitando pérdida de volumen y taponamiento del filtro.</td></tr>
+        <tr><td><b>¿Qué relación no cumple lo recomendado y qué efecto tiene?</b></td>
+          <td>Se responde con las mediciones propias. Los desvíos más frecuentes en equipos de laboratorio de 2 L:
+            <b>H<sub>L</sub>/D<sub>T</sub> &gt; 1,25</b> (vaso esbelto) → el líquido superior queda lejos del agitador: <b>zonas muertas y gradientes</b> → haría falta un segundo impulsor;
+            <b>D<sub>i</sub>/D<sub>T</sub> &lt; 0,3</b> → mezclado lento, t<sub>m</sub> alto, mala dispersión de gas;
+            <b>W<sub>BF</sub></b> fuera de 1/10–1/12 o <b>menos de 4 baffles</b> → flujo rotacional residual, <b>vórtice</b>;
+            <b>C<sub>i</sub></b> muy alto → sedimentación; muy bajo → mala dispersión del gas del sparger.</td></tr>
+        <tr><td><b>¿Qué modificación sugerirías?</b></td>
+          <td>Agregar o ensanchar <b>deflectores</b>; bajar el nivel de líquido o <b>sumar un segundo impulsor</b> si H<sub>L</sub>/D<sub>T</sub> &gt; 1,2;
+            aumentar <b>D<sub>i</sub>/D<sub>T</sub></b> (a costa de más potencia); cambiar a un <b>sparger de anillo</b> ubicado justo debajo del agitador;
+            para mejorar OTR, <b>reemplazar el pitched-blade por una Rushton</b> (mejor dispersión de gas) o combinar
+            Rushton abajo + pitched-blade arriba; <b>fondo redondeado</b> para eliminar zonas de estancamiento.</td></tr>
+        <tr><td><b>¿Para qué bioproceso es más adecuado?</b></td>
+          <td>Para <b>microorganismos robustos</b> (bacterias y levaduras) en procesos <b>aerobios</b>: el pitched-blade da buena circulación
+            con cizalla moderada. <b>No</b> es la primera opción para <b>células animales o vegetales</b> (sensibles a la cizalla),
+            que irían mejor en el airlift o con hélice marina a baja v<sub>tip</sub>.</td></tr>
+      </table>
+      <h4 class="sub">Respuestas modelo a la discusión del airlift</h4>
+      <ul style="font-size:8.4pt">
+        <li><b>¿Diferencias de diseño?</b> No hay eje, motor, paletas ni baffles; aparecen <b>tubo draft, riser, downcomer y zona de desgasificación</b>; es mucho más <b>esbelto</b> (H:D 6–10:1) y el sparger es la <b>única fuente de energía</b>.</li>
+        <li><b>¿Ventaja de no tener partes móviles?</b> <b>Baja cizalla</b> (apto para células sensibles), <b>menor mantenimiento</b>, <b>esterilidad más fácil de mantener</b> (no hay sello rotatorio, que es una vía clásica de contaminación) y menor consumo mecánico.</li>
+        <li><b>¿Limitaciones de mezcla y control?</b> <b>Menor control del flujo</b>: mezcla y aireación <b>no se regulan por separado</b>, ambas dependen del caudal de aire. Transferencia de O₂ y de calor <b>más lentas</b>. Las condiciones <b>cambian a lo largo del circuito</b> (riser vs downcomer), y la <b>separación gas–líquido falla si hay espuma</b>.</li>
+        <li><b>¿Qué células?</b> <b>Vegetales, animales e inmovilizadas</b>, y <b>microalgas</b> (como fotobiorreactor).</li>
+        <li><b>¿Qué mejoras?</b> <b>Múltiples puntos de inyección de aire</b> y de alimentación (para evitar ciclos de inanición); optimizar <b>D<sub>D</sub>/D<sub>T</sub> ≈ 0,6</b>; <b>fondo cónico (~25°)</b> para evitar sedimentación; ampliar la <b>zona de desgasificación</b>; agregar <b>rompedor de espuma</b> mecánico; usar <b>microburbujas</b> para mejorar el área interfacial.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box key">
+    <span class="bt">Consignas de entrega del TP 1 (las 5)</span>
+    <b>1.</b> Cuadro comparativo agitado vs airlift: <b>nivel de cizalla, eficiencia de mezcla, eficiencia de OTR, costo de operación y mantenimiento</b> (ya está armado en la Clase 3).
+    <b>2.</b> Tabla de mediciones (D, H, T, W<sub>b</sub>, H<sub>b</sub>) y cálculo de relaciones T/D, H/D, etc.
+    <b>3.</b> Comparación con bibliografía (<b>García-Ochoa et al., 2011</b>), indicando si el equipo cumple los rangos recomendados.
+    <b>4.</b> Texto reflexivo de media carilla: mejoras sugeridas y qué parte del diseño resultó <b>más crítica</b>.
+    <b>5.</b> Propuesta concreta de uso para cada biorreactor, justificada según las características observadas.<br>
+    <b>Bibliografía:</b> García-Ochoa, Santos &amp; Gomez (2011), <i>Stirred Tank Bioreactors</i>, Comprehensive Biotechnology 2, 179–198 ·
+    Tavares, Da Silva &amp; da Cruz Pradella (2004), producción de <b>poli(3-hidroxibutirato) en biorreactor airlift por <i>Ralstonia eutropha</i></b>.
+  </div>
+
+  <h3 class="sec">TP 2 · Efectos de las propiedades físicas del medio sobre el tiempo de mezclado y la potencia</h3>
+  <div class="box def">
+    <span class="bt">Objetivos</span>
+    Analizar cómo influye la <b>viscosidad</b> en el comportamiento de mezcla · calcular la <b>potencia consumida</b> por el agitador
+    en diferentes condiciones · determinar la capacidad de transferencia de oxígeno (<b>k<sub>L</sub>a</b>) por el <b>método del sulfito</b> ·
+    comprender las implicancias de estos parámetros en el diseño y operación de procesos reales.
+  </div>
+
+  <div class="cols">
+    <div>
+      <h4 class="sub">Fundamento teórico en una frase</h4>
+      <p style="font-size:8.4pt">La <b>viscosidad</b> tiene un impacto directo en el <b>patrón de flujo</b> y en el tiempo necesario
+      para lograr una mezcla completa. En medios más viscosos <b>la resistencia al flujo es mayor</b>, lo que puede generar
+      <b>zonas muertas y extender el tiempo de mezclado</b>. Este efecto varía según el <b>tipo de reactor</b> (agitado vs airlift),
+      el <b>diseño geométrico</b> y el <b>tipo de flujo dominante</b> (radial, axial o circulación natural).</p>
+      <p style="font-size:8.4pt">La <b>densidad</b> importa porque interviene, junto con la viscosidad, en el cálculo del
+      <b>número de Reynolds</b> y, luego, en la <b>estimación de la potencia</b> requerida por el agitador.</p>
+
+      <h4 class="sub">Los 5 pasos experimentales</h4>
+      <table>
+        <tr><th class="ctr" style="width:8mm">#</th><th style="width:30mm">Determinación</th><th>Procedimiento resumido</th></tr>
+        <tr><td class="ctr">1</td><td><b>Preparar 2 medios</b></td>
+          <td><b>Medio A (baja viscosidad):</b> agua. <b>Medio B (alta viscosidad):</b> agua + <b>glicerol</b> o <b>CMC al 1–2 %</b>.</td></tr>
+        <tr><td class="ctr">2</td><td><b>Densidad con picnómetro</b></td>
+          <td>Limpiar y secar; pesar vacío (<b>m₀</b>); llenar <b>sin burbujas</b>; tapón y eliminar exceso; secar el exterior; pesar lleno (<b>m₁</b>); registrar T. <b>Repetir al menos 2 veces.</b><br>
+            <span class="fr">m = m₁ − m₀</span> · <span class="fr">ρ = (m₁ − m₀)/V</span>, con V = volumen <b>calibrado</b> del picnómetro. Expresar en <b>g/mL y/o kg/m³</b>.</td></tr>
+        <tr><td class="ctr">3</td><td><b>Densidad con densímetro</b></td>
+          <td>Muestra en probeta, a temperatura de trabajo; introducir el densímetro <b>sin que toque paredes ni fondo</b>; esperar que se estabilice; leer <b>evitando el error de paralaje</b>; registrar T; repetir 2 veces.
+            Luego <b>comparar con el picnómetro y calcular el % de diferencia</b>.</td></tr>
+        <tr><td class="ctr">4</td><td><b>Viscosidad con Brookfield</b></td>
+          <td>Colocar la muestra; registrar T; <b>seleccionar el spindle apropiado</b>; introducirlo según las indicaciones; <b>seleccionar rpm</b>; esperar que la lectura se estabilice; registrar la viscosidad dinámica <b>junto con el spindle, las rpm y la temperatura</b>. Expresar en <b>cP o mPa·s</b>.</td></tr>
+        <tr><td class="ctr">5</td><td><b>Tiempo de mezclado</b></td>
+          <td>Cargar <b>2 L</b> del medio; registrar las condiciones de operación (<b>rpm</b> en el agitado, <b>caudal de aire</b> en el airlift); iniciar agitación/aireación; inyectar <b>2–3 mL de trazador (colorante concentrado)</b> en un punto definido; arrancar el <b>cronómetro simultáneamente</b>; registrar el tiempo hasta una <b>distribución visualmente homogénea</b>; <b>repetir dos veces por medio en cada reactor</b> y promediar.</td></tr>
+      </table>
+      <div class="box warn">
+        <span class="bt">Por qué el Brookfield y no el Ostwald</span>
+        El <b>rotacional</b> mide viscosidad <b>dinámica</b> (que es la que entra en el Re) y sirve para <b>no newtonianos</b>,
+        permitiendo variar rpm (γ̇) y ver si μ cambia. El capilar solo da viscosidad <b>cinemática</b> y solo sirve para
+        newtonianos poco viscosos. <b>La CMC es pseudoplástica</b>: su viscosidad depende de la velocidad de corte,
+        por eso <b>hay que informar siempre spindle, rpm y temperatura</b>.
+      </div>
+    </div>
+    <div>
+      <h4 class="sub">Sección 2 — Cálculo de la potencia de agitación</h4>
+      <p style="font-size:8.4pt"><b>Medir/registrar:</b> diámetro del agitador, velocidad de agitación N (<b>rev/s</b>) y propiedades físicas (ρ, μ) de cada medio.
+      <b>Calcular:</b> (a) número de <b>Reynolds</b>; (b) estimar <b>N<sub>p</sub></b> según el tipo de impulsor y el régimen; (c) <b>potencia consumida</b>.</p>
+      <div class="box ex">
+        <span class="bt">Ejemplo numérico orientativo del TP (para llegar con el cálculo hecho)</span>
+        <b>Supuestos razonables del equipo Figmay de 2 L:</b> D<sub>i</sub> ≈ 0,05 m, N = 300 rpm = 5 rps, agitador pitched-blade (N<sub>p</sub>' ≈ 1,5).
+        <table style="margin-top:1.5mm;font-size:8pt">
+          <tr><th>Medio</th><th class="ctr">ρ (kg/m³)</th><th class="ctr">μ (Pa·s)</th><th class="ctr">Re</th><th class="ctr">Régimen</th><th class="ctr">P (W)</th></tr>
+          <tr><td><b>A — agua</b></td><td class="ctr">1000</td><td class="ctr">0,001</td><td class="ctr"><b>12.500</b></td><td class="ctr">Turbulento</td><td class="ctr"><b>≈ 0,59</b></td></tr>
+          <tr><td><b>B — CMC 2 %</b></td><td class="ctr">1010</td><td class="ctr">≈ 0,5</td><td class="ctr"><b>≈ 25</b></td><td class="ctr">Transición/laminar</td><td class="ctr">mayor y <b>peor mezclado</b></td></tr>
+        </table>
+        <span style="font-size:8pt">Re = ρND<sub>i</sub>²/μ = 1000×5×0,0025/0,001 = 12.500 · P = N<sub>p</sub>ρN³D<sub>i</sub>⁵ = 1,5×1000×125×3,125×10⁻⁷ ≈ 0,059…
+        <b>Reemplazá con las dimensiones y rpm reales que midieron en el laboratorio</b>; lo que importa es <b>el procedimiento y la conclusión</b>.</span>
+      </div>
+      <h4 class="sub">Respuestas a las discusiones del TP 2</h4>
+      <table>
+        <tr><th style="width:36mm">Pregunta</th><th>Respuesta</th></tr>
+        <tr><td><b>Diferencias entre picnómetro y densímetro</b></td>
+          <td>Suelen ser <b>pequeñas (&lt; 1–2 %)</b>. El <b>picnómetro</b> es más preciso (volumen calibrado y pesada analítica) pero sensible a <b>burbujas, restos de líquido exterior y temperatura</b>. El <b>densímetro</b> es rápido pero tiene <b>error de paralaje</b>, requiere bastante volumen y se ve afectado si toca las paredes o si el líquido es muy viscoso (tarda en estabilizar).</td></tr>
+        <tr><td><b>Diferencias de t<sub>m</sub> entre reactores con el medio viscoso</b></td>
+          <td>En el <b>tanque agitado</b> el t<sub>m</sub> aumenta, pero el agitador <b>puede compensar subiendo N</b>. En el <b>airlift</b> el aumento es <b>mucho más marcado</b>: la circulación depende <b>solo de la diferencia de densidad</b> generada por el gas, y la mayor viscosidad <b>frena la circulación natural</b>, retiene las burbujas y favorece <b>canalización y zonas muertas</b>. <b>Conclusión: el airlift es mucho más sensible a la viscosidad.</b></td></tr>
+        <tr><td><b>Cómo influyen viscosidad y densidad</b></td>
+          <td>Ambas entran en el <b>Re</b>: ↑μ baja el Re (menos turbulencia, más zonas muertas, t<sub>m</sub> mayor); ↑ρ sube el Re y además <b>aumenta la potencia en régimen turbulento</b> (P ∝ ρ). En <b>laminar</b> la potencia depende de μ y <b>no</b> de ρ.</td></tr>
+        <tr><td><b>Cómo influye el tipo de flujo</b></td>
+          <td>El <b>flujo radial</b> (Rushton) dispersa mejor el gas pero deja dos loops; el <b>axial</b> mueve más volumen y evita sedimentación; en medios viscosos <b>ambos forman cavernas</b> y conviene <b>flujo axial con D<sub>i</sub>/D<sub>T</sub> grande o múltiples impulsores</b>. En el airlift el flujo es de <b>circulación natural</b>, el más frágil ante la viscosidad.</td></tr>
+        <tr><td><b>Implicancias para alta densidad celular o exopolisacáridos</b></td>
+          <td>La viscosidad <b>aumenta durante el batch</b> → el Re cae progresivamente, se forman <b>cavernas y zonas anóxicas</b>, el <b>k<sub>L</sub>a se desploma</b> y el t<sub>m</sub> crece. El proceso <b>deja de ser el mismo al final que al principio</b>: hay que <b>anticipar el aumento de viscosidad</b> al diseñar (potencia instalada, número de impulsores, estrategia de aireación) y considerar el impacto en <b>reproducibilidad y GMP</b>.</td></tr>
+        <tr><td><b>Implicancias a escala industrial (potencia)</b></td>
+          <td>La potencia escala con <b>N³D<sub>i</sub>⁵</b>: pequeños aumentos de tamaño o velocidad disparan el costo energético.
+            Un medio viscoso puede <b>volver laminar</b> un proceso que en laboratorio era turbulento, obligando a <b>rediseñar</b> (más impulsores, mayor D<sub>i</sub>, agitadores tipo espiral) en lugar de simplemente "poner más motor".</td></tr>
+      </table>
+      <div class="box key">
+        <span class="bt">Consignas de entrega del TP 2</span>
+        <b>1.</b> Tabla de resultados: t<sub>m</sub> en ambos biorreactores y con ambos medios + cálculos de <b>Re, N<sub>p</sub> y P</b> para cada medio.
+        <b>2.</b> Cuadro comparativo y análisis: comparación <b>cualitativa y cuantitativa</b> del desempeño frente a distintas viscosidades;
+        discusión de cómo los cambios del medio afectan <b>mezcla, potencia y transferencia de oxígeno</b>; <b>propuestas de optimización</b> para medios viscosos.
+        <b>3.</b> Reflexión final (media carilla): aprendizajes para procesos reales; <b>qué parámetros serían críticos al escalar un proceso aeróbico viscoso</b>
+        (respuesta: <b>k<sub>L</sub>a</b> como criterio, más P/V mínima y v<sub>tip</sub> tolerable); limitaciones del ensayo y cómo resolverlas
+        (la homogeneidad "visual" es subjetiva → usar <b>conductímetro o pH-metro</b> con trazador salino/ácido y definir el criterio del <b>±10 %</b>).
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FORMULARIO ======================= -->
+<section class="cls cx">
+  <div class="cls-hd hdx">
+    <div class="num">Σ</div>
+    <div><h2>Formulario completo y números para memorizar</h2>
+    <div class="sub">Todo lo que entra en una hoja · imprimila aparte y leela 30 minutos antes del examen</div></div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <h3 class="sec">Fórmulas</h3>
+      <table>
+        <tr><th style="width:34mm">Concepto</th><th>Fórmula</th><th style="width:30mm">Notas</th></tr>
+        <tr><td><b>Densidad</b></td><td class="fr">ρ = m/V</td><td>kg/m³ o g/mL</td></tr>
+        <tr><td><b>Esfuerzo de corte</b></td><td class="fr">τ = F/A</td><td>Pa</td></tr>
+        <tr><td><b>Ley de Newton</b></td><td class="fr">τ = μ · γ̇ = −μ (dv/dy)</td><td>solo flujo laminar</td></tr>
+        <tr><td><b>Viscosidad cinemática</b></td><td class="fr">ν = μ/ρ</td><td>m²/s</td></tr>
+        <tr><td><b>Ley de la potencia</b></td><td class="fr">τ = K · γ̇ⁿ</td><td>n&lt;1 pseudo, n&gt;1 dilatante</td></tr>
+        <tr><td><b>Viscosidad aparente</b></td><td class="fr">μ<sub>a</sub> = K · γ̇<sup>(n−1)</sup></td><td>no newtonianos</td></tr>
+        <tr><td><b>Bingham</b></td><td class="fr">τ = τ₀ + μ<sub>p</sub> · γ̇</td><td>τ₀ = cedencia</td></tr>
+        <tr><td><b>Ecuación de Vand</b></td><td class="fr">μ = μ<sub>L</sub>(1 + 2,5ψ + 7,25ψ²)</td><td>hasta 14 % sólidos</td></tr>
+        <tr><td><b>Re en tubería</b></td><td class="fr">Re = ρ·V·D<sub>i</sub>/μ</td><td>V = velocidad lineal</td></tr>
+        <tr><td><b>Re en tanque agitado</b></td><td class="fr">Re<sub>i</sub> = ρ·N·D<sub>a</sub>²/μ</td><td><b>N en rev/s</b></td></tr>
+        <tr><td><b>Froude</b></td><td class="fr">Fr = D<sub>a</sub>·N²/g</td><td>inercia vs gravedad</td></tr>
+        <tr><td><b>Número de potencia</b></td><td class="fr">N<sub>p</sub> = P/(ρ·D<sub>a</sub>⁵·N³)</td><td>adimensional</td></tr>
+        <tr><td><b>P — laminar</b></td><td class="fr">P = k₁·N²·D<sub>a</sub>³·μ</td><td>Re&lt;10 · no depende de ρ</td></tr>
+        <tr><td><b>P — turbulento</b></td><td class="fr">P = N<sub>p</sub>'·N³·D<sub>a</sub>⁵·ρ</td><td>Re&gt;10⁴ · no depende de μ</td></tr>
+        <tr><td><b>P por torque</b></td><td class="fr">P = 2π·N<sub>i</sub>·M</td><td>medición experimental</td></tr>
+        <tr><td><b>Tip speed</b></td><td class="fr">v<sub>tip</sub> = π·N·D<sub>i</sub></td><td>m/s · cizalla máxima</td></tr>
+        <tr><td><b>Kolmogorov</b></td><td class="fr">λ = (ν³/ε)<sup>1/4</sup></td><td>tamaño de remolino</td></tr>
+        <tr><td><b>Grenville–Nienow</b></td><td class="fr">t<sub>m</sub> = 5,9·D<sub>T</sub><sup>2/3</sup>·(P/ρV<sub>L</sub>)<sup>−1/3</sup>·(D<sub>i</sub>/D<sub>T</sub>)<sup>−1/3</sup></td><td>turbulento, H=D<sub>T</sub>, 1 agitador</td></tr>
+        <tr><td><b>Factor de escala</b></td><td class="fr">R = ∛(V<sub>nuevo</sub>/V<sub>original</sub>)</td><td>similitud geométrica</td></tr>
+        <tr><td><b>Volumen cilíndrico</b></td><td class="fr">V = (π/4)·D<sub>T</sub>²·H<sub>L</sub></td><td></td></tr>
+        <tr><td><b>% de O₂ disuelto</b></td><td class="fr">%DO = (C<sub>L</sub>/C<sub>L</sub>*)·100</td><td>C* por ley de Henry</td></tr>
+        <tr><td><b>OTR</b></td><td class="fr">OTR = k<sub>L</sub>a·(C* − C<sub>L</sub>)</td><td>lo que entrega el equipo</td></tr>
+        <tr><td><b>OUR</b></td><td class="fr">OUR = q<sub>O2</sub>·X</td><td>lo que consumen las células</td></tr>
+        <tr><td><b>Acumulación de O₂</b></td><td class="fr">dC<sub>L</sub>/dt = OTR − OUR</td><td>debe ser &gt; 0</td></tr>
+        <tr><td><b>k<sub>L</sub>a — balance de O₂</b></td><td class="fr">k<sub>L</sub>a = (Q<sub>O2,IN</sub> − Q<sub>O2,OUT</sub>)/[V(C*−C<sub>L</sub>)]</td><td>estado estacionario</td></tr>
+        <tr><td><b>k<sub>L</sub>a — dinámico</b></td><td class="fr">ln(1 − C<sub>L</sub>/C*) = −k<sub>L</sub>a·t</td><td><b>pendiente = −k<sub>L</sub>a</b></td></tr>
+        <tr><td><b>Crecimiento específico</b></td><td class="fr">μ = (1/X)·(dX/dt)</td><td>h⁻¹</td></tr>
+        <tr><td><b>Tiempo de duplicación</b></td><td class="fr">t<sub>d</sub> = ln2/μ</td><td></td></tr>
+        <tr><td><b>Ley de Fick</b></td><td class="fr">J<sub>A</sub> = −D<sub>AB</sub>·(dC<sub>A</sub>/dy)</td><td>difusión</td></tr>
+        <tr><td><b>Sherwood</b></td><td class="fr">Sh = k<sub>c</sub>·L/D<sub>AB</sub></td><td>convección/difusión</td></tr>
+        <tr><td><b>Schmidt</b></td><td class="fr">Sc = μ/(ρ·D<sub>AB</sub>) = ν/D</td><td>momento/masa</td></tr>
+        <tr><td><b>Frössling</b></td><td class="fr">Sh = 2 + 0,6·Sc<sup>1/2</sup>·Re<sup>1/2</sup></td><td>correlación</td></tr>
+        <tr><td><b>Balance de masa</b></td><td class="fr">Δ = In − Out + reacción neta</td><td>recipiente bien mezclado</td></tr>
+      </table>
+    </div>
+    <div>
+      <h3 class="sec">Números que se preguntan</h3>
+      <table>
+        <tr><th style="width:44mm">Parámetro</th><th>Valor</th></tr>
+        <tr><td><b>Re laminar (tanque)</b></td><td>&lt; 10</td></tr>
+        <tr><td><b>Re turbulento (tanque)</b></td><td>&gt; 10.000 (10⁴)</td></tr>
+        <tr><td><b>D<sub>i</sub>/D<sub>T</sub></b></td><td>1/4 – 1/2 (típico 1/3)</td></tr>
+        <tr><td><b>H<sub>L</sub>/D<sub>T</sub></b></td><td>1,0 – 1,25</td></tr>
+        <tr><td><b>C<sub>i</sub>/D<sub>T</sub></b></td><td>1/6 – 1/2</td></tr>
+        <tr><td><b>W<sub>BF</sub>/D<sub>T</sub></b></td><td>1/10 – 1/12 · luz C<sub>BF</sub> = D<sub>T</sub>/50</td></tr>
+        <tr><td><b>N.° de baffles</b></td><td>4, equidistantes</td></tr>
+        <tr><td><b>Rushton: n.º de paletas y D<sub>i</sub></b></td><td>6 paletas planas en disco · 1/3–1/2 D<sub>T</sub></td></tr>
+        <tr><td><b>Hélice marina</b></td><td>3 paletas · D<sub>i</sub> ≈ 1/3 D<sub>T</sub></td></tr>
+        <tr><td><b>N<sub>p</sub>' turbulento</b></td><td>Rushton ≈ 5–6 · hélice marina ≈ 0,35</td></tr>
+        <tr><td><b>k₁ laminar</b></td><td>turbina 6 paletas ≈ 71 · hélice ≈ 41</td></tr>
+        <tr><td><b>Impulsores según H<sub>L</sub>/D<sub>T</sub></b></td><td>&lt;1,2 → 1 · 1,2–2 → 2 · &gt;2 → 3+</td></tr>
+        <tr><td><b>Separación entre impulsores</b></td><td>1,0 – 1,5 × D<sub>i</sub></td></tr>
+        <tr><td><b>Inmersión del impulsor superior</b></td><td>≥ 1,0 – 1,2 × D<sub>i</sub></td></tr>
+        <tr><td><b>Rango de viscosidad de turbinas/hélices</b></td><td>1 a ~10⁴ cP</td></tr>
+        <tr><td><b>Airlift H:D</b></td><td>6 – 10 : 1 · D<sub>draft</sub>/D<sub>T</sub> ≈ 0,6</td></tr>
+        <tr><td><b>Airlift: altura máxima de líquido</b></td><td>hasta 60 m · reactor récord 2300 m³</td></tr>
+        <tr><td><b>t<sub>m</sub> industrial (1–100 m³)</b></td><td>30 – 120 s</td></tr>
+        <tr><td><b>P/V reactores chicos</b></td><td>~10 kW/m³</td></tr>
+        <tr><td><b>P/V reactores de ~100 m³</b></td><td>~1–2 kW/m³</td></tr>
+        <tr><td><b>v<sub>tip</sub> mamífero / insecto</b></td><td>&lt;1,0–1,5 m/s (CHO ~2 con Pluronic F-68) / &lt;1,0 m/s</td></tr>
+        <tr><td><b>v<sub>tip</sub> hongos / microbianos</b></td><td>&lt;2–3 m/s / &lt;5 m/s</td></tr>
+        <tr><td><b>k<sub>L</sub>a células animales</b></td><td>1 – 25 h⁻¹</td></tr>
+        <tr><td><b>k<sub>L</sub>a fermentadores microbianos</b></td><td>100 – 400 h⁻¹</td></tr>
+        <tr><td><b>C<sub>L</sub>* agua 30 °C, aire</b></td><td>≈ 7 mg/L</td></tr>
+        <tr><td><b>C<sub>L</sub>* con O₂ puro</b></td><td>≈ 43 mg/L</td></tr>
+        <tr><td><b>Solubilidad en medio de cultivo</b></td><td>5 – 25 % menor que en agua</td></tr>
+        <tr><td><b>Burbujas: límites</b></td><td>k<sub>L</sub> cae por debajo de 2–3 mm · evitar &lt; 1 mm</td></tr>
+        <tr><td><b>Remolinos y difusión</b></td><td>30–100 µm → homogéneo en ≈ 1 s</td></tr>
+        <tr><td><b>Filtros estériles</b></td><td>0,22 µm</td></tr>
+        <tr><td><b>Acero inoxidable</b></td><td>304 / 316L · single-use 100–2500 L</td></tr>
+        <tr><td><b>Sondas reutilizables</b></td><td>estándar de 12 mm</td></tr>
+        <tr><td><b>Membrana de pH</b></td><td>vidrio 0,2–0,5 mm · gel 50–500 Å</td></tr>
+        <tr><td><b>Escalas de biorreactores</b></td><td>frascos 50–1000 mL · exp. 1–20 L · piloto 50–5000 L · industrial 25–1000 m³</td></tr>
+        <tr><td><b>Metabolitos primarios</b></td><td>&lt; 1500 Da</td></tr>
+        <tr><td><b>Penicilina</b></td><td>reactores hasta 100.000 L · inóculo 10 % v/v · biomasa en 40 h</td></tr>
+        <tr><td><b>Ácido cítrico</b></td><td>~2 Mt/año · rendimiento &gt; 70 % · 80 % en sumergida</td></tr>
+        <tr><td><b>1 cP</b></td><td>= 10⁻³ Pa·s = 1 mPa·s</td></tr>
+        <tr><td><b>1 W</b></td><td>= 1 kg·m²/s³</td></tr>
+      </table>
+      <div class="box key">
+        <span class="bt">Las 6 proporcionalidades que hay que tener en la punta de la lengua</span>
+        <b>P ∝ N³</b> (turbulento) — duplicar N multiplica P por 8<br>
+        <b>P ∝ D<sub>a</sub>⁵</b> — el diámetro del agitador es la variable más cara<br>
+        <b>P ∝ ρ</b> en turbulento · <b>P ∝ μ</b> en laminar<br>
+        <b>t<sub>m</sub> ∝ 1/N</b> — agitar más rápido mezcla más rápido<br>
+        <b>t<sub>m</sub> ∝ (D<sub>T</sub>/D<sub>i</sub>)²</b> a N constante<br>
+        <b>v<sub>tip</sub> ∝ N·D<sub>i</sub></b> — crece linealmente, no al cubo
+      </div>
+    </div>
+  </div>
+</section>

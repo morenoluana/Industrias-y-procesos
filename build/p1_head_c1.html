@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Industrias y Procesos Biotecnológicos — Resumen integral</title>
+<style>
+  @page { size: A4; margin: 14mm 13mm 16mm 13mm; }
+
+  :root{
+    --ink:#16202b; --ink2:#41536b; --muted:#6b7f96;
+    --line:#d9e2ec; --bg-soft:#f4f8fb;
+    --c1:#1f6f8b; --c1b:#e6f2f6;   /* Clase 1  teal    */
+    --c2:#8a3f8f; --c2b:#f6ecf7;   /* Clase 2  violeta */
+    --c3:#0f7a56; --c3b:#e6f5ef;   /* Clase 3  verde   */
+    --c4:#b4531b; --c4b:#fdeee3;   /* Clase 4  naranja */
+    --tp:#1b4f9c;  --tpb:#e9f0fb;  /* TP       azul    */
+    --hot:#c0392b; --hotb:#fdeceb;
+    --gold:#8a6a00; --goldb:#fdf6df;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; font-family:"DejaVu Sans","Liberation Sans",sans-serif;
+    font-size:9.3pt; line-height:1.48; color:var(--ink);
+  }
+  h1,h2,h3,h4{ margin:0 0 .35em; line-height:1.2; }
+  p{ margin:0 0 .55em; }
+  ul,ol{ margin:.2em 0 .6em; padding-left:1.15em; }
+  li{ margin-bottom:.22em; }
+  b,strong{ color:#0d1620; }
+  sub,sup{ font-size:.72em; }
+  .brk{ break-before:page; }
+  .nobrk{ break-inside:avoid; }
+
+  /* ---------- PORTADA ---------- */
+  .cover{
+    height:262mm; width:100%; padding:16mm 14mm; color:#fff; border-radius:10px;
+    background:
+      radial-gradient(circle at 78% 12%, rgba(255,255,255,.16) 0 22%, transparent 55%),
+      linear-gradient(150deg,#0e3d54 0%, #1f6f8b 42%, #0f7a56 100%);
+    display:flex; flex-direction:column; justify-content:space-between;
+    break-after:page;
+  }
+  .cover .kick{ font-size:11pt; letter-spacing:.22em; text-transform:uppercase; opacity:.85; }
+  .cover h1{ font-size:37pt; line-height:1.03; margin:.18em 0 .1em; font-weight:800; }
+  .cover h2{ font-size:15pt; font-weight:400; opacity:.92; margin-top:.5em; }
+  .cover .rule{ width:64mm; height:4px; background:#ffd166; border-radius:2px; margin:7mm 0; }
+  .cover .grid{ display:flex; gap:5mm; flex-wrap:wrap; margin-top:4mm; }
+  .cover .chip{
+    background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.3);
+    border-radius:8px; padding:3.6mm 4.5mm; font-size:8.6pt; flex:1 1 38mm; min-width:38mm;
+  }
+  .cover .chip b{ display:block; font-size:10.5pt; color:#ffd166; margin-bottom:1mm; }
+  .cover .foot{ font-size:8.4pt; opacity:.8; border-top:1px solid rgba(255,255,255,.28); padding-top:4mm; }
+
+  /* ---------- TÍTULOS ---------- */
+  .cls{ break-before:page; }
+  .cls-hd{
+    border-radius:10px; padding:5mm 6mm; margin:0 0 5mm; color:#fff;
+    display:flex; align-items:center; gap:5mm;
+  }
+  .cls-hd .num{
+    font-size:23pt; font-weight:800; background:rgba(255,255,255,.2);
+    width:15mm; height:15mm; border-radius:8px; display:flex; align-items:center;
+    justify-content:center; flex:0 0 auto;
+  }
+  .cls-hd h2{ font-size:16.5pt; margin:0; font-weight:800; }
+  .cls-hd .sub{ font-size:8.8pt; opacity:.92; margin-top:1mm; }
+  .hd1{ background:linear-gradient(110deg,#17586f,#1f6f8b); }
+  .hd2{ background:linear-gradient(110deg,#6d2f72,#8a3f8f); }
+  .hd3{ background:linear-gradient(110deg,#0b5e42,#0f7a56); }
+  .hd4{ background:linear-gradient(110deg,#8f4115,#b4531b); }
+  .hdtp{ background:linear-gradient(110deg,#143c78,#1b4f9c); }
+  .hdx{ background:linear-gradient(110deg,#3b3357,#5a4b86); }
+
+  h3.sec{
+    font-size:11.6pt; margin:5mm 0 2.5mm; padding-bottom:1.4mm;
+    border-bottom:2.5px solid var(--line);
+  }
+  .c1 h3.sec{ border-color:var(--c1); color:var(--c1); }
+  .c2 h3.sec{ border-color:var(--c2); color:var(--c2); }
+  .c3 h3.sec{ border-color:var(--c3); color:var(--c3); }
+  .c4 h3.sec{ border-color:var(--c4); color:var(--c4); }
+  .ctp h3.sec{ border-color:var(--tp); color:var(--tp); }
+  .cx h3.sec{ border-color:#5a4b86; color:#5a4b86; }
+  h4.sub{ font-size:9.8pt; margin:3.2mm 0 1.4mm; color:var(--ink2); }
+
+  /* ---------- BLOQUES ---------- */
+  .box{ border-radius:8px; padding:3.4mm 4mm; margin:2.5mm 0; border-left:4px solid; break-inside:avoid; }
+  .box .bt{ font-weight:800; font-size:9.2pt; display:block; margin-bottom:1.2mm; }
+  .key { background:var(--goldb); border-color:#e0b100; }
+  .key .bt{ color:var(--gold); }
+  .warn{ background:var(--hotb); border-color:var(--hot); }
+  .warn .bt{ color:var(--hot); }
+  .def { background:var(--bg-soft); border-color:#7d9cb8; }
+  .def .bt{ color:#3d6382; }
+  .ex  { background:#eef7ee; border-color:#2e7d32; }
+  .ex .bt{ color:#2e7d32; }
+
+  .cols{ display:flex; gap:4mm; }
+  .cols > *{ flex:1 1 0; min-width:0; }
+  .cols3{ display:flex; gap:3mm; }
+  .cols3 > *{ flex:1 1 0; min-width:0; }
+
+  /* ---------- TABLAS ---------- */
+  table{ width:100%; border-collapse:collapse; margin:2.5mm 0; font-size:8.3pt; break-inside:auto; }
+  tr{ break-inside:avoid; }
+  th,td{ border:1px solid var(--line); padding:1.9mm 2.2mm; text-align:left; vertical-align:top; }
+  th{ background:var(--bg-soft); font-weight:700; color:var(--ink2); }
+  tbody tr:nth-child(even) td{ background:#fbfdfe; }
+  td.ctr,th.ctr{ text-align:center; }
+  .c1 th{ background:var(--c1b); color:#14556c; }
+  .c2 th{ background:var(--c2b); color:#6d2f72; }
+  .c3 th{ background:var(--c3b); color:#0b5e42; }
+  .c4 th{ background:var(--c4b); color:#8f4115; }
+  .ctp th{ background:var(--tpb); color:#143c78; }
+
+  /* ---------- FÓRMULAS ---------- */
+  .f{
+    font-family:"DejaVu Serif",Georgia,serif; background:#fff; border:1.5px solid var(--line);
+    border-radius:7px; padding:2.6mm 3.4mm; margin:2.2mm 0; text-align:center;
+    font-size:11pt; break-inside:avoid;
+  }
+  .f .lbl{ display:block; font-family:"DejaVu Sans",sans-serif; font-size:7.6pt;
+           color:var(--muted); text-transform:uppercase; letter-spacing:.09em; margin-bottom:1.3mm; }
+  .f .note{ display:block; font-family:"DejaVu Sans",sans-serif; font-size:7.6pt; color:var(--muted); margin-top:1.3mm; }
+  .fr{ font-family:"DejaVu Serif",Georgia,serif; font-size:10pt; white-space:nowrap; }
+  .frac{ display:inline-block; vertical-align:middle; text-align:center; margin:0 .18em; }
+  .frac .n{ display:block; border-bottom:1.2px solid var(--ink); padding:0 .3em; }
+  .frac .d{ display:block; padding:0 .3em; }
+
+  /* ---------- MISC ---------- */
+  .pill{ display:inline-block; border-radius:20px; padding:.5mm 2.4mm; font-size:7.6pt; font-weight:700; }
+  .p1{ background:var(--c1b); color:#14556c; } .p2{ background:var(--c2b); color:#6d2f72; }
+  .p3{ background:var(--c3b); color:#0b5e42; } .p4{ background:var(--c4b); color:#8f4115; }
+  .ptp{ background:var(--tpb); color:#143c78; } .phot{ background:var(--hotb); color:var(--hot); }
+  figure{ margin:3mm 0; break-inside:avoid; text-align:center; }
+  figcaption{ font-size:7.7pt; color:var(--muted); margin-top:1.5mm; text-align:center; }
+  svg{ max-width:100%; height:auto; }
+  .q{ break-inside:avoid; margin:0 0 2.6mm; padding-left:6mm; position:relative; }
+  .q .n{ position:absolute; left:0; top:.2mm; font-weight:800; color:var(--c1); font-size:8.6pt; }
+  .q .a{ color:#1b5e20; }
+  .tag{ font-size:7.4pt; font-weight:700; color:#fff; background:var(--muted); border-radius:3px; padding:.3mm 1.6mm; }
+</style>
+</head>
+<body>
+
+<!-- ============ PORTADA ============ -->
+<section class="cover">
+  <div>
+    <div class="kick">UADE · Lic. en Biotecnología · 2026</div>
+    <h1>Industrias y<br>Procesos<br>Biotecnológicos</h1>
+    <div class="rule"></div>
+    <h2>Resumen integral para el parcial<br>Clases 1 – 4 · TP 1 · TP 2</h2>
+  </div>
+  <div>
+    <div class="grid">
+      <div class="chip"><b>Clase 1</b>Bioprocesos, upstream &amp; downstream, biorreactores, OUR/OTR</div>
+      <div class="chip"><b>Clase 2</b>Reología, viscosidad, Reynolds, transporte de materia</div>
+      <div class="chip"><b>Clase 3</b>Mezclado, tanque agitado, airlift, sistemas de control</div>
+      <div class="chip"><b>Clase 4</b>Escalado: potencia, tip speed, t<sub>m</sub> y k<sub>L</sub>a</div>
+    </div>
+    <div class="grid" style="margin-top:4mm">
+      <div class="chip"><b>+ TP 1 y TP 2</b>Consignas, mediciones, relaciones geométricas y respuestas modelo a las discusiones</div>
+      <div class="chip"><b>+ Formulario y examen</b>Todas las fórmulas en una hoja, valores típicos a memorizar y 45 preguntas con respuesta</div>
+    </div>
+  </div>
+  <div class="foot">Material de estudio elaborado a partir de las 4 presentaciones de la cátedra y las dos guías de trabajos prácticos.</div>
+</section>
+
+<!-- ============ CÓMO USAR / PLAN ============ -->
+<section class="cx">
+  <div class="cls-hd hdx">
+    <div class="num">▶</div>
+    <div><h2>Cómo usar este resumen</h2>
+    <div class="sub">Plan de emergencia: de cero a rendir, en dos días</div></div>
+  </div>
+
+  <div class="box key">
+    <span class="bt">La idea central de toda la materia (si entendés esto, entendés el 70 %)</span>
+    Un biorreactor es un tanque donde <b>células vivas</b> necesitan <b>comida, oxígeno y temperatura uniformes</b>.
+    Para lograr esa uniformidad hay que <b>mezclar</b>. Mezclar cuesta <b>potencia</b> y genera <b>cizalla</b> (que rompe células).
+    Cuánto cuesta mezclar y qué tan bien se mezcla depende de las <b>propiedades del fluido</b> (densidad ρ y viscosidad μ)
+    y de la <b>geometría</b> (tamaño del tanque y del agitador). Cuando el tanque crece,
+    <b>no se puede mantener todo constante a la vez</b>: hay que elegir qué conservar (k<sub>L</sub>a, P/V, v<sub>tip</sub>, t<sub>m</sub>…).
+    <b>Todo lo demás son detalles de esta misma historia.</b>
+  </div>
+
+  <div class="cols">
+    <div>
+      <h3 class="sec">Plan de estudio de 2 días</h3>
+      <table>
+        <tr><th style="width:24mm">Momento</th><th>Qué hacer</th></tr>
+        <tr><td><b>Lunes noche<br>(2–3 h)</b></td><td>Leer el <b>mapa conceptual</b> y las <b>Clases 1 y 3</b> (son conceptuales, no tienen cuentas). Hacer las tarjetas de esas dos clases en la app interactiva.</td></tr>
+        <tr><td><b>Martes mañana<br>(3 h)</b></td><td><b>Clase 2 (reología)</b> + <b>Clase 4 (escalado)</b>. Acá sí hay fórmulas: resolver a mano los 4 problemas resueltos del resumen, tapando la solución.</td></tr>
+        <tr><td><b>Martes tarde<br>(2 h)</b></td><td><b>TP 1 y TP 2</b>: relaciones geométricas, tabla de García-Ochoa y las respuestas a las discusiones. Repasar el formulario.</td></tr>
+        <tr><td><b>Martes noche<br>(1,5 h)</b></td><td><b>Simulacro de examen</b> en la app + releer únicamente lo que fallaste. Memorizar la tabla de "números que se preguntan".</td></tr>
+        <tr><td><b>Miércoles<br>(40 min antes)</b></td><td>Solo el <b>formulario</b> + la tabla de valores típicos + los 6 "errores clásicos".</td></tr>
+      </table>
+    </div>
+    <div>
+      <h3 class="sec">Los 6 errores clásicos de examen</h3>
+      <ol>
+        <li><b>Usar rpm en vez de rev/s (rps)</b> en Re, N<sub>p</sub>, P o v<sub>tip</sub>. Siempre dividir por 60.</li>
+        <li><b>Olvidar pasar cP a Pa·s</b>: 1 cP = 10<sup>-3</sup> Pa·s. Un caldo de 10 cP es 0,01 Pa·s.</li>
+        <li><b>Confundir el Re de tubería</b> (ρ·V·D<sub>i</sub>/μ, con V = velocidad lineal) <b>con el de tanque agitado</b> (ρ·N·D<sub>a</sub><sup>2</sup>/μ, con N = velocidad de giro).</li>
+        <li><b>Confundir OTR con OUR</b>: OTR es lo que el <i>equipo</i> puede entregar; OUR es lo que las <i>células</i> consumen. Debe cumplirse OTR &gt; OUR.</li>
+        <li><b>Creer que escalar ×10 el volumen es escalar ×10 las dimensiones.</b> El volumen va al cubo: R = ∛(V<sub>nuevo</sub>/V<sub>viejo</sub>).</li>
+        <li><b>Decir "el fluido es viscoso, entonces mezcla mejor"</b>. Al revés: más viscosidad → menos Re → menos turbulencia → zonas muertas, peor k<sub>L</sub>a y más potencia.</li>
+      </ol>
+      <div class="box warn">
+        <span class="bt">Si solo te queda una hora</span>
+        Estudiá: (1) upstream/downstream, (2) partes del tanque agitado y sus relaciones geométricas,
+        (3) newtoniano vs pseudoplástico, (4) Re y sus regímenes, (5) agitado vs airlift,
+        (6) los 5 criterios de escalado y (7) qué es k<sub>L</sub>a. Con eso aprobás.
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">Mapa conceptual: cómo se encadenan las 4 clases</h3>
+  <figure>
+  <svg viewBox="0 0 760 300" width="700" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+    <defs>
+      <marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
+        <path d="M0,0 L9,3 L0,6 z" fill="#6b7f96"/>
+      </marker>
+    </defs>
+    <!-- C1 -->
+    <rect x="8" y="16" width="168" height="96" rx="9" fill="#e6f2f6" stroke="#1f6f8b" stroke-width="1.6"/>
+    <text x="92" y="36" font-size="12" font-weight="bold" fill="#14556c" text-anchor="middle">CLASE 1</text>
+    <text x="92" y="52" font-size="10" fill="#16202b" text-anchor="middle">¿Qué es un bioproceso?</text>
+    <text x="92" y="68" font-size="9" fill="#41536b" text-anchor="middle">Upstream → Biorreactor</text>
+    <text x="92" y="81" font-size="9" fill="#41536b" text-anchor="middle">→ Downstream</text>
+    <text x="92" y="99" font-size="9" fill="#41536b" text-anchor="middle">OUR, OTR, k∟a, escalado</text>
+    <!-- C2 -->
+    <rect x="196" y="16" width="168" height="96" rx="9" fill="#f6ecf7" stroke="#8a3f8f" stroke-width="1.6"/>
+    <text x="280" y="36" font-size="12" font-weight="bold" fill="#6d2f72" text-anchor="middle">CLASE 2</text>
+    <text x="280" y="52" font-size="10" fill="#16202b" text-anchor="middle">¿Cómo es el fluido?</text>
+    <text x="280" y="68" font-size="9" fill="#41536b" text-anchor="middle">ρ y μ → reología</text>
+    <text x="280" y="81" font-size="9" fill="#41536b" text-anchor="middle">Newtoniano / pseudoplástico</text>
+    <text x="280" y="99" font-size="9" fill="#41536b" text-anchor="middle">Re → laminar o turbulento</text>
+    <!-- C3 -->
+    <rect x="384" y="16" width="168" height="96" rx="9" fill="#e6f5ef" stroke="#0f7a56" stroke-width="1.6"/>
+    <text x="468" y="36" font-size="12" font-weight="bold" fill="#0b5e42" text-anchor="middle">CLASE 3</text>
+    <text x="468" y="52" font-size="10" fill="#16202b" text-anchor="middle">¿Con qué equipo?</text>
+    <text x="468" y="68" font-size="9" fill="#41536b" text-anchor="middle">Tanque agitado: partes,</text>
+    <text x="468" y="81" font-size="9" fill="#41536b" text-anchor="middle">geometría, agitadores</text>
+    <text x="468" y="99" font-size="9" fill="#41536b" text-anchor="middle">Airlift · Control PID</text>
+    <!-- C4 -->
+    <rect x="572" y="16" width="180" height="96" rx="9" fill="#fdeee3" stroke="#b4531b" stroke-width="1.6"/>
+    <text x="662" y="36" font-size="12" font-weight="bold" fill="#8f4115" text-anchor="middle">CLASE 4</text>
+    <text x="662" y="52" font-size="10" fill="#16202b" text-anchor="middle">¿Cómo lo agrando?</text>
+    <text x="662" y="68" font-size="9" fill="#41536b" text-anchor="middle">P, N⌄p, v⌄tip, t⌄m, k∟a</text>
+    <text x="662" y="81" font-size="9" fill="#41536b" text-anchor="middle">Elegir UN criterio</text>
+    <text x="662" y="99" font-size="9" fill="#41536b" text-anchor="middle">Scale-up / scale-down</text>
+
+    <path d="M176,64 L194,64" stroke="#6b7f96" stroke-width="1.6" marker-end="url(#ar)"/>
+    <path d="M364,64 L382,64" stroke="#6b7f96" stroke-width="1.6" marker-end="url(#ar)"/>
+    <path d="M552,64 L570,64" stroke="#6b7f96" stroke-width="1.6" marker-end="url(#ar)"/>
+
+    <!-- bottom -->
+    <rect x="8" y="150" width="744" height="52" rx="9" fill="#fdf6df" stroke="#e0b100" stroke-width="1.6"/>
+    <text x="380" y="170" font-size="10.5" font-weight="bold" fill="#8a6a00" text-anchor="middle">EL HILO CONDUCTOR</text>
+    <text x="380" y="189" font-size="9.5" fill="#16202b" text-anchor="middle">Las propiedades del fluido (ρ, μ) + la geometría (D⌄T, D⌄i) + la velocidad de agitación (N) determinan el RÉGIMEN DE FLUJO (Re),</text>
+    <text x="380" y="199" font-size="0" fill="#16202b" text-anchor="middle"> </text>
+    <rect x="8" y="206" width="744" height="24" rx="6" fill="#fff" stroke="#e0b100" stroke-width="1"/>
+    <text x="380" y="222" font-size="9.5" fill="#16202b" text-anchor="middle">y el régimen determina la POTENCIA (N⌄p), el TIEMPO DE MEZCLADO (t⌄m), la CIZALLA (v⌄tip) y la TRANSFERENCIA DE O₂ (k∟a).</text>
+
+    <rect x="8" y="248" width="744" height="42" rx="9" fill="#fdeceb" stroke="#c0392b" stroke-width="1.6"/>
+    <text x="380" y="266" font-size="10" font-weight="bold" fill="#c0392b" text-anchor="middle">LA TENSIÓN PERMANENTE DE LA MATERIA</text>
+    <text x="380" y="282" font-size="9.5" fill="#16202b" text-anchor="middle">Agitar más = mejor mezcla y más O₂, pero también más energía, más calor y más cizalla que mata células. Todo es un compromiso.</text>
+  </svg>
+  <figcaption>Las cuatro clases son cuatro preguntas encadenadas sobre el mismo objeto: el biorreactor.</figcaption>
+  </figure>
+</section>
+
+<!-- ======================= CLASE 1 ======================= -->
+<section class="cls c1">
+  <div class="cls-hd hd1">
+    <div class="num">1</div>
+    <div><h2>Introducción a los bioprocesos</h2>
+    <div class="sub">Qué es un bioproceso · tipos de producto · upstream y downstream · el biorreactor · QbD · modelado · oxígeno · escalado</div></div>
+  </div>
+
+  <h3 class="sec">1.1 · Definición y por qué usamos microorganismos</h3>
+  <div class="box def">
+    <span class="bt">Bioproceso</span>
+    La aplicación de <b>microorganismos viables y células de tejidos cultivados</b> en un proceso industrial
+    para generar <b>productos específicos</b>. Integra <b>bioquímica + microbiología + ingeniería</b> aplicadas a la tecnología industrial.
+    Hoy la mayoría de los productos biológicos y farmacéuticos se producen por bioprocesos industriales bien definidos.
+  </div>
+
+  <div class="cols">
+    <div>
+      <h4 class="sub">¿Por qué microorganismos? (6 razones)</h4>
+      <ul>
+        <li>Crecen <b>rápidamente</b>.</li>
+        <li>Usan <b>materias primas renovables</b>.</li>
+        <li>Operan en condiciones <b>suaves</b> de T y P.</li>
+        <li><b>Menor impacto ambiental</b> que los procesos petroquímicos.</li>
+        <li>Producen <b>moléculas muy complejas</b>, difíciles de sintetizar químicamente.</li>
+        <li>Se pueden <b>modificar genéticamente</b> para aumentar productividad o generar nuevos compuestos.</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="sub">Tres estrategias de producción</h4>
+      <table>
+        <tr><th style="width:26mm">Estrategia</th><th>Características</th></tr>
+        <tr><td><b>M.O. wild-type</b></td><td>El mejor productor natural. Puede <b>no cumplir GRAS</b> y dar problemas de escalado y downstream. Ej.: <i>A. niger</i> → ác. cítrico; <i>B. thuringiensis</i> → esporas insecticidas; <i>S. cerevisiae</i> → etanol.</td></tr>
+        <tr><td><b>M.O. modificado genéticamente</b></td><td>Wild-type modificado para mejorar la producción de un metabolito (distintas formas de modificar vías metabólicas). Ej.: <b>lisina</b> por <i>C. glutamicum</i> mutante en homoserina deshidrogenasa, auxótrofo para metionina y treonina.</td></tr>
+        <tr><td><b>Expresión heteróloga</b></td><td>Para <b>proteínas recombinantes</b>. Sistemas preparados para una finalidad; amplia variedad de hospedadores y herramientas moleculares.</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h3 class="sec">1.2 · Tipos de productos <span class="pill p1">tema de examen casi seguro</span></h3>
+  <table>
+    <tr><th style="width:17mm" class="ctr">Categoría</th><th style="width:26mm">Tipo</th><th>Qué es</th><th style="width:52mm">Ejemplos</th></tr>
+    <tr><td rowspan="3" class="ctr" style="vertical-align:middle"><b>Bajo peso molecular</b></td>
+        <td><b>Tipo I</b></td><td>Productos <b>finales del catabolismo anaeróbico</b>. Sin O₂ → fermentación: los enlaces fosfato ricos en energía se transfieren al ADP para formar ATP.</td>
+        <td>Etanol, ácido láctico, acético, butírico, <b>propiónico</b></td></tr>
+    <tr><td><b>Tipo II</b></td><td><b>Intermediarios del metabolismo primario</b>. &lt; 1500 Da, procesos <b>aerobios</b>, más baratos y sencillos, baja "actividad biológica". En m.o. normales no se acumulan → se usan m.o. modificados + batch alimentado o continuo, buscando una <b>regulación anormal</b> que derive la fuente de carbono al producto.</td>
+        <td>Aminoácidos (glutámico, lisina, treonina), nucleótidos (5'-guanílico, 5'-inosínico), ácidos orgánicos del ciclo de Krebs (cítrico, succínico), polioles (glicerol, manitol), polisacáridos (xantano), azúcares (fructosa, sorbosa), vitaminas (B2, B12)</td></tr>
+    <tr><td><b>Tipo III</b></td><td><b>Metabolitos secundarios</b>: no necesarios para el crecimiento. Producen <b>feedback negativo</b>, menor concentración pero <b>mayor especificidad biológica</b>. Los precursores suelen ser limitantes → conviene usar m.o. <b>deficientes en la regulación</b> de la síntesis de esos precursores.</td>
+        <td>Antibióticos, toxinas, alcaloides, giberelinas (hormonas de crecimiento vegetal)</td></tr>
+    <tr><td class="ctr" style="vertical-align:middle"><b>Alto peso molecular</b></td><td><b>Macromoléculas</b></td>
+        <td>Productos de gran tamaño. Desde los '60 las enzimas microbianas reemplazaron a las vegetales y animales; en los '70 los m.o. recombinantes aumentaron la productividad y bajaron costos.</td>
+        <td>Polisacáridos, proteínas, antígenos, <b>enzimas</b> (α-amilasa para hidrólisis de almidón: las de ADNr tienen mayor estabilidad térmica)</td></tr>
+  </table>
+
+  <h4 class="sub">Los cuatro ejemplos concretos que dio la cátedra</h4>
+  <div class="cols">
+    <div>
+      <div class="box ex">
+        <span class="bt">Ácido propiónico (tipo I)</span>
+        <b>M.O.:</b> <i>Propionibacterium acidipropionici</i> y <i>P. freudenreichii</i>.
+        <b>Usos:</b> conservante alimentario <b>E280</b>, intermediario de herbicidas, plásticos y fármacos.
+        <b>Sustratos:</b> glucosa, glicerol, lactato y residuos agroindustriales (melaza, permeado de suero, hidrolizados lignocelulósicos).
+        <b>Críticos:</b> <b>pH y temperatura</b>.
+        <b>Cuello de botella:</b> <span class="pill phot">inhibición por el propio producto</span> — al subir la concentración de ácido cae el crecimiento y la productividad.
+      </div>
+      <div class="box ex">
+        <span class="bt">Ácido cítrico (tipo II)</span>
+        <b>M.O.:</b> <i>Aspergillus niger</i>. ~<b>2 millones de toneladas</b> al año (2020).
+        Proceso muy optimizado, <b>rendimiento &gt; 70 %</b>. El <b>≈ 80 % se produce por fermentación sumergida</b>.
+      </div>
+    </div>
+    <div>
+      <div class="box ex">
+        <span class="bt">Ácido glutámico (tipo II)</span>
+        <b>M.O.:</b> <i>Corynebacterium glutamicum</i>. El L-glutamato se biosintetiza a partir de glucosa por la
+        <b>rama oxidativa del ciclo de los ácidos tricarboxílicos</b> y la acción de la <b>glutamato deshidrogenasa</b>.
+      </div>
+      <div class="box ex">
+        <span class="bt">Penicilina (tipo III)</span>
+        <b>M.O.:</b> <i>Penicillium chrysogenum</i>. Biosíntesis en <b>3 pasos</b>: catalítico, oxidativo e intercambio de cadenas.
+        Medios líquidos en reactores de <b>hasta 100.000 L</b>, proceso <b>aeróbico</b>.
+        La mayor parte de la biomasa se obtiene en las <b>primeras 40 h</b>, a partir de un inóculo del <b>10 % v/v</b> de un cultivo vegetativo de 20 g/L.
+        Luego el crecimiento sigue a un μ mínimo, que hay que regular para mantener un <b>q<sub>p</sub> elevado</b>.
+        Se obtienen como sales de Na o K (ampicilina, cloxacilina, oxacilina, piperacilina).
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">1.3 · Las fases de un bioproceso: upstream y downstream</h3>
+  <div class="box key">
+    <span class="bt">Concepto que hay que poder dibujar</span>
+    En cualquier bioproceso el <b>biorreactor no es una unidad aislada</b>: forma parte de un proceso integrado con componentes
+    anteriores y posteriores. El equipamiento se divide en tres categorías: <b>upstream</b>, <b>downstream</b> y <b>de apoyo</b>.
+    Todas las limitaciones posibles deben comprenderse en la fase <b>más temprana posible</b> del desarrollo.
+  </div>
+
+  <figure>
+  <svg viewBox="0 0 760 210" width="710" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+    <defs><marker id="a2" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 z" fill="#1f6f8b"/></marker></defs>
+    <rect x="4" y="30" width="300" height="118" rx="8" fill="#e6f2f6" stroke="#1f6f8b" stroke-width="1.4"/>
+    <text x="154" y="22" font-size="11" font-weight="bold" fill="#14556c" text-anchor="middle">UPSTREAM</text>
+    <rect x="322" y="46" width="112" height="86" rx="8" fill="#fdf6df" stroke="#e0b100" stroke-width="2"/>
+    <text x="378" y="22" font-size="11" font-weight="bold" fill="#8a6a00" text-anchor="middle">BIORREACTOR</text>
+    <rect x="452" y="30" width="302" height="118" rx="8" fill="#e6f5ef" stroke="#0f7a56" stroke-width="1.4"/>
+    <text x="603" y="22" font-size="11" font-weight="bold" fill="#0b5e42" text-anchor="middle">DOWNSTREAM</text>
+
+    <g font-size="8.6" fill="#16202b">
+      <rect x="14" y="42" width="66" height="44" rx="5" fill="#fff" stroke="#9cc0ce"/>
+      <text x="47" y="58" text-anchor="middle">Tanques de</text><text x="47" y="69" text-anchor="middle">almacena-</text><text x="47" y="80" text-anchor="middle">miento</text>
+      <rect x="88" y="42" width="66" height="44" rx="5" fill="#fff" stroke="#9cc0ce"/>
+      <text x="121" y="58" text-anchor="middle">Preparación</text><text x="121" y="69" text-anchor="middle">de medios</text><text x="121" y="80" text-anchor="middle">+ crecimiento</text>
+      <rect x="162" y="42" width="60" height="44" rx="5" fill="#fff" stroke="#9cc0ce"/>
+      <text x="192" y="63" text-anchor="middle">Esterili-</text><text x="192" y="74" text-anchor="middle">zación</text>
+      <rect x="230" y="42" width="62" height="44" rx="5" fill="#fff" stroke="#9cc0ce"/>
+      <text x="261" y="63" text-anchor="middle">Inóculo</text><text x="261" y="74" text-anchor="middle">(seed)</text>
+      <text x="154" y="106" text-anchor="middle" font-size="8.2" fill="#41536b">Selección del hospedador · vectores · clones · desarrollo del proceso</text>
+      <text x="154" y="120" text-anchor="middle" font-size="8.2" fill="#41536b">Caracterización · comienzo de escalado · material GLP y GMP</text>
+      <text x="154" y="136" text-anchor="middle" font-size="8.2" font-style="italic" fill="#6b7f96">Etapa inicial → Etapa avanzada (robustez, escalado final, validación)</text>
+
+      <text x="378" y="72" text-anchor="middle" font-size="9" font-weight="bold">Cultivo</text>
+      <text x="378" y="86" text-anchor="middle" font-size="8.4">Control de pH, T,</text>
+      <text x="378" y="98" text-anchor="middle" font-size="8.4">OD, agitación</text>
+      <text x="378" y="114" text-anchor="middle" font-size="8.4" font-style="italic" fill="#8a6a00">el eje central</text>
+
+      <rect x="462" y="42" width="138" height="44" rx="5" fill="#fff" stroke="#8ec4ac"/>
+      <text x="531" y="58" text-anchor="middle" font-weight="bold" font-size="8.8">1. RECUPERACIÓN</text>
+      <text x="531" y="70" text-anchor="middle" font-size="8">Separar sólido/líquido, romper</text>
+      <text x="531" y="81" text-anchor="middle" font-size="8">células, solubilizar, clarificar</text>
+      <rect x="608" y="42" width="138" height="44" rx="5" fill="#fff" stroke="#8ec4ac"/>
+      <text x="677" y="58" text-anchor="middle" font-weight="bold" font-size="8.8">2. PURIFICACIÓN</text>
+      <text x="677" y="70" text-anchor="middle" font-size="8">Quitar impurezas de proceso y</text>
+      <text x="677" y="81" text-anchor="middle" font-size="8">de producto · concentrar · formular</text>
+      <text x="603" y="106" text-anchor="middle" font-size="8.2" fill="#41536b">Objetivo permanente: preservar los <tspan font-weight="bold">atributos críticos de calidad (CQA)</tspan></text>
+      <text x="603" y="120" text-anchor="middle" font-size="8.2" fill="#41536b">del ingrediente farmacéutico activo (API) manteniendo <tspan font-weight="bold">alto rendimiento</tspan></text>
+      <text x="603" y="136" text-anchor="middle" font-size="8.2" font-style="italic" fill="#6b7f96">Secado y acondicionamiento final</text>
+    </g>
+    <path d="M304,89 L320,89" stroke="#1f6f8b" stroke-width="2" marker-end="url(#a2)"/>
+    <path d="M434,89 L450,89" stroke="#1f6f8b" stroke-width="2" marker-end="url(#a2)"/>
+
+    <rect x="4" y="164" width="750" height="38" rx="7" fill="#f4f8fb" stroke="#d9e2ec"/>
+    <text x="14" y="180" font-size="8.6" font-weight="bold" fill="#3d6382">Consideración primordial de la cátedra:</text>
+    <text x="14" y="194" font-size="8.4" fill="#16202b">un upstream robusto = tecnología potente + materias primas de alta calidad + diseño inteligente. Y el desafío: se trabaja con organismos vivos, que no siempre se comportan como se prevé.</text>
+  </svg>
+  <figcaption>Flujo completo de un bioproceso. El upstream prepara y produce; el downstream recupera y purifica.</figcaption>
+  </figure>
+
+  <h3 class="sec">1.4 · El biorreactor</h3>
+  <div class="cols3">
+    <div>
+      <h4 class="sub">Escalas</h4>
+      <table>
+        <tr><th>Escala</th><th class="ctr">Volumen</th></tr>
+        <tr><td>Frascos agitados*</td><td class="ctr">50–1000 mL</td></tr>
+        <tr><td>Experimental*</td><td class="ctr">1–20 L</td></tr>
+        <tr><td>Piloto</td><td class="ctr">50–5000 L</td></tr>
+        <tr><td>Industrial</td><td class="ctr">25–1000 m³</td></tr>
+      </table>
+      <p style="font-size:7.8pt;color:var(--muted)">*Los dos primeros son para I+D o desarrollo de inóculos.</p>
+    </div>
+    <div>
+      <h4 class="sub">Materiales de fabricación</h4>
+      <ul>
+        <li>Acero</li><li>Acero inoxidable</li><li>Vidrio revestido de acero</li>
+        <li>Vidrio o aleaciones</li><li>Plástico descartable (<b>single-use</b>)</li>
+      </ul>
+      <h4 class="sub">Parámetros a controlar</h4>
+      <ul style="font-size:8.4pt">
+        <li>pO₂ y pCO₂ · pH · Temperatura</li>
+        <li>Agitación y mezclado</li>
+        <li>Densidad del cultivo</li>
+        <li>Iluminación (si hace falta)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="box key">
+        <span class="bt">El biorreactor IDEAL (5 condiciones)</span>
+        <ol style="margin:0;padding-left:1em">
+          <li>Reactantes mezclados a la entrada (<b>t<sub>m</sub> = 0</b>)</li>
+          <li>Temperatura <b>constante y homogénea</b></li>
+          <li>Gradientes de nutrientes <b>minimizados</b></li>
+          <li><b>No</b> se forman agregados moleculares</li>
+          <li>Sigue un <b>modelo de flujo ideal</b></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="box def">
+    <span class="bt">Puntos clave sobre el tanque agitado (Clase 1)</span>
+    Es el tipo <b>más empleado</b> por su historial de rendimiento y facilidad de funcionamiento.
+    Las células toman nutrientes y liberan productos y desechos; el <b>transporte de masa</b> depende fuertemente de las
+    tasas de <b>mezcla y aireación</b>. La <b>agitación</b> mantiene las células en suspensión, homogeneiza nutrientes y
+    evita la acumulación de gases tóxicos. La <b>aireación</b> es esencial en procesos aerobios; el tamaño de burbuja
+    varía con cada difusor y se optimiza para maximizar transferencia y minimizar espuma.
+    <b>La tasa de aireación óptima se determina empíricamente en cada escala.</b>
+  </div>
+
+  <h4 class="sub">Equipamiento auxiliar: componentes EN CONTACTO con el proceso</h4>
+  <p style="font-size:8.4pt">No deben adulterar ni alterar el producto biológico de ninguna manera no definida o inaceptable.</p>
+  <table>
+    <tr><th style="width:36mm">Componente</th><th>Detalle</th></tr>
+    <tr><td><b>Materiales</b></td><td>Acero inoxidable <b>304 / 316L</b> (alta escala y presión), vidrio, y sistemas <b>single-use</b> (100 L a 2500 L).</td></tr>
+    <tr><td><b>Control de temperatura</b></td><td><b>Camisa (jacketed):</b> calienta y enfría circulando fluido; estándar en acero inox y vidrio. <b>Manta calefactora:</b> solo calienta; escala pequeña/piloto y rocking bioreactors. <b>Intercambiadores por inmersión:</b> mantienen T pero dificultan la limpieza.</td></tr>
+    <tr><td><b>Tuberías, conexiones y mangueras</b></td><td>Tubería rígida sanitaria de acero inox (requiere <b>pendiente</b> para drenaje y CIP/SIP); tubing elastomérico/TPE desechable, termosellable y soldable; mangueras que soportan presión y vapor. Conexiones <b>Tri-Clamp</b> o soldadura a tope para minimizar <b>volumen muerto</b>.</td></tr>
+    <tr><td><b>Bombas</b></td><td><b>Peristálticas:</b> el fluido solo toca el tubo (no contacto), presión limitada, ideales para single-use. <b>De diafragma:</b> alta precisión y presión. <b>De lóbulo rotatorio:</b> bajo cizallamiento y flujo continuo, mayor escala. <b>Centrífugas de levitación magnética:</b> innovación reciente, single-use sin fricción.</td></tr>
+    <tr><td><b>Filtros y carcasas</b></td><td>Grado esterilizante <b>0,22 µm</b> para aire de entrada/salida y medios. Los filtros de escape se <b>calefaccionan</b> para evitar condensación y taponamiento (<i>fouling</i>).</td></tr>
+    <tr><td><b>Válvulas</b></td><td><b>De diafragma (weir-type):</b> el estándar de la industria, garantizan higiene, drenaje total y <b>cero zonas muertas (deadlegs)</b>. De muestreo y drenaje/cosecha. <b>De pinza (pinch):</b> aprisionan el tubo flexible desde afuera, ideales para single-use.</td></tr>
+    <tr><td><b>Sensores y sondas</b></td><td>Miden T, pH, OD, O₂, CO₂, agitación, nivel/espuma y biomasa. Sondas reutilizables de inserción: estándar de <b>12 mm</b>, requieren autoclave/SIP. Sensores single-use preinstalados y esterilizados por <b>radiación gamma</b> dentro de la bolsa.</td></tr>
+  </table>
+
+  <h4 class="sub">Componentes SIN contacto con el proceso (estructurales y de datos)</h4>
+  <table>
+    <tr><th class="ctr">Skid</th><th class="ctr">Gabinetes eléctricos</th><th class="ctr">Motores</th><th class="ctr">Analizadores off-line</th><th class="ctr">Transmisores</th></tr>
+    <tr>
+      <td>Soporte mecánico de todo el sistema; base donde se montan los subsistemas. Acero inox para ambientes limpios. Puede ser <b>integrado</b> o <b>dividido (split skid)</b>.</td>
+      <td>Protegen los componentes eléctricos; evitan polvo, humedad y salpicaduras; garantizan la seguridad del operador.</td>
+      <td>Dan la energía mecánica; accionan agitador y bombas. Se eligen por <b>velocidad, torque y potencia</b>, adaptados a la viscosidad y sensibilidad del cultivo.</td>
+      <td>Analizan muestras extraídas; requieren acondicionamiento previo; uno puede servir a varios biorreactores. Ej.: gases de salida por espectrometría de masas. <b>No dan información en tiempo real.</b></td>
+      <td>Reciben la señal de sensores y la convierten en señal eléctrica/digital; <b>envían datos en tiempo real</b> al sistema de control; permiten automatización.</td>
+    </tr>
+  </table>
+
+  <h3 class="sec">1.5 · Calidad: del QbT al QbD, y el rol de PAT</h3>
+  <div class="cols">
+    <div>
+      <table>
+        <tr><th>QbT — Quality by Testing</th><th>QbD — Quality by Design</th></tr>
+        <tr><td>Se evalúa el producto <b>al final</b> del proceso</td><td>Se <b>diseña el proceso</b> para que siempre dé productos de calidad</td></tr>
+        <tr><td>Calidad = <b>aprobar un control</b></td><td>Calidad = <b>comprender y controlar</b></td></tr>
+        <tr><td><b>Reacción</b> a fallos</td><td><b>Prevención</b> de fallos</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="box def">
+        <span class="bt">PAT — Process Analytical Technology</span>
+        Herramienta para <b>diseñar, analizar y controlar</b> procesos de fabricación
+        <b>mediante la medición en tiempo real</b> de variables críticas.
+        Facilita el <b>control predictivo y continuo</b> para asegurar los <b>CQA</b> del producto.
+        <i>Los modelos de bioproceso también forman parte del marco QbD.</i>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">1.6 · Modelado de bioprocesos: los 4 pasos</h3>
+  <table>
+    <tr><th class="ctr" style="width:8mm">#</th><th style="width:40mm">Paso</th><th>En qué consiste</th></tr>
+    <tr><td class="ctr"><b>1</b></td><td><b>Definición de las variables del sistema</b></td>
+      <td><b>Variables de estado:</b> caracterizan el sistema (concentración de células, de sustrato, de producto).
+          <b>Variables operativas:</b> representan condiciones específicas (una concentración inicial, una tasa de alimentación).</td></tr>
+    <tr><td class="ctr"><b>2</b></td><td><b>Análisis cinético</b></td>
+      <td>Se investigan los cambios de las variables de estado y se identifican los parámetros clave. Se calculan tasas específicas de crecimiento, muerte, consumo de sustrato y formación de producto, y los coeficientes de rendimiento. Cuidado: el sistema <b>no debe estar limitado artificialmente</b> (baja O₂, pH subóptimo). Los análisis más precisos se hacen en <b>estado estacionario</b> (cultivo continuo).</td></tr>
+    <tr><td class="ctr"><b>3</b></td><td><b>Balances de masa</b></td>
+      <td>Se ordenan según el tipo de proceso (batch, fed-batch, continuo) y se ajustan los parámetros para minimizar la discrepancia modelo–experimento.</td></tr>
+    <tr><td class="ctr"><b>4</b></td><td><b>Validación</b></td>
+      <td>Comparar valores predichos con la realidad, en varios experimentos y condiciones. La validación primaria se hace <b>a pequeña escala</b> y se verifica <b>a mayor escala</b>.</td></tr>
+  </table>
+
+  <div class="cols">
+    <div>
+      <div class="f"><span class="lbl">Velocidad específica de crecimiento</span>
+        μ = <span class="frac"><span class="n">1</span><span class="d">X</span></span> · <span class="frac"><span class="n">dX</span><span class="d">dt</span></span>
+        <span class="note">X = biomasa (g/L) en fermentación microbiana, o células viables/mL en cultivo animal</span>
+      </div>
+    </div>
+    <div>
+      <div class="f"><span class="lbl">Tiempo de duplicación</span>
+        t<sub>d</sub> = <span class="frac"><span class="n">ln 2</span><span class="d">μ</span></span>
+        <span class="note">μ es la herramienta útil para monitorear el proceso y saber en qué estado está el cultivo</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="f"><span class="lbl">Balance de masa genérico</span>
+    Δ = Entra − Sale + Reacción neta
+    <span class="note">Fi y Fo = flujos de líquido; Qi y Qo = flujos de gas; r<sub>y</sub> = tasa volumétrica de reacción (&gt;0 producción, &lt;0 consumo).
+    Se asume el recipiente <b>completamente mezclado y sin gradientes</b>.</span>
+  </div>
+
+  <h3 class="sec">1.7 · Transferencia de oxígeno: OUR, OTR y k<sub>L</sub>a <span class="pill p1">clave</span></h3>
+  <div class="box warn">
+    <span class="bt">La regla de oro de todo proceso aerobio</span>
+    <b>OTR &gt; OUR.</b> La tasa de transferencia de oxígeno del equipo debe superar siempre la tasa de consumo del cultivo.
+    Si el O₂ es demasiado <b>bajo</b>, se compromete la proliferación; si es demasiado <b>alto</b>, aumenta el riesgo de <b>daño oxidativo</b>.
+  </div>
+
+  <div class="cols">
+    <div>
+      <div class="f"><span class="lbl">% de oxígeno disuelto</span>
+        %DO = <span class="frac"><span class="n">C<sub>L</sub></span><span class="d">C<sub>L</sub>*</span></span> × 100
+        <span class="note">C<sub>L</sub> = concentración real; C<sub>L</sub>* = concentración de saturación con aire (ley de Henry)</span>
+      </div>
+      <div class="f"><span class="lbl">Consumo — Oxygen Uptake Rate</span>
+        OUR = q<sub>O2</sub> · X
+        <span class="note">q<sub>O2</sub> depende del tipo celular, el estado metabólico y la concentración de glucosa y glutamina</span>
+      </div>
+    </div>
+    <div>
+      <div class="f"><span class="lbl">Transferencia — Oxygen Transfer Rate</span>
+        OTR = k<sub>L</sub>a · (C<sub>L</sub>* − C<sub>L</sub>)
+        <span class="note">k<sub>L</sub>a = coeficiente volumétrico de transferencia de oxígeno del biorreactor</span>
+      </div>
+      <div class="f"><span class="lbl">Acumulación de O₂ en la fase líquida</span>
+        <span class="frac"><span class="n">dC<sub>L</sub></span><span class="d">dt</span></span> = OTR − OUR
+        <span class="note">El objetivo es operar con dC<sub>L</sub>/dt positivo</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <div class="box key">
+        <span class="bt">Números de C<sub>L</sub>* que se preguntan</span>
+        En <b>agua destilada a 30 °C</b>, insuflando <b>aire</b>: C<sub>L</sub>* ≈ <b>7 mg/L</b>.<br>
+        Con <b>oxígeno puro</b>: C<sub>L</sub>* ≈ <b>43 mg/L</b>.<br>
+        En un <b>medio de cultivo típico</b> la solubilidad es un <b>5–25 % menor</b> que en agua,
+        por los electrolitos y compuestos orgánicos del medio.
+      </div>
+    </div>
+    <div>
+      <div class="box key">
+        <span class="bt">Rangos típicos de k<sub>L</sub>a</span>
+        Biorreactores para <b>células animales</b>: <b>1–25 h⁻¹</b>.<br>
+        <b>Fermentadores microbianos</b>: <b>100–400 h⁻¹</b>.<br>
+        Un cultivo animal de densidad media agota el O₂ disponible en <b>una hora</b>;
+        un cultivo microbiano lo agota en <b>segundos</b>.
+      </div>
+    </div>
+  </div>
+  <div class="box def">
+    <span class="bt">Dato fino que distingue una buena respuesta</span>
+    <b>k<sub>L</sub>a NO depende de la cantidad de oxígeno en el gas de entrada</b> (mientras que C<sub>L</sub>* <b>sí</b>).
+    k<sub>L</sub>a es una característica del <i>biorreactor</i>; el proveedor suele darlo, pero el valor real es específico del proceso
+    y depende de la temperatura, el medio de cultivo y la configuración del equipo.
+  </div>
+
+  <h3 class="sec">1.8 · Escalabilidad, trazabilidad y criterios de escalado (introducción)</h3>
+  <div class="cols">
+    <div>
+      <div class="box def">
+        <span class="bt">Escalabilidad</span>
+        Que una tecnología, técnica e implementación física dadas puedan aplicarse <b>a cada escala</b> necesaria,
+        desde el primer uso a pequeña escala hasta la fabricación.
+      </div>
+      <div class="box def">
+        <span class="bt">Trazabilidad</span>
+        Abarca dos áreas: los <b>materiales</b> y el <b>diseño</b>. Documentada en los equipos y verificada en las
+        actividades de cualificación, es necesaria para el <b>cumplimiento regulatorio</b>.
+      </div>
+      <div class="box def">
+        <span class="bt">Escalado (definición de Bisio y Kabel, 1985)</span>
+        <i>"La puesta en marcha y operación exitosa de una unidad comercial cuyo diseño y procedimientos de operación
+        se basan en parte en experimentación y demostración a una escala menor."</i>
+        Un escalado exitoso = aumento <b>predecible</b> de la capacidad de producción, con la potencia prevista
+        y sin entidades inesperadas en el producto.
+      </div>
+    </div>
+    <div>
+      <h4 class="sub">Los criterios y cuándo se usa cada uno</h4>
+      <table>
+        <tr><th style="width:18mm">Criterio</th><th>Se usa en…</th></tr>
+        <tr><td><b>k<sub>L</sub>a</b></td><td>Procesos <b>aerobios</b>: antibióticos, polisacáridos, <i>E. coli</i> recombinante.</td></tr>
+        <tr><td><b>P/V</b></td><td>Procesos que <b>no requieren alta tasa de aireación</b>: fermentaciones alcohólicas, células eucariotas.</td></tr>
+        <tr><td><b>Re</b> y <b>t<sub>m</sub></b></td><td><b>Raramente</b>, porque están directamente ligados a N: cambiarlos implica cambiar k<sub>L</sub>a o P/V, lo que afectaría el desempeño microbiano.</td></tr>
+      </table>
+      <table>
+        <tr><th>Símbolo</th><th>Significado</th></tr>
+        <tr><td>P/V</td><td>Potencia volumétrica</td></tr>
+        <tr><td>N<sub>p</sub></td><td>Número de potencia</td></tr>
+        <tr><td>Re</td><td>Número de Reynolds</td></tr>
+        <tr><td>t<sub>m</sub></td><td>Tiempo de mezclado</td></tr>
+        <tr><td>AR</td><td>Ratio de aireación (vvm)</td></tr>
+        <tr><td>OTR</td><td>Transferencia de oxígeno</td></tr>
+        <tr><td>k<sub>L</sub>a</td><td>Coef. volumétrico de transferencia de O₂</td></tr>
+        <tr><td>N</td><td>Velocidad de agitación</td></tr>
+      </table>
+      <div class="box warn">
+        <span class="bt">La frase que hay que decir en el examen</span>
+        Cuando escalamos un biorreactor <b>no podemos mantener todo igual al mismo tiempo</b>:
+        debemos <b>elegir qué variable conservar</b> y aceptar las contrapartidas.
+        <b>Escalar ≠ solo agrandar el volumen</b>: hay que considerar modelado, fenómenos de transporte y cinética microbiana.
+      </div>
+    </div>
+  </div>
+</section>

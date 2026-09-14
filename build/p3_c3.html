@@ -1,0 +1,684 @@
+<!-- ======================= CLASE 3 ======================= -->
+<section class="cls c3">
+  <div class="cls-hd hd3">
+    <div class="num">3</div>
+    <div><h2>Mezclado en biorreactores · Tipos de reactores · Control</h2>
+    <div class="sub">Tanque agitado: partes, geometría y agitadores · patrones de flujo · airlift · fotobiorreactores · membrana · sistemas de control</div></div>
+  </div>
+
+  <h3 class="sec">3.1 · Por qué mezclamos (los 5 objetivos) <span class="pill p3">memorizar la lista</span></h3>
+  <div class="box key">
+    <span class="bt">El mezclado es una de las operaciones más importantes en bioprocesos</span>
+    La técnica más común es la <b>agitación mecánica</b> con un agitador de geometría específica para la aplicación.
+    El objetivo es generar una <b>DISTRIBUCIÓN HOMOGÉNEA</b> de los componentes del sistema, y sirve para:
+    <ol style="margin:1.5mm 0 0;padding-left:1.2em">
+      <li><b>Mezclar compuestos solubles</b>, como la glucosa.</li>
+      <li><b>Dispersar gases</b> a través del líquido en forma de <b>pequeñas burbujas</b>.</li>
+      <li><b>Mantener sólidos en suspensión</b>: células, agregados celulares o microesferas.</li>
+      <li><b>Dispersar líquidos inmiscibles</b> para formar emulsiones o suspensiones de finas gotas.</li>
+      <li><b>Promover la transferencia de calor</b> hacia o desde los líquidos.</li>
+    </ol>
+  </div>
+
+  <h3 class="sec">3.2 · El tanque agitado: partes y geometría <span class="pill p3">esto es el TP 1</span></h3>
+  <figure>
+  <svg viewBox="-112 -4 686 438" width="695" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+    <defs>
+      <marker id="dim" markerWidth="7" markerHeight="7" refX="3.5" refY="2.5" orient="auto"><path d="M0,0 L7,2.5 L0,5 z" fill="#c0392b"/></marker>
+      <marker id="dim2" markerWidth="7" markerHeight="7" refX="3.5" refY="2.5" orient="auto"><path d="M7,0 L0,2.5 L7,5 z" fill="#c0392b"/></marker>
+    </defs>
+    <!-- jacket -->
+    <path d="M146,84 L146,330 Q146,362 178,362 L322,362 Q354,362 354,330 L354,84" fill="#dceaf3" stroke="#1f6f8b" stroke-width="7"/>
+    <!-- vessel -->
+    <path d="M156,84 L156,328 Q156,352 180,352 L320,352 Q344,352 344,328 L344,84 Z" fill="#fff" stroke="#41536b" stroke-width="2"/>
+    <!-- liquid -->
+    <path d="M158,150 L158,328 Q158,350 180,350 L320,350 Q342,350 342,328 L342,150 Z" fill="#e6f5ef"/>
+    <line x1="158" y1="150" x2="342" y2="150" stroke="#0f7a56" stroke-width="1.8"/>
+    <!-- baffles -->
+    <rect x="156" y="150" width="15" height="196" fill="#b4531b" opacity=".85"/>
+    <rect x="329" y="150" width="15" height="196" fill="#b4531b" opacity=".85"/>
+    <!-- shaft -->
+    <rect x="245" y="30" width="10" height="280" fill="#6b7f96"/>
+    <!-- motor -->
+    <rect x="212" y="4" width="76" height="28" rx="4" fill="#41536b"/>
+    <text x="250" y="22" font-size="9" fill="#fff" text-anchor="middle" font-weight="bold">MOTOR</text>
+    <!-- lid -->
+    <rect x="148" y="74" width="204" height="12" rx="3" fill="#8fa3b8"/>
+    <!-- impeller: pitched blade -->
+    <g>
+      <ellipse cx="250" cy="300" rx="4" ry="3" fill="#0b5e42"/>
+      <path d="M205,292 L245,300 L245,308 L205,300 Z" fill="#0f7a56"/>
+      <path d="M295,292 L255,300 L255,308 L295,300 Z" fill="#0f7a56"/>
+      <path d="M222,286 L246,299 L246,305 L222,292 Z" fill="#14a06f"/>
+      <path d="M278,286 L254,299 L254,305 L278,292 Z" fill="#14a06f"/>
+    </g>
+    <!-- sparger ring -->
+    <ellipse cx="250" cy="334" rx="46" ry="9" fill="none" stroke="#8a3f8f" stroke-width="3.5"/>
+    <g fill="#8a3f8f">
+      <circle cx="216" cy="324" r="2.6"/><circle cx="234" cy="320" r="2.6"/><circle cx="250" cy="319" r="2.6"/>
+      <circle cx="266" cy="320" r="2.6"/><circle cx="284" cy="324" r="2.6"/>
+    </g>
+    <g fill="none" stroke="#8a3f8f" stroke-width="1.1" opacity=".75">
+      <circle cx="216" cy="306" r="3"/><circle cx="236" cy="296" r="3.6"/><circle cx="252" cy="288" r="3"/>
+      <circle cx="268" cy="298" r="3.6"/><circle cx="286" cy="308" r="3"/>
+      <circle cx="228" cy="252" r="3.4"/><circle cx="262" cy="240" r="3"/><circle cx="292" cy="264" r="3.4"/>
+      <circle cx="200" cy="230" r="3"/><circle cx="246" cy="196" r="3.4"/><circle cx="300" cy="212" r="3"/>
+    </g>
+    <line x1="250" y1="352" x2="250" y2="374" stroke="#8a3f8f" stroke-width="3"/>
+    <text x="250" y="386" font-size="8.2" fill="#8a3f8f" text-anchor="middle" font-weight="bold">Aire (0,22 µm)</text>
+    <!-- temp sensor -->
+    <rect x="186" y="80" width="7" height="150" rx="3" fill="#c0392b"/>
+    <!-- sampling port -->
+    <rect x="344" y="300" width="22" height="12" rx="2" fill="#41536b"/>
+    <!-- condenser -->
+    <rect x="296" y="26" width="16" height="50" rx="3" fill="#7d9cb8"/>
+    <path d="M304,26 L304,14 L330,14" stroke="#7d9cb8" stroke-width="3" fill="none"/>
+
+    <!-- LABELS left -->
+    <g font-size="8.4" fill="#16202b">
+      <line x1="104" y1="118" x2="150" y2="118" stroke="#6b7f96"/><text x="100" y="121" text-anchor="end">Camisa (jacket): calienta/enfría</text>
+      <line x1="104" y1="96" x2="180" y2="88" stroke="#6b7f96"/><text x="100" y="99" text-anchor="end">Tapa + puertos</text>
+      <line x1="104" y1="170" x2="189" y2="170" stroke="#6b7f96"/><text x="100" y="173" text-anchor="end">Sensor de temperatura</text>
+      <line x1="104" y1="206" x2="163" y2="206" stroke="#6b7f96"/><text x="100" y="209" text-anchor="end">Deflector / baffle (×4)</text>
+      <line x1="104" y1="300" x2="212" y2="296" stroke="#6b7f96"/><text x="100" y="303" text-anchor="end">Agitador pitched-blade</text>
+      <line x1="104" y1="334" x2="204" y2="334" stroke="#6b7f96"/><text x="100" y="337" text-anchor="end">Sparger / burbujeador anular</text>
+    </g>
+    <!-- LABELS right -->
+    <g font-size="8.4" fill="#16202b">
+      <line x1="320" y1="18" x2="386" y2="18" stroke="#6b7f96"/><text x="390" y="21">Condensador (gases de escape)</text>
+      <line x1="288" y1="46" x2="386" y2="46" stroke="#6b7f96"/><text x="390" y="49">Eje agitador: transmite el torque</text>
+      <line x1="366" y1="306" x2="386" y2="306" stroke="#6b7f96"/><text x="390" y="309">Puerto de muestreo</text>
+      <line x1="345" y1="150" x2="386" y2="150" stroke="#6b7f96"/><text x="390" y="153">Superficie del líquido</text>
+    </g>
+
+    <!-- DIMENSIONS -->
+    <g stroke="#c0392b" stroke-width="1.2" font-size="8.2" fill="#c0392b">
+      <line x1="156" y1="404" x2="344" y2="404" marker-start="url(#dim2)" marker-end="url(#dim)"/>
+      <text x="250" y="422" text-anchor="middle" font-weight="bold">D⌄T — diámetro interno del tanque</text>
+      <line x1="428" y1="150" x2="428" y2="352" marker-start="url(#dim2)" marker-end="url(#dim)"/>
+      <text x="434" y="256" font-weight="bold">H⌄L</text>
+      <line x1="205" y1="272" x2="295" y2="272" marker-start="url(#dim2)" marker-end="url(#dim)"/>
+      <text x="250" y="268" text-anchor="middle" font-weight="bold">D⌄i</text>
+      <line x1="382" y1="300" x2="382" y2="352" marker-start="url(#dim2)" marker-end="url(#dim)"/>
+      <text x="388" y="330" font-weight="bold">C⌄i</text>
+      <line x1="156" y1="140" x2="171" y2="140" marker-start="url(#dim2)" marker-end="url(#dim)"/>
+      <text x="163" y="134" text-anchor="middle" font-weight="bold">W⌄BF</text>
+    </g>
+
+  </svg>
+  <figcaption>Biorreactor de tanque agitado: todas las partes que hay que saber identificar y todas las dimensiones que se miden en el TP 1.</figcaption>
+  </figure>
+
+  <div class="cols">
+    <div>
+      <table>
+        <tr><th colspan="2" class="ctr" style="font-size:9pt">RELACIONES GEOMÉTRICAS CLÁSICAS</th></tr>
+        <tr><td><b>D<sub>i</sub> / D<sub>T</sub></b></td><td>1/4 – 1/2 &nbsp;(típico 1/3)</td></tr>
+        <tr><td><b>H<sub>L</sub> / D<sub>T</sub></b></td><td>1,0 – 1,25</td></tr>
+        <tr><td><b>C<sub>i</sub> / D<sub>T</sub></b></td><td>1/6 – 1/2 &nbsp;(típico 1/3)</td></tr>
+        <tr><td><b>W<sub>BF</sub> / D<sub>T</sub></b></td><td>1/10 – 1/12</td></tr>
+        <tr><td><b>C<sub>BF</sub> / D<sub>T</sub></b></td><td>1/50 &nbsp;(luz entre pared y deflector)</td></tr>
+        <tr><td><b>L<sub>B</sub> / D<sub>i</sub></b></td><td>≈ 1/4 &nbsp;(largo de paleta)</td></tr>
+        <tr><td><b>W<sub>B</sub> / D<sub>i</sub></b></td><td>≈ 1/5 &nbsp;(ancho de paleta)</td></tr>
+        <tr><td><b>N.º de baffles</b></td><td>4, equidistantes</td></tr>
+      </table>
+      <div class="box def">
+        <span class="bt">La versión del TP 1 (Figmay de 2 L)</span>
+        <b>T/D: 0,3–0,6 · H/D: 1–1,25 · W<sub>b</sub>/D: 0,1</b><br>
+        <span style="font-size:8pt">Referencia bibliográfica para contrastar: <b>Tabla 1 de García-Ochoa et al. (2011)</b>.</span>
+      </div>
+    </div>
+    <div>
+      <div class="box key">
+        <span class="bt">¿Por qué importa cada relación? (esto es lo que se discute en el TP)</span>
+        <b>D<sub>i</sub>/D<sub>T</sub> grande</b> → mezcla más rápido (t<sub>m</sub> ∝ (D<sub>T</sub>/D<sub>i</sub>)²) <b>pero</b> consume mucha más potencia (P ∝ D<sub>i</sub>⁵).<br><br>
+        <b>H<sub>L</sub>/D<sub>T</sub> &gt; 1,25</b> → el líquido de arriba queda lejos del agitador: <b>zonas muertas y gradientes</b>; por encima de 1,2 hace falta un segundo impulsor.<br><br>
+        <b>C<sub>i</sub> muy alto</b> → los sólidos <b>sedimentan</b>; <b>muy bajo</b> → mala dispersión del gas que sale del sparger y posible inestabilidad hidrodinámica.<br><br>
+        <b>Sin baffles o con baffles angostos</b> → aparece <b>vórtice</b>: mezcla pobre, entrada de aire descontrolada y energía desperdiciada.<br><br>
+        <b>Sparger por encima del agitador</b> → el gas no pasa por la zona de alta turbulencia: la dispersión empeora mucho. Siempre va <b>debajo</b>.
+      </div>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <h4 class="sub">Geometría del vaso y altura del líquido</h4>
+      <ul style="font-size:8.5pt">
+        <li>La <b>forma del vaso</b> afecta la eficiencia del mezclado. Si es posible, la base debe ser <b>redondeada</b> en los bordes en lugar de plana: esto <b>elimina zonas de estancamiento</b>.</li>
+        <li>Para cultivos con <b>sólidos o biomasa sedimentable</b> convienen los <b>fondos cónicos</b>.</li>
+        <li>La energía requerida para <b>suspender sólidos</b> es muy sensible a la forma de la base, según el tipo de agitador y el patrón de flujo.</li>
+        <li>Grandes volúmenes de líquido en la <b>región superior</b>, lejos del agitador, son difíciles de mezclar: hay que evitarlos.</li>
+        <li><b>C<sub>i</sub></b> (distancia del agitador a la base) afecta la <b>suspensión de sólidos, la dispersión de burbujas y la estabilidad hidrodinámica</b>.</li>
+      </ul>
+      <h4 class="sub">Deflectores (baffles)</h4>
+      <ul style="font-size:8.5pt">
+        <li>Son <b>partes estándar</b> del tanque agitado: ayudan generando <b>turbulencia</b>, al <b>romper el flujo circular</b> que genera la rotación del agitador.</li>
+        <li>Se fijan a las paredes verticales interiores mediante <b>soportes soldados</b>; suelen usarse <b>cuatro, equidistantes</b>.</li>
+        <li>El ancho óptimo (<b>W<sub>BF</sub></b>) depende del <b>diseño del agitador y la viscosidad</b> del fluido.</li>
+      </ul>
+      <h4 class="sub">Difusor o sparger</h4>
+      <ul style="font-size:8.5pt">
+        <li><b>De punto:</b> tubos abiertos en el extremo, liberan burbujas en <b>un solo lugar</b>.</li>
+        <li><b>De anillo:</b> <b>múltiples salidas</b>, liberan burbujas en varios puntos simultáneamente.</li>
+        <li>El tamaño de burbuja de salida depende del diseño, pero al elevarse hasta la zona del agitador <b>se rompen por fuerzas de cizallamiento</b>.</li>
+        <li>El diámetro <b>D<sub>S</sub></b> del anillo y la separación <b>S<sub>S</sub></b> entre difusor y agitador influyen mucho en la eficacia de la dispersión.</li>
+      </ul>
+      <h4 class="sub">Eje de agitación y motor</h4>
+      <ul style="font-size:8.5pt">
+        <li>Función primaria: <b>transmitir el torque</b> del motor a las paletas.</li>
+        <li>Además: <b>resiste las fuerzas de flexión</b> creadas por el agitador, <b>limita la desviación lateral</b> y <b>soporta el peso</b> del agitador — todo <b>sin vibraciones excesivas</b>.</li>
+        <li>Normalmente es vertical y entra por la parte superior; si hace falta un eje más corto para evitar tensiones mecánicas, puede entrar por la <b>base</b>.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="box ex nobrk">
+        <span class="bt">Ejemplo resuelto 2 — Dimensionar un tanque de 20 L y escalarlo a 200 L</span>
+        <b>Consigna:</b> tanque cilíndrico estándar, volumen neto 20 L, con H<sub>L</sub>/D<sub>T</sub> = 1. Calcular D<sub>T</sub>, D<sub>i</sub>, C<sub>i</sub>, W<sub>BF</sub>. Luego pasar a 200 L.<br><br>
+        <b>Paso 1 — despejar D<sub>T</sub>.</b> V = π/4 · D<sub>T</sub>² · H<sub>L</sub>, y como H<sub>L</sub> = D<sub>T</sub>:<br>
+        V = π·D<sub>T</sub>³/4 → D<sub>T</sub> = ∛(4V/π)<br>
+        V = 20 L = <b>0,020 m³</b> → 4V/π = 0,02546 → D<sub>T</sub> = <b>0,294 m ≈ 29,4 cm</b><br><br>
+        <b>Paso 2 — el resto por las relaciones.</b><br>
+        H<sub>L</sub> = D<sub>T</sub> = <b>29,4 cm</b><br>
+        D<sub>i</sub> = D<sub>T</sub>/3 = <b>9,8 cm</b> &nbsp;(rango válido 1/4–1/2: 7,4–14,7 cm)<br>
+        C<sub>i</sub> = D<sub>T</sub>/3 = <b>9,8 cm</b><br>
+        W<sub>BF</sub> = D<sub>T</sub>/10 = <b>2,94 cm</b><br><br>
+        <b>Paso 3 — escalar a 200 L (similitud geométrica).</b><br>
+        <span class="fr">R = ∛(V<sub>nuevo</sub>/V<sub>original</sub>) = ∛(200/20) = ∛10 = <b>2,154</b></span><br>
+        D<sub>T</sub> = 29,4 × 2,154 = <b>63,4 cm</b> · H<sub>L</sub> = <b>63,4 cm</b><br>
+        D<sub>i</sub> = <b>21,1 cm</b> · C<sub>i</sub> = <b>21,1 cm</b> · W<sub>BF</sub> = <b>6,34 cm</b>
+      </div>
+      <div class="box warn">
+        <span class="bt">¡OJO! El error que la cátedra remarca</span>
+        <b>Si aumento el volumen 10 veces, las dimensiones NO aumentan 10 veces.</b>
+        Los volúmenes cambian de forma <b>cúbica</b> (V = π·r²·h). Con <b>similitud geométrica</b>, el tanque grande es una copia
+        exacta del pequeño amplificada: sus dimensiones lineales se multiplican por un factor constante
+        <b>R = ∛(V<sub>nuevo</sub>/V<sub>original</sub>)</b>. Para ×10 en volumen, las dimensiones crecen solo <b>×2,15</b>.
+      </div>
+      <h4 class="sub">¿Cuántos impulsores? La regla empírica universal</h4>
+      <table>
+        <tr><th class="ctr">H<sub>L</sub>/D<sub>T</sub></th><th>N.° de impulsores</th></tr>
+        <tr><td class="ctr"><b>&lt; 1,2</b></td><td>1 solo impulsor</td></tr>
+        <tr><td class="ctr"><b>1,2 – 2,0</b></td><td>2 impulsores</td></tr>
+        <tr><td class="ctr"><b>&gt; 2,0</b></td><td>3 o más</td></tr>
+      </table>
+      <ul style="font-size:8.4pt">
+        <li><b>Distancia entre impulsores (S):</b> <b>1,0 a 1,5 × D<sub>i</sub></b>. Más cerca → se comportan como <b>un solo impulsor gigante gastando el doble de energía</b>; más lejos → <b>zonas sin mezclar</b> en el medio.</li>
+        <li><b>Inmersión del impulsor superior (C₂):</b> debe quedar cubierto por al menos <b>1,0–1,2 × D<sub>i</sub></b> de líquido, para <b>evitar vórtices profundos que succionen aire</b>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sec">3.3 · Patrones de flujo <span class="pill p3">pregunta clásica: axial vs radial</span></h3>
+  <figure>
+  <svg viewBox="0 0 760 250" width="730" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+    <defs><marker id="fa" markerWidth="8" markerHeight="8" refX="7" refY="2.5" orient="auto"><path d="M0,0 L8,2.5 L0,5 z" fill="#0f7a56"/></marker>
+           <marker id="fb" markerWidth="8" markerHeight="8" refX="7" refY="2.5" orient="auto"><path d="M0,0 L8,2.5 L0,5 z" fill="#c0392b"/></marker></defs>
+    <!-- ROTACIONAL -->
+    <g>
+      <text x="118" y="16" font-size="10" font-weight="bold" fill="#c0392b" text-anchor="middle">ROTACIONAL (indeseable)</text>
+      <path d="M48,36 L48,190 Q48,206 64,206 L172,206 Q188,206 188,190 L188,36" fill="#fdeceb" stroke="#41536b" stroke-width="1.8"/>
+      <path d="M48,60 Q118,96 188,60 L188,36 L48,36 Z" fill="#fff"/>
+      <path d="M48,60 Q118,96 188,60" stroke="#c0392b" stroke-width="2" fill="none"/>
+      <rect x="113" y="30" width="8" height="120" fill="#6b7f96"/>
+      <rect x="86" y="146" width="62" height="7" fill="#0f7a56"/>
+      <g stroke="#c0392b" stroke-width="1.6" fill="none">
+        <path d="M66,110 Q118,128 170,110" marker-end="url(#fb)"/>
+        <path d="M66,170 Q118,188 170,170" marker-end="url(#fb)"/>
+      </g>
+      <text x="118" y="228" font-size="8.2" fill="#c0392b" text-anchor="middle" font-weight="bold">Vórtice · zonas muertas</text>
+      <text x="118" y="240" font-size="8" fill="#41536b" text-anchor="middle">Todos los agitadores lo generan</text>
+    </g>
+    <!-- AXIAL -->
+    <g transform="translate(230,0)">
+      <text x="118" y="16" font-size="10" font-weight="bold" fill="#0f7a56" text-anchor="middle">AXIAL</text>
+      <path d="M48,36 L48,190 Q48,206 64,206 L172,206 Q188,206 188,190 L188,36" fill="#e6f5ef" stroke="#41536b" stroke-width="1.8"/>
+      <line x1="48" y1="48" x2="188" y2="48" stroke="#0f7a56" stroke-width="1.5"/>
+      <rect x="53" y="48" width="9" height="155" fill="#b4531b" opacity=".8"/>
+      <rect x="174" y="48" width="9" height="155" fill="#b4531b" opacity=".8"/>
+      <rect x="113" y="30" width="8" height="120" fill="#6b7f96"/>
+      <path d="M88,144 L114,150 L114,156 L88,150 Z" fill="#0f7a56"/>
+      <path d="M146,144 L120,150 L120,156 L146,150 Z" fill="#0f7a56"/>
+      <g stroke="#0f7a56" stroke-width="1.8" fill="none">
+        <path d="M117,158 L117,190 Q117,198 130,198 L166,198 Q176,198 176,186 L176,80 Q176,66 160,62 L126,58" marker-end="url(#fa)"/>
+        <path d="M113,158 L113,190 Q113,198 100,198 L64,198 Q54,198 54,186 L54,80 Q54,66 70,62 L104,58" marker-end="url(#fa)"/>
+      </g>
+      <text x="118" y="228" font-size="8.2" fill="#0f7a56" text-anchor="middle" font-weight="bold">Paletas inclinadas &lt; 90°</text>
+      <text x="118" y="240" font-size="8" fill="#41536b" text-anchor="middle">Evita sedimentación de sólidos</text>
+    </g>
+    <!-- RADIAL -->
+    <g transform="translate(460,0)">
+      <text x="118" y="16" font-size="10" font-weight="bold" fill="#1f6f8b" text-anchor="middle">RADIAL</text>
+      <path d="M48,36 L48,190 Q48,206 64,206 L172,206 Q188,206 188,190 L188,36" fill="#e6f2f6" stroke="#41536b" stroke-width="1.8"/>
+      <line x1="48" y1="48" x2="188" y2="48" stroke="#1f6f8b" stroke-width="1.5"/>
+      <rect x="53" y="48" width="9" height="155" fill="#b4531b" opacity=".8"/>
+      <rect x="174" y="48" width="9" height="155" fill="#b4531b" opacity=".8"/>
+      <rect x="113" y="30" width="8" height="130" fill="#6b7f96"/>
+      <circle cx="117" cy="130" r="14" fill="none" stroke="#1f6f8b" stroke-width="2"/>
+      <rect x="86" y="124" width="14" height="13" fill="#1f6f8b"/>
+      <rect x="134" y="124" width="14" height="13" fill="#1f6f8b"/>
+      <g stroke="#1f6f8b" stroke-width="1.8" fill="none">
+        <path d="M148,130 L172,130 Q182,130 182,118 L182,72 Q182,58 166,56 L124,54" marker-end="url(#fa)" stroke="#1f6f8b"/>
+        <path d="M148,134 L172,134 Q182,134 182,150 L182,188 Q182,198 168,198 L126,198" marker-end="url(#fa)" stroke="#1f6f8b"/>
+        <path d="M86,130 L62,130 Q52,130 52,118 L52,72 Q52,58 68,56 L110,54" marker-end="url(#fa)" stroke="#1f6f8b"/>
+        <path d="M86,134 L62,134 Q52,134 52,150 L52,188 Q52,198 66,198 L108,198" marker-end="url(#fa)" stroke="#1f6f8b"/>
+      </g>
+      <text x="118" y="228" font-size="8.2" fill="#1f6f8b" text-anchor="middle" font-weight="bold">Paletas paralelas al eje</text>
+      <text x="118" y="240" font-size="8" fill="#41536b" text-anchor="middle">Dos loops: superior e inferior</text>
+    </g>
+  </svg>
+  <figcaption>El patrón de flujo depende del diseño del agitador, del tamaño y geometría del vaso y de las propiedades del fluido. Un mezclado eficaz provoca movimiento en las tres direcciones, pero <b>el radial y el axial son los principales responsables de lograr homogeneidad</b>.</figcaption>
+  </figure>
+
+  <div class="cols3">
+    <div class="box warn">
+      <span class="bt">Flujo rotacional: los 4 problemas del vórtice</span>
+      <ol style="margin:0;padding-left:1em">
+        <li><b>Ineficiencia de mezclado:</b> el líquido solo gira alrededor del eje, no hay flujo real de arriba hacia abajo → <b>zonas muertas y gradientes</b> de nutrientes, O₂ o temperatura.</li>
+        <li><b>Entrada excesiva de aire superficial:</b> aspiración no controlada → riesgo de <b>contaminación</b>.</li>
+        <li><b>Problemas mecánicos y de espuma:</b> introduce burbujas grandes que salen rápido, reducen el <b>tiempo de permanencia</b> y la transferencia de O₂, y facilitan la <b>espuma</b>.</li>
+        <li><b>Mayor consumo energético sin beneficio:</b> el agitador gasta energía en mantener el remolino en vez de generar turbulencia útil.</li>
+      </ol>
+      <b>Solución:</b> colocar <b>baffles</b>.
+    </div>
+    <div>
+      <div class="box def">
+        <span class="bt">Flujo axial</span>
+        Generado por agitadores con las paletas <b>inclinadas en un ángulo menor a 90°</b> respecto del plano de rotación.
+        El fluido sale del impulsor en <b>ángulo descendente hacia el fondo</b>, se esparce, sube por las paredes y vuelve al impulsor.
+        <b>También requiere baffles</b>, porque igual genera flujo rotacional.
+        <b>Útil cuando se necesitan fuertes corrientes verticales:</b> si el fluido contiene sólidos, la corriente descendente
+        <b>desalienta la sedimentación</b> en el fondo.
+      </div>
+    </div>
+    <div>
+      <div class="box def">
+        <span class="bt">Flujo radial (u horizontal)</span>
+        Generado por agitadores con las paletas <b>alineadas paralelas al eje</b>.
+        El líquido es conducido <b>radialmente hacia las paredes</b>, donde se divide en <b>dos corrientes</b>: una sube hacia la superficie
+        y otra baja hacia el fondo. Ambas vuelven al eje central y son arrastradas de nuevo al agitador.
+        <b>También crean flujo rotacional</b>, que debe reducirse con deflectores.
+      </div>
+    </div>
+  </div>
+
+  <h4 class="sub">Patrones de flujo de GASES: flooding, loading y dispersión completa <span class="pill p3">muy preguntado</span></h4>
+  <figure>
+  <svg viewBox="0 0 740 180" width="700" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+    <g>
+      <rect x="12" y="26" width="200" height="120" rx="6" fill="#fdeceb" stroke="#c0392b" stroke-width="1.6"/>
+      <text x="112" y="18" font-size="10" font-weight="bold" fill="#c0392b" text-anchor="middle">(a) FLOODING — inundación</text>
+      <rect x="108" y="30" width="7" height="70" fill="#6b7f96"/>
+      <rect x="86" y="96" width="51" height="7" fill="#41536b"/>
+      <g fill="none" stroke="#c0392b" stroke-width="1.3">
+        <circle cx="105" cy="120" r="5"/><circle cx="118" cy="128" r="6"/><circle cx="111" cy="86" r="7"/>
+        <circle cx="106" cy="66" r="6"/><circle cx="116" cy="50" r="5"/><circle cx="108" cy="38" r="4"/>
+      </g>
+      <text x="112" y="162" font-size="8" fill="#16202b" text-anchor="middle">Alta aireación o baja agitación:</text>
+      <text x="112" y="173" font-size="8" fill="#16202b" text-anchor="middle">el gas rodea al agitador y no puede bombear</text>
+    </g>
+    <g transform="translate(252,0)">
+      <rect x="12" y="26" width="200" height="120" rx="6" fill="#fdf6df" stroke="#e0b100" stroke-width="1.6"/>
+      <text x="112" y="18" font-size="10" font-weight="bold" fill="#8a6a00" text-anchor="middle">(b) LOADING — carga</text>
+      <rect x="108" y="30" width="7" height="70" fill="#6b7f96"/>
+      <rect x="86" y="96" width="51" height="7" fill="#41536b"/>
+      <g fill="none" stroke="#8a6a00" stroke-width="1.3">
+        <circle cx="103" cy="122" r="5"/><circle cx="120" cy="126" r="5"/>
+        <circle cx="146" cy="84" r="5"/><circle cx="160" cy="62" r="4"/><circle cx="138" cy="60" r="4"/>
+        <circle cx="78" cy="84" r="5"/><circle cx="64" cy="62" r="4"/><circle cx="86" cy="58" r="4"/>
+      </g>
+      <text x="112" y="162" font-size="8" fill="#16202b" text-anchor="middle">Se sube N o se baja el caudal: las paletas</text>
+      <text x="112" y="173" font-size="8" fill="#16202b" text-anchor="middle">procesan el gas y lo dispersan hacia las paredes</text>
+    </g>
+    <g transform="translate(504,0)">
+      <rect x="12" y="26" width="212" height="120" rx="6" fill="#e6f5ef" stroke="#0f7a56" stroke-width="1.6"/>
+      <text x="118" y="18" font-size="10" font-weight="bold" fill="#0b5e42" text-anchor="middle">(c) DISPERSIÓN COMPLETA ✓</text>
+      <rect x="112" y="30" width="7" height="70" fill="#6b7f96"/>
+      <rect x="90" y="96" width="51" height="7" fill="#41536b"/>
+      <g fill="none" stroke="#0f7a56" stroke-width="1.2">
+        <circle cx="40" cy="60" r="4"/><circle cx="62" cy="44" r="3.5"/><circle cx="86" cy="60" r="4"/>
+        <circle cx="110" cy="44" r="3.5"/><circle cx="134" cy="58" r="4"/><circle cx="158" cy="42" r="3.5"/>
+        <circle cx="184" cy="60" r="4"/><circle cx="52" cy="86" r="4"/><circle cx="92" cy="120" r="4"/>
+        <circle cx="140" cy="122" r="4"/><circle cx="180" cy="90" r="4"/><circle cx="30" cy="120" r="3.5"/><circle cx="200" cy="120" r="3.5"/>
+      </g>
+      <text x="118" y="162" font-size="8" fill="#16202b" text-anchor="middle">Distribución homogénea del gas en todo el vaso:</text>
+      <text x="118" y="173" font-size="8" fill="#0b5e42" text-anchor="middle" font-weight="bold">es la situación deseada</text>
+    </g>
+  </svg>
+  <figcaption>Los agitadores con baja relación entre superficie de paleta y volumen que deben mover tienden a inundarse a menores velocidades de aireación.</figcaption>
+  </figure>
+
+  <h3 class="sec">3.4 · Los tres agitadores <span class="pill p3">comparación segura de examen</span></h3>
+  <p style="font-size:8.5pt">La elección depende de: la <b>viscosidad del líquido</b>, la necesidad de <b>fuerzas de corte turbulentas</b>
+  (para romper burbujas y dispersar gases) y si se requieren <b>fuertes corrientes de líquido</b>.
+  Generalmente se usan <b>turbinas o hélices marinas</b>, recomendadas para fluidos de <b>1 a ~10⁴ centipoise</b>,
+  rango que incluye los medios de cultivo habituales.</p>
+  <table>
+    <tr><th style="width:30mm">Agitador</th><th style="width:20mm">Flujo</th><th>Características</th><th style="width:44mm">Ventajas / Desventajas</th></tr>
+    <tr><td><b>Turbina Rushton</b><br><span style="font-size:7.8pt">6 paletas planas montadas en un disco</span><br><span style="font-size:7.8pt">D<sub>i</sub> = 1/3 a 1/2 de D<sub>T</sub></span></td>
+      <td class="ctr"><b>RADIAL</b></td>
+      <td><b>El más frecuente en la industria de fermentaciones</b>, para fermentaciones <b>aeróbicas</b>.
+        Su operación se caracteriza por la formación de <b>dos vórtices de alta velocidad detrás de cada paleta plana</b>.
+        Ese sistema de vórtices es responsable de la <b>dispersión de gases</b> y es el mecanismo de generación de turbulencia.
+        <b>Con gaseo:</b> el gas es capturado y liberado por debajo del agitador y canalizado a las regiones de alta turbulencia
+        cerca de las paletas; la rotación de cada vórtice produce <b>aceleración centrífuga y reducción de presión</b> en su eje,
+        donde el gas se acumula formando <b>"cavidades ventiladas"</b> detrás de las paletas.
+        <b>La efectividad de la dispersión está controlada por el tamaño y la estructura de esas cavidades.</b></td>
+      <td><b>+</b> Muy efectivo para dispersar gases; opera con <b>caudales de gas altos sin saturarse</b>.<br>
+        <b>−</b> <b>Baja capacidad de bombeo/circulación por unidad de potencia consumida</b>, por su alto requerimiento de potencia.<br>
+        <b>−</b> La formación de vórtices afecta la distribución de la disipación de potencia → <b>daño celular</b>.</td></tr>
+    <tr><td><b>Hélice marina / propulsora</b><br><span style="font-size:7.8pt">típicamente 3 paletas</span><br><span style="font-size:7.8pt">D<sub>i</sub> ≈ 1/3 de D<sub>T</sub></span></td>
+      <td class="ctr"><b>AXIAL</b></td>
+      <td>Mezclado eficiente, útil en <b>biorreactores a gran escala</b>. El <b>paso</b> del propulsor es una medida del ángulo de las paletas:
+        el avance por revolución, o la distancia que se desplaza el líquido a lo largo del eje en una vuelta completa.
+        Se usa con fluidos de <b>viscosidad baja a media</b>.</td>
+      <td><b>+</b> <b>Menor cizalla</b> que la Rushton → útil para células con alto <i>shear stress</i>.<br>
+        <b>+</b> <b>Más eficaz para suspender sólidos</b> que la Rushton.<br>
+        <b>−</b> Con gasificación y alta velocidad puede generar <b>inestabilidades de flujo y en el motor</b>.</td></tr>
+    <tr><td><b>Turbina de paleta inclinada</b><br><span style="font-size:7.8pt">"Pitched-blade"</span><br><span style="font-size:7.8pt">es la del reactor Figmay del TP</span></td>
+      <td class="ctr"><b>MIXTO</b><br><span style="font-size:7.6pt">axial + radial</span></td>
+      <td>Aunque a veces se las llama de flujo axial, generan componentes de velocidad <b>tanto axial como radial</b>.
+        Producen <b>fuertes flujos de líquido</b> y tienen <b>mayor eficiencia de movimiento que las Rushton</b> → muy efectivas
+        cuando se requiere alto mezclado. Sus corrientes <b>no se separan</b> en loops superior e inferior como en el flujo radial puro.</td>
+      <td><b>+</b> Soportan <b>caudales de gas varias veces superiores</b> a los que inundan a una Rushton.<br>
+        <b>−</b> <b>Menor eficiencia en la dispersión de gas y en la transferencia de oxígeno</b> que la Rushton.<br>
+        <b>−</b> La energía cinética de turbulencia <b>no se distribuye uniformemente</b> en el vaso.<br>
+        <b>−</b> Muy sensible a la distancia a la base y a la geometría/ubicación del difusor.</td></tr>
+  </table>
+
+  <h3 class="sec">3.5 · Biorreactores AIRLIFT <span class="pill p3">comparación con agitado = pregunta segura</span></h3>
+  <div class="cols">
+    <div>
+      <figure>
+      <svg viewBox="0 0 330 330" width="320" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+        <defs><marker id="al" markerWidth="8" markerHeight="8" refX="7" refY="2.5" orient="auto"><path d="M0,0 L8,2.5 L0,5 z" fill="#0f7a56"/></marker>
+              <marker id="al2" markerWidth="8" markerHeight="8" refX="7" refY="2.5" orient="auto"><path d="M0,0 L8,2.5 L0,5 z" fill="#1f6f8b"/></marker></defs>
+        <!-- vessel -->
+        <path d="M70,34 L70,268 L118,300 L212,300 L260,268 L260,34 Z" fill="#fff" stroke="#41536b" stroke-width="2.2"/>
+        <path d="M72,64 L72,267 L119,298 L211,298 L258,267 L258,64 Z" fill="#eef6fb"/>
+        <!-- draft tube -->
+        <rect x="136" y="82" width="58" height="176" fill="#e6f5ef" stroke="#0f7a56" stroke-width="2"/>
+        <text x="165" y="24" font-size="10" font-weight="bold" fill="#16202b" text-anchor="middle">AIRLIFT de tubo draft interno</text>
+        <!-- degassing zone -->
+        <rect x="72" y="46" width="186" height="30" fill="#fdf6df" opacity=".85"/>
+        <text x="165" y="60" font-size="8" fill="#8a6a00" text-anchor="middle" font-weight="bold">ZONA DE DESGASIFICACIÓN</text>
+        <text x="165" y="71" font-size="7.6" fill="#8a6a00" text-anchor="middle">el gas se desprende aquí</text>
+        <line x1="72" y1="64" x2="258" y2="64" stroke="#1f6f8b" stroke-width="1.4"/>
+        <!-- bubbles in riser -->
+        <g fill="none" stroke="#8a3f8f" stroke-width="1.2">
+          <circle cx="152" cy="246" r="4"/><circle cx="176" cy="236" r="4.5"/><circle cx="160" cy="216" r="4"/>
+          <circle cx="180" cy="198" r="4.5"/><circle cx="150" cy="184" r="4"/><circle cx="172" cy="164" r="4.5"/>
+          <circle cx="154" cy="146" r="4"/><circle cx="178" cy="128" r="4.5"/><circle cx="160" cy="110" r="4"/>
+          <circle cx="176" cy="92" r="4"/>
+        </g>
+        <!-- flow arrows -->
+        <path d="M165,262 L165,92" stroke="#0f7a56" stroke-width="2.6" marker-end="url(#al)" fill="none"/>
+        <path d="M100,84 L100,258" stroke="#1f6f8b" stroke-width="2.6" marker-end="url(#al2)" fill="none"/>
+        <path d="M230,84 L230,258" stroke="#1f6f8b" stroke-width="2.6" marker-end="url(#al2)" fill="none"/>
+        <path d="M120,272 Q142,284 160,272" stroke="#41536b" stroke-width="1.6" fill="none" marker-end="url(#al)"/>
+        <path d="M210,272 Q188,284 170,272" stroke="#41536b" stroke-width="1.6" fill="none" marker-end="url(#al)"/>
+        <!-- sparger -->
+        <ellipse cx="165" cy="280" rx="26" ry="6" fill="none" stroke="#8a3f8f" stroke-width="3"/>
+        <line x1="165" y1="300" x2="165" y2="318" stroke="#8a3f8f" stroke-width="3"/>
+        <text x="165" y="328" font-size="8.4" fill="#8a3f8f" text-anchor="middle" font-weight="bold">AIRE (única energía del sistema)</text>
+        <!-- labels -->
+        <g font-size="8.4">
+          <text x="165" y="176" fill="#0b5e42" text-anchor="middle" font-weight="bold" transform="rotate(-90 165 176)">RISER (asciende)</text>
+          <text x="100" y="176" fill="#14556c" text-anchor="middle" font-weight="bold" transform="rotate(-90 100 176)">DOWNCOMER</text>
+          <text x="230" y="176" fill="#14556c" text-anchor="middle" font-weight="bold" transform="rotate(-90 230 176)">DOWNCOMER</text>
+        </g>
+        <text x="270" y="290" font-size="8" fill="#41536b">Base cónica</text>
+        <text x="270" y="301" font-size="8" fill="#41536b">+ sparger</text>
+      </svg>
+      <figcaption>La circulación es <b>natural</b>: el aire baja la densidad en el riser, el líquido sube, el gas se desprende arriba y el líquido más pesado y sin burbujas baja por el downcomer.</figcaption>
+      </figure>
+    </div>
+    <div>
+      <div class="box def">
+        <span class="bt">Funcionamiento (explicalo así)</span>
+        En estos reactores la <b>agitación y la aireación se logran mediante la inyección de aire por la base</b>: <b>no hay partes móviles</b>.
+        El gas se inyecta <b>únicamente en la sección llamada riser</b>. La <b>retención de gas reduce la densidad del fluido</b> en el riser,
+        que se mueve hacia arriba; el gas se <b>desprende en la parte superior</b>, dejando que el líquido más pesado y sin burbujas
+        <b>recircule por el downcomer</b>. El líquido circula <b>como resultado de la diferencia de densidad</b> entre ambas zonas.
+        Puede haber mezclado <b>axial y radial</b>. Contiene un <b>TUBO DRAFT</b>, que puede ser <b>interno o externo</b>.
+      </div>
+      <h4 class="sub">Las 4 partes</h4>
+      <ul style="font-size:8.5pt">
+        <li><b>Riser (elevador de gas):</b> por donde se inyecta el aire y asciende el líquido.</li>
+        <li><b>Downcomer (bajante):</b> desgasificado de medio + células, que descienden.</li>
+        <li><b>Base:</b> boquilla perforada, placa o sparger para bombear aire.</li>
+        <li><b>Zona de desgasificación:</b> región de desprendimiento de gases, arriba.</li>
+      </ul>
+      <table>
+        <tr><th>Configuración INTERNA</th><th>Configuración EXTERNA</th></tr>
+        <tr><td>Riser y downcomer separados por un <b>baffle interno</b>; el aire puede introducirse <b>en el tubo</b> o <b>en el anillo</b>.
+            El aire se inyecta abajo del tubo draft; como su densidad es mucho menor que la del medio, <b>se eleva rápidamente y por inercia arrastra al medio de cultivo</b>.</td>
+            <td><b>Tubos verticales separados</b> conectados por secciones horizontales cortas arriba y abajo.
+            <b>Mejora la circulación y la transferencia de oxígeno</b>, el efecto de corte es mucho menor que en tanque agitado y permite <b>mejor k<sub>L</sub>a</b>.
+            <b>Pero</b> son <b>menos versátiles en diseño</b> y se han usado menos que los internos.</td></tr>
+      </table>
+      <div class="box key">
+        <span class="bt">Números del airlift</span>
+        Relación <b>H:D de 6–10:1</b> (es una <b>columna esbelta</b>): cuanto mayor la altura, mayor el tiempo de contacto de la burbuja
+        con el líquido, mayor presión hidrostática en el fondo (más solubilidad de O₂) y mayor fuerza impulsora de la circulación.<br>
+        Ejemplo real (Mahmood et al., 2015): <b>d/D = 0,6</b>, ángulo del fondo cónico <b>25°</b>, volumen total 15 L y de trabajo 8–9 L;
+        el resto es <b>headspace</b>, necesario para condensar el vapor de agua y devolverlo al medio.
+      </div>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="box ex">
+      <span class="bt">VENTAJAS del airlift (las 4 de la cátedra)</span>
+      <ol style="margin:0;padding-left:1.1em">
+        <li><b>Bajo cizallamiento</b>, hay poca mezcla: puede usarse para cultivar <b>células vegetales y animales</b>.</li>
+        <li>La <b>esterilidad se mantiene fácilmente</b> (no hay sello de eje rotatorio).</li>
+        <li>En un recipiente grande la altura del líquido puede llegar a <b>60 m</b>: la presión en el fondo <b>aumenta la solubilidad del O₂</b> y el <b>k<sub>L</sub>a aumenta</b>.</li>
+        <li>Se pueden construir recipientes <b>extremadamente grandes</b>. Ejemplo: planta de producción de proteínas con reactor de <b>2300 m³</b> (columna de 7 m de diámetro × 60 m de altura, volumen de trabajo 1560 m³), donde los m.o. crecían en metanol con <b>enorme liberación de calor</b>, imposible de remover con un tanque agitado convencional.</li>
+      </ol>
+    </div>
+    <div class="box warn">
+      <span class="bt">DESVENTAJAS del airlift (las 5)</span>
+      <ol style="margin:0;padding-left:1.1em">
+        <li><b>Alto costo de capital</b> para producción de gran tamaño.</li>
+        <li><b>Elevados costos energéticos:</b> aunque no hay agitador, hace falta <b>mayor caudal de aire y a mayor presión</b>, y la <b>eficiencia de compresión del gas es baja</b>.</li>
+        <li>A medida que los m.o. circulan, <b>las condiciones cambian</b>: es imposible mantener niveles constantes de fuente de carbono, nutrientes y O₂ en todo el recipiente.</li>
+        <li>La <b>separación gas-líquido no es eficiente cuando hay espuma</b>.</li>
+        <li>En <b>procesos continuos</b>, si la alimentación entra en un solo lugar el organismo sufre <b>ciclos de alto crecimiento seguidos de inanición</b> → subproductos indeseables, bajos rendimientos y alta mortalidad. Por eso a gran escala se usan <b>múltiples puntos de alimentación</b> y se admite aire en varios puntos (aunque principalmente por el fondo, para hacer circular el fluido).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box key">
+    <span class="bt">Cuadro comparativo AGITADO vs AIRLIFT (es la consigna 1 de entrega del TP 1)</span>
+    <table style="margin-top:1.5mm">
+      <tr><th style="width:36mm">Criterio</th><th>Tanque agitado</th><th>Airlift</th></tr>
+      <tr><td><b>Nivel de cizalla</b></td><td><b>Alto</b> (zona del impulsor, v<sub>tip</sub> elevada). Rushton &gt; pitched-blade &gt; hélice marina</td><td><b>Bajo</b>: no hay partes móviles, la energía entra distribuida como burbujas</td></tr>
+      <tr><td><b>Eficiencia de mezcla</b></td><td><b>Alta y controlable</b>: se regula con N, independiente del caudal de aire; turbulencia intensa cerca del impulsor</td><td><b>Menor y menos controlable</b>: depende solo del caudal de aire; mezcla por circulación natural; condiciones cambian a lo largo del circuito</td></tr>
+      <tr><td><b>Eficiencia de OTR / k<sub>L</sub>a</b></td><td><b>Alta:</b> el agitador rompe las burbujas (↑ área <i>a</i>) y evita la coalescencia. k<sub>L</sub>a típico microbiano 100–400 h⁻¹</td><td><b>Menor y más lenta</b> que en agitado (transferencia de O₂ y de calor). <b>Pero</b> mejora mucho en columnas muy altas por la presión hidrostática</td></tr>
+      <tr><td><b>Costo de operación y mantenimiento</b></td><td>Motor, sellos y eje: <b>más mantenimiento</b>, más piezas que fallan y más riesgo de contaminación por el sello</td><td><b>Bajo mantenimiento</b> y <b>menor consumo</b> por no tener agitador; pero <b>alto costo de compresión de aire</b> y alto costo de capital a gran escala</td></tr>
+      <tr><td><b>¿Para qué cultivo?</b></td><td><b>Bacterias y levaduras</b> robustas, procesos aerobios de alta demanda de O₂: antibióticos, ácidos orgánicos, <i>E. coli</i> recombinante</td><td><b>Células vegetales, animales e inmovilizadas</b>, y todo cultivo <b>sensible a la cizalla</b>; también <b>fotobiorreactores</b> de microalgas</td></tr>
+    </table>
+  </div>
+
+  <h3 class="sec">3.6 · Otros tipos de biorreactores</h3>
+  <div class="cols3">
+    <div class="box def">
+      <span class="bt">Fotobiorreactores</span>
+      Para cultivo de <b>microalgas y cianobacterias</b>. Suelen ser <b>tipo airlift</b>.
+      Se debe suministrar <b>aire con CO₂ y ciclos de luz</b> para permitir la fotosíntesis.
+      Las algas pueden dar muchos bioproductos, pero <b>no es un problema trivial</b>: el <b>biocombustible</b> es el producto
+      con mayor potencial, aunque sus <b>aspectos económicos no están resueltos</b>. Es difícil representar el comportamiento
+      de un cultivo fotosintético con cinéticas simples, por la <b>interacción de la dinámica de fluidos con la fotosíntesis</b>.
+    </div>
+    <div class="box def">
+      <span class="bt">Biorreactores de membrana</span>
+      Combinan una <b>biorreacción y una operación de membrana en una sola unidad</b>.
+      Una membrana artificial sintética <b>separa dos fases</b> y actúa como <b>barrera activa o pasiva</b> del transporte de materia.
+      Su función es <b>compartimentar la herramienta biológica</b> que realiza la biotransformación y <b>promover y controlar
+      el transporte</b> dentro y fuera del compartimento de reacción.
+      Puede funcionar como <b>proveedora de reactivos</b> y/o como <b>barrera selectiva de eliminación de productos</b>.
+      Puede estar <b>externa</b> a la solución o <b>inmersa</b> en ella, y también servir de <b>soporte</b> del biocomponente
+      (enzima, célula, tejido, órgano).
+    </div>
+    <div class="box def">
+      <span class="bt">Biorreactores single-use</span>
+      Sistemas de <b>un solo uso</b> (bolsas descartables, 100 L a 2500 L), con sensores preinstalados y
+      esterilizados por <b>radiación gamma</b>. Eliminan la limpieza y el SIP, reducen el riesgo de contaminación cruzada
+      y aceleran los cambios de producto.
+    </div>
+  </div>
+
+  <h3 class="sec">3.7 · Sistemas de control</h3>
+  <div class="box def">
+    <span class="bt">¿Cómo se controla?</span>
+    La lectura y el procesamiento de la información y la supervisión de las células son los <b>objetivos de la instrumentación</b>.
+    Los parámetros <b>más importantes a gran escala</b> son: <b>pH, temperatura, oxígeno disuelto y espuma</b>.
+    Los efectos físicos y químicos del biorreactor <b>se traducen en señales eléctricas</b>, que se amplifican, se visualizan
+    y se usan como <b>señal de entrada de una unidad de control</b>.
+  </div>
+
+  <div class="cols">
+    <div>
+      <figure>
+      <svg viewBox="0 0 380 150" width="370" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+        <defs><marker id="ct" markerWidth="8" markerHeight="8" refX="7" refY="2.5" orient="auto"><path d="M0,0 L8,2.5 L0,5 z" fill="#41536b"/></marker></defs>
+        <text x="190" y="14" font-size="10" font-weight="bold" fill="#16202b" text-anchor="middle">Lazo cerrado (closed loop)</text>
+        <circle cx="52" cy="58" r="13" fill="#fff" stroke="#c0392b" stroke-width="1.8"/>
+        <text x="52" y="62" font-size="12" fill="#c0392b" text-anchor="middle">Σ</text>
+        <text x="20" y="44" font-size="8" fill="#41536b">set point</text>
+        <path d="M6,58 L37,58" stroke="#41536b" stroke-width="1.6" marker-end="url(#ct)"/>
+        <rect x="86" y="42" width="72" height="32" rx="5" fill="#fdf6df" stroke="#e0b100" stroke-width="1.5"/>
+        <text x="122" y="62" font-size="9" fill="#8a6a00" text-anchor="middle" font-weight="bold">PID</text>
+        <path d="M65,58 L82,58" stroke="#41536b" stroke-width="1.6" marker-end="url(#ct)"/>
+        <rect x="176" y="42" width="78" height="32" rx="5" fill="#e6f2f6" stroke="#1f6f8b" stroke-width="1.5"/>
+        <text x="215" y="62" font-size="8.6" fill="#14556c" text-anchor="middle" font-weight="bold">Actuador</text>
+        <path d="M158,58 L172,58" stroke="#41536b" stroke-width="1.6" marker-end="url(#ct)"/>
+        <rect x="272" y="42" width="94" height="32" rx="5" fill="#e6f5ef" stroke="#0f7a56" stroke-width="1.5"/>
+        <text x="319" y="62" font-size="8.6" fill="#0b5e42" text-anchor="middle" font-weight="bold">BIORREACTOR</text>
+        <path d="M254,58 L268,58" stroke="#41536b" stroke-width="1.6" marker-end="url(#ct)"/>
+        <path d="M366,58 L374,58 L374,110 L200,110" stroke="#41536b" stroke-width="1.6" fill="none"/>
+        <rect x="132" y="96" width="68" height="28" rx="5" fill="#f6ecf7" stroke="#8a3f8f" stroke-width="1.5"/>
+        <text x="166" y="114" font-size="8.6" fill="#6d2f72" text-anchor="middle" font-weight="bold">SENSOR</text>
+        <path d="M132,110 L52,110 L52,73" stroke="#41536b" stroke-width="1.6" fill="none" marker-end="url(#ct)"/>
+        <text x="190" y="140" font-size="8" fill="#41536b" text-anchor="middle">La señal controlada se realimenta y se compara con la referencia;</text>
+        <text x="190" y="150" font-size="8" fill="#41536b" text-anchor="middle">se envía una señal actuante proporcional al error para corregir la salida.</text>
+      </svg>
+      </figure>
+      <h4 class="sub">PID aplicado al oxígeno disuelto (ejemplo de la cátedra)</h4>
+      <table>
+        <tr><th class="ctr" style="width:12mm">Acción</th><th>Qué hace con el DO</th></tr>
+        <tr><td class="ctr"><b>P</b><br><span style="font-size:7.4pt">proporcional</span></td><td>Si el O₂ real está <b>10 % abajo</b> del set point, el controlador <b>abre más la válvula de aire o sube la agitación en la misma proporción</b>.</td></tr>
+        <tr><td class="ctr"><b>I</b><br><span style="font-size:7.4pt">integral</span></td><td>Si pese a eso el DO <b>sigue bajo durante varios minutos</b>, el controlador <b>acumula ese error</b> y actúa cada vez más fuerte hasta corregirlo.</td></tr>
+        <tr><td class="ctr"><b>D</b><br><span style="font-size:7.4pt">derivativa</span></td><td>Si de golpe el DO <b>empieza a bajar rápido</b>, el controlador <b>reacciona anticipándose</b> y ajusta antes de que la caída sea grande.</td></tr>
+      </table>
+    </div>
+    <div>
+      <h4 class="sub">Medición de TEMPERATURA</h4>
+      <table>
+        <tr><th style="width:26mm">Sensor</th><th>Pro / Contra</th></tr>
+        <tr><td><b>Termocupla</b></td><td><b>+</b> Barata y sencilla. <b>−</b> Resolución bastante baja.</td></tr>
+        <tr><td><b>Termistor</b></td><td>Semiconductor cuya conductividad cambia con T. <b>+</b> Sensible y barato. <b>−</b> Salida <b>muy poco lineal</b>.</td></tr>
+        <tr><td><b>Termómetro de resistencia de platino</b><br><span style="font-size:7.6pt">EL PREFERIDO</span></td><td>La resistencia eléctrica cambia con T; requiere el paso de corriente para desarrollar un voltaje proporcional a T. <b>+ Alta precisión, gran estabilidad y salida LINEAL.</b> Se instala en <b>bolsas de acero inoxidable de paredes finas</b> (para no contaminar el biorreactor) rellenas con <b>líquido conductor del calor</b>, para buen contacto y respuesta rápida.</td></tr>
+      </table>
+      <h4 class="sub">Medición de pH / Redox</h4>
+      <p style="font-size:8.4pt">Se basa en las <b>propiedades electroquímicas del electrodo de hidrógeno</b>.
+      La parte básica es una <b>membrana de vidrio muy fina (0,2–0,5 mm)</b> que reacciona con el agua formando una
+      <b>capa de gel hidratada de 50–500 Å</b> de grosor, presente <b>en ambos lados</b> y esencial para el funcionamiento.
+      Los <b>iones H⁺ dentro de esa capa son móviles</b>: cualquier diferencia de actividad iónica entre ambos lados
+      establece un <b>potencial dependiente del pH</b>. El interior se llena con una <b>solución tamponada estable</b> para mantener
+      un potencial interno constante, y se usa un electrodo de <b>Ag/AgCl</b> como salida eléctrica.
+      En planta piloto los electrodos se conectan a <b>bombas automatizadas que inyectan ácido o base</b>.</p>
+    </div>
+  </div>
+
+  <h4 class="sub">Medición de OXÍGENO DISUELTO: los 5 métodos <span class="pill p3">tabla de examen</span></h4>
+  <p style="font-size:8.4pt">Medir el DO en función del tiempo es <b>esencial para calcular el k<sub>L</sub>a</b>, factor clave en la caracterización de biorreactores.</p>
+  <table>
+    <tr><th class="ctr" style="width:8mm">#</th><th style="width:30mm">Método</th><th>Fundamento</th><th style="width:56mm">Ventajas / Desventajas</th></tr>
+    <tr><td class="ctr">1</td><td><b>Químico</b><br><span style="font-size:7.6pt">Winkler / yodométrico</span></td>
+      <td>Se toma muestra y se determina <b>fuera de línea por titulación</b>: se titula la solución con <b>tiosulfato</b> en presencia de <b>indicador de almidón</b> para contar las moléculas de <b>yodo</b>, proporcionales al O₂ disuelto original.</td>
+      <td><b>−</b> Laborioso, lento y propenso a errores si se hace mal.</td></tr>
+    <tr><td class="ctr">2</td><td><b>Volumétrico</b></td>
+      <td>Conversión química del O₂ disuelto en <b>CO₂</b>, que se expulsa, se recoge y se mide su volumen a P y T conocidas; luego, con la <b>ley de gases ideales</b> y un balance elemental, se obtiene la concentración.</td>
+      <td><b>+</b> Casi no lo afectan otros compuestos de la muestra.<br><b>−</b> Lento y sin la sensibilidad necesaria para aplicaciones biológicas dinámicas.</td></tr>
+    <tr><td class="ctr">3</td><td><b>De tubos</b></td>
+      <td>Un <b>tubo semipermeable de pared delgada</b> sumergido en el caldo; se bombea un <b>gas inerte lento</b> por dentro que absorbe O₂ por <b>difusión</b>; se mide el O₂ en el gas de salida con analizador o electrodo.</td>
+      <td><b>+</b> Sencillo, preciso y robusto; <b>soporta ciclos de esterilización in situ</b>.<br><b>−</b> Respuesta lenta y calibración extensa.</td></tr>
+    <tr><td class="ctr">4</td><td><b>Ópticos</b><br><span style="font-size:7.6pt">óptodos</span></td>
+      <td>Transductor fotométrico por <b>extinción de fluorescencia</b>: un <b>fluoróforo inmovilizado</b> en el extremo de una fibra óptica, al ser excitado emite luz de otra longitud de onda cuya <b>intensidad depende de la concentración del extintor</b> (aquí, el O₂).</td>
+      <td><b>+</b> <b>No consumen oxígeno</b>, pequeños, sensibles, tiempo de respuesta corto.<br><b>−</b> Interacciones con la luz ambiental y <b>foto-bleaching</b>.</td></tr>
+    <tr><td class="ctr">5</td><td><b>Electroquímicos</b><br><span style="font-size:7.6pt">EL MÁS COMÚN</span></td>
+      <td>Usan una <b>membrana permeable solo al O₂</b> que separa la celda electroquímica del medio; el O₂ difunde, llega al <b>cátodo</b>, se <b>reduce</b> y produce una corriente o tensión <b>proporcional a la velocidad de llegada del oxígeno</b>.</td>
+      <td><b>Polarográfico:</b> cátodo de Pt o Au, ánodo Ag/AgCl, electrolito KCl; se polariza con fuente externa. <b>−</b> Requiere <b>~10 min encendido</b> antes de medir.<br><b>Galvánico:</b> ánodo de Zn, Pb o Cd y cátodo de Ag o Au; salida lineal con la concentración. <b>−</b> <b>Vida útil más corta</b>, porque está <b>siempre polarizado</b> (como una batería de auto).</td></tr>
+  </table>
+
+  <div class="cols">
+    <div>
+      <h4 class="sub">ESPUMA: por qué es un problema</h4>
+      <p style="font-size:8.4pt">Al introducir gas se forman burbujas que ascienden y <b>se dispersan en la superficie formando espuma</b>.
+      Cualquier compuesto del cultivo que <b>reduzca la tensión superficial</b> (proteínas, péptidos) favorece su formación.
+      <b>Problemas:</b> pérdida de cultivo, obstrucción del sistema de gases de escape y <b>posible contaminación</b> por
+      humectación de los filtros de gas. Puede aparecer <b>repentinamente</b>; algunas espumas son fáciles de destruir
+      y otras son <b>muy estables</b>.</p>
+      <p style="font-size:8.4pt"><b>Detectores:</b> <b>de capacitancia</b> (dos electrodos que miden la capacitancia del espacio de aire
+      sobre el líquido; si aparece espuma, la capacitancia se reduce y se detecta el cambio en una pequeña corriente alterna)
+      y <b>de resistencia</b> (sonda recubierta de aislante con solo la punta expuesta: cuando la espuma la toca, <b>cierra el circuito</b>).</p>
+    </div>
+    <div>
+      <h4 class="sub">Control de la espuma</h4>
+      <ul style="font-size:8.4pt">
+        <li><b>Agitación mecánica (rompe-espumas):</b> cuchillas o discos montados en el mismo eje agitador. Tipos: <b>pala, cono, aguja y barra simple</b>. <b>Ventaja: alta eficiencia</b> y no modifica las propiedades del líquido.</li>
+        <li><b>Antiespumantes químicos:</b> actúan <b>reduciendo la tensión interfacial</b>. Son <b>caros</b>, hay que usar cantidades mínimas, pueden complicar la fermentación y algunos actúan como <b>inhibidores</b>. Suelen ser <b>a base de silicona</b>.</li>
+        <li><b>Algoritmo de dosificación:</b> si se detecta espuma, el controlador activa primero un <b>temporizador de retardo</b>; si al final del retardo la espuma persiste, activa la <b>bomba de dosificación</b>; si sigue detectándose, reactiva el ciclo. Así se evita agregar cantidades innecesarias.</li>
+      </ul>
+      <div class="box warn">
+        <span class="bt">Por qué se prefieren los métodos mecánicos</span>
+        Para <b>mantener el carácter no coalescente</b> del medio y <b>altos valores de k<sub>L</sub>a</b>,
+        se prefieren los rompedores mecánicos: <b>no modifican las propiedades del líquido</b>.
+        (Ver en Clase 4: los antiespumantes de silicona bajan el k<sub>L</sub>a neto.)
+      </div>
+    </div>
+  </div>
+  <div class="box def">
+    <span class="bt">Biosensores</span>
+    Dispositivo que combina un <b>sensor biológico</b> (mide la transformación bioquímica de una determinada sustancia) con un
+    <b>transductor</b> (detecta dicho cambio y produce una señal de salida relacionada con la concentración de la sustancia medida).
+    Los transductores suelen ser <b>amperométricos y potenciométricos</b> y se incluyen en las sondas de oxígeno disuelto,
+    electrodos de pH, de iones o dispositivos de detección de gases.
+    Hay varios disponibles en el mercado; el ejemplo clásico es el <b>sensor de glucosa</b>, que determina la concentración
+    basándose en la enzima <b>glucosa oxidasa</b>.
+  </div>
+  <h3 class="sec">Repaso relámpago de la Clase 3</h3>
+  <div class="cols">
+    <div>
+      <div class="box key">
+        <span class="bt">El tanque agitado en 6 frases</span>
+        <b>1.</b> Es el biorreactor más usado por su historial de rendimiento y facilidad de operación.<br>
+        <b>2.</b> Su geometría está estandarizada (D<sub>i</sub>/D<sub>T</sub>, H<sub>L</sub>/D<sub>T</sub>, C<sub>i</sub>, W<sub>BF</sub>) porque esas proporciones <b>determinan el rendimiento</b>.<br>
+        <b>3.</b> Sin <b>baffles</b> hay vórtice, y con vórtice no hay mezcla real.<br>
+        <b>4.</b> El <b>tipo de agitador</b> define el patrón de flujo: radial (Rushton, mejor dispersión de gas), axial (hélice, menos cizalla) o mixto (pitched-blade).<br>
+        <b>5.</b> El gas debe llegar a <b>dispersión completa</b>: ni flooding ni solo loading.<br>
+        <b>6.</b> Todo lo que mejora el mezclado <b>cuesta energía y cizalla</b>.
+      </div>
+      <div class="box def">
+        <span class="bt">El airlift en 4 frases</span>
+        <b>1.</b> No tiene partes móviles: circula por <b>diferencia de densidad</b> entre riser y downcomer.<br>
+        <b>2.</b> Baja cizalla y esterilidad fácil → <b>células sensibles</b>.<br>
+        <b>3.</b> Mezcla y aireación <b>no se controlan por separado</b>: ambas dependen del caudal de aire.<br>
+        <b>4.</b> Es <b>esbelto</b> (H:D 6–10:1) para ganar tiempo de contacto y presión hidrostática.
+      </div>
+    </div>
+    <div>
+      <table>
+        <tr><th style="width:32mm">Problema observado</th><th>Causa probable y solución</th></tr>
+        <tr><td><b>Se forma vórtice</b></td><td>Faltan baffles o son angostos → colocar 4 deflectores de D<sub>T</sub>/10, con luz de D<sub>T</sub>/50.</td></tr>
+        <tr><td><b>Zonas muertas arriba</b></td><td>H<sub>L</sub>/D<sub>T</sub> &gt; 1,25 → bajar el nivel o agregar un segundo impulsor (separación 1–1,5 D<sub>i</sub>).</td></tr>
+        <tr><td><b>Las células sedimentan</b></td><td>C<sub>i</sub> muy alto, Froude bajo o fondo plano → bajar el agitador, usar flujo axial y fondo redondeado o cónico.</td></tr>
+        <tr><td><b>El agitador "no agarra" el aire</b></td><td><b>Flooding</b> → subir N o bajar el caudal de gas; considerar Rushton en lugar de pitched-blade.</td></tr>
+        <tr><td><b>Mucha espuma</b></td><td>Proteínas que bajan la tensión superficial → primero <b>rompe-espumas mecánico</b>; el antiespumante químico baja el k<sub>L</sub>a.</td></tr>
+        <tr><td><b>El DO no se sostiene</b></td><td>OUR &gt; OTR → subir N o el caudal, enriquecer con O₂, o revisar si el caldo se volvió viscoso.</td></tr>
+        <tr><td><b>El pH cae solo</b></td><td>Producción de ácidos orgánicos → lazo de control con bombas de ácido/base y electrodo Ag/AgCl.</td></tr>
+      </table>
+    </div>
+  </div>
+</section>

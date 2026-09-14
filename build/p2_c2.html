@@ -1,0 +1,493 @@
+<!-- ======================= CLASE 2 ======================= -->
+<section class="cls c2">
+  <div class="cls-hd hd2">
+    <div class="num">2</div>
+    <div><h2>Influencia de la reología del medio en bioprocesos</h2>
+    <div class="sub">Fenómenos de transporte · viscosidad · fluidos newtonianos y no newtonianos · número de Reynolds · viscosímetros · transporte de materia</div></div>
+  </div>
+
+  <h3 class="sec">2.1 · Fenómenos de transporte: los tres transportes</h3>
+  <div class="box def">
+    <span class="bt">Definición</span>
+    Los <b>fenómenos de transporte</b> son los procesos que describen la transferencia de <b>energía, materia y cantidad de movimiento</b>
+    en un sistema. Son fundamentales porque determinan la eficiencia del crecimiento celular, la producción de metabolitos
+    y el funcionamiento de los biorreactores. El diseño de un bioproceso = <b>balance de masa y energía + fenómenos de transporte</b>.
+  </div>
+  <table>
+    <tr><th class="ctr" style="width:52mm">Transporte de cantidad de movimiento<br>(mecánica de fluidos)</th>
+        <th class="ctr" style="width:52mm">Transporte de materia</th>
+        <th class="ctr">Transporte de energía<br>(transferencia de calor)</th></tr>
+    <tr>
+      <td>Describe <b>cómo se mueven los fluidos</b> dentro del sistema. Se relaciona con la <b>reología, viscosidad, turbulencia y número de Reynolds</b>. Involucra la circulación del medio en el biorreactor y el mecanismo de agitación.</td>
+      <td>Estudia cómo las moléculas (nutrientes, O₂, metabolitos, productos, desechos) <b>se trasladan</b> dentro del medio o entre fases. Involucra la <b>difusión molecular</b> (por gradiente de concentración) y la <b>convección</b> (arrastre por el movimiento del fluido).</td>
+      <td>Estudia cómo se intercambia <b>energía térmica</b>. Es fundamental para mantener la temperatura óptima de fermentación.</td>
+    </tr>
+  </table>
+  <p style="font-size:8.5pt"><b>Por qué importa en un biorreactor:</b> un biorreactor puede considerarse un <b>sistema disperso</b>, donde un
+  <b>gas está disperso en un líquido</b>. Las propiedades de los fluidos determinan la efectividad del <b>mezclado, la dispersión de gases,
+  la transferencia de masa y la transferencia de calor</b>, y todo eso incide en el diseño de procesos, biorreactores y su escalado.</p>
+
+  <h3 class="sec">2.2 · Qué es un fluido y qué es la viscosidad</h3>
+  <div class="cols">
+    <div>
+      <div class="box def">
+        <span class="bt">Fluido</span>
+        Sustancia que sufre <b>deformación continua</b> cuando se somete a una fuerza de corte; es decir, <b>fluye</b>.
+        Las propiedades reológicas se basan en la <b>resistencia del fluido a fluir</b> cuando se lo somete a un esfuerzo de corte.
+      </div>
+      <div class="box def">
+        <span class="bt">Reología</span>
+        Ciencia que define el comportamiento de los fluidos sometidos a esfuerzos. Cuando dos capas de fluido se mueven una respecto
+        de la otra se desarrolla una <b>fuerza de fricción</b>: la capa más lenta trata de desacelerar a la más rápida.
+        Esa <b>resistencia interna al movimiento</b> se cuantifica con la <b>viscosidad</b>, la propiedad central de la reología.
+      </div>
+      <p style="font-size:8.4pt"><b>¿Para qué sirve conocerla?</b> Permite diseñar bioprocesos y equipos (tuberías, tanques de mezclado, almacenamiento)
+      y estimar los fenómenos de transporte: <b>Re, esfuerzo de corte, conducción y convección de calor, difusión de nutrientes, k<sub>L</sub>a</b>.</p>
+      <div class="box key">
+        <span class="bt">Clasificación de fluidos por dos propiedades: ρ y μ</span>
+        <b>Gases:</b> generalmente <b>compresibles</b>; su densidad depende de la presión y la temperatura.<br>
+        <b>Líquidos:</b> generalmente <b>incompresibles</b>; su densidad casi no varía con la presión.<br>
+        Un <b>fluido ideal</b> es incompresible, <b>sin viscosidad</b> y de densidad constante. Todos los fluidos reales tienen
+        viscosidad finita → se llaman <b>viscosos</b> y se clasifican en <b>newtonianos</b> o <b>no newtonianos</b>.
+      </div>
+    </div>
+    <div>
+      <figure>
+      <svg viewBox="0 0 330 250" width="325" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+        <rect x="30" y="30" width="270" height="16" rx="3" fill="#8a3f8f"/>
+        <text x="165" y="42" font-size="9" fill="#fff" text-anchor="middle" font-weight="bold">PLACA MÓVIL — se mueve a velocidad U</text>
+        <rect x="30" y="182" width="270" height="16" rx="3" fill="#41536b"/>
+        <text x="165" y="194" font-size="9" fill="#fff" text-anchor="middle" font-weight="bold">PLACA FIJA — velocidad = 0</text>
+        <rect x="30" y="46" width="270" height="136" fill="#f6ecf7"/>
+        <g stroke="#8a3f8f" stroke-width="1.8">
+          <line x1="60" y1="56" x2="205" y2="56" marker-end="url(#am)"/>
+          <line x1="60" y1="80" x2="180" y2="80" marker-end="url(#am)"/>
+          <line x1="60" y1="104" x2="155" y2="104" marker-end="url(#am)"/>
+          <line x1="60" y1="128" x2="130" y2="128" marker-end="url(#am)"/>
+          <line x1="60" y1="152" x2="105" y2="152" marker-end="url(#am)"/>
+          <line x1="60" y1="174" x2="72" y2="174" marker-end="url(#am)"/>
+        </g>
+        <defs><marker id="am" markerWidth="8" markerHeight="8" refX="7" refY="2.5" orient="auto"><path d="M0,0 L8,2.5 L0,5 z" fill="#8a3f8f"/></marker></defs>
+        <line x1="60" y1="56" x2="60" y2="180" stroke="#c0392b" stroke-width="1" stroke-dasharray="3 2"/>
+        <line x1="205" y1="56" x2="72" y2="174" stroke="#c0392b" stroke-width="2"/>
+        <text x="228" y="60" font-size="9" fill="#c0392b" font-weight="bold">U</text>
+        <text x="245" y="120" font-size="9" fill="#c0392b">pendiente =</text>
+        <text x="245" y="132" font-size="9" fill="#c0392b" font-weight="bold">dv/dy = γ̇</text>
+        <text x="16" y="120" font-size="9" fill="#41536b" transform="rotate(-90 16 120)" text-anchor="middle">distancia y</text>
+        <text x="165" y="220" font-size="9.5" fill="#16202b" text-anchor="middle" font-weight="bold">Flujo de Couette</text>
+        <text x="165" y="236" font-size="8.4" fill="#41536b" text-anchor="middle">El fluido pegado a cada placa se mueve con ella;</text>
+        <text x="165" y="247" font-size="8.4" fill="#41536b" text-anchor="middle">entre medio aparece un gradiente lineal de velocidad.</text>
+      </svg>
+      <figcaption>La viscosidad es la constante que vincula el esfuerzo aplicado con el gradiente de velocidad que aparece.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="cols3">
+    <div class="f"><span class="lbl">Esfuerzo (estrés) de corte o cizalla</span>
+      τ = <span class="frac"><span class="n">F</span><span class="d">A</span></span>
+      <span class="note">La fuerza de corte actúa <b>paralela</b> al plano de la placa. Unidades: N/m² = Pa</span>
+    </div>
+    <div class="f"><span class="lbl">Ley de viscosidad de Newton</span>
+      τ = −μ · <span class="frac"><span class="n">dv</span><span class="d">dy</span></span> &nbsp;=&nbsp; μ · γ̇
+      <span class="note">Solo válida en <b>flujo laminar</b>. El signo (−) es porque el gradiente es negativo respecto de la dirección de la fuerza, y τ se considera positivo</span>
+    </div>
+    <div class="f"><span class="lbl">Viscosidad cinemática</span>
+      ν = <span class="frac"><span class="n">μ</span><span class="d">ρ</span></span> &nbsp;[m²/s]
+      <span class="note">Se interpreta como la <b>difusividad del momento</b> en un fluido sin fuerzas externas</span>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="box key">
+      <span class="bt">Dinámica vs cinemática (pregunta típica)</span>
+      <b>Viscosidad dinámica (μ):</b> describe la <b>resistencia interna al movimiento</b> cuando el fluido está sometido a una fuerza. Unidades: Pa·s, o <b>Poise / centiPoise (cP)</b>. <b>1 cP = 10⁻³ Pa·s = 1 mPa·s.</b><br>
+      <b>Viscosidad cinemática (ν):</b> mide <b>la facilidad con la que fluye un fluido bajo la acción de la gravedad</b>. Unidades: m²/s.
+    </div>
+    <div class="box def">
+      <span class="bt">Hidrodinámica de la capa límite</span>
+      El fluido en contacto con una pared <b>se adhiere y no se desliza</b>: su velocidad es cero por efecto de la viscosidad.
+      Esa capa transmite la desaceleración a la adyacente y así sucesivamente, desarrollando un <b>gradiente de velocidades</b>.
+      La región donde el flujo pasa de velocidad cero en la pared a la velocidad máxima de la corriente principal se llama
+      <b>capa límite</b>, y su <b>espesor depende del número de Reynolds</b>.
+    </div>
+  </div>
+
+  <h3 class="sec">2.3 · Clasificación: newtonianos y no newtonianos <span class="pill p2">tema estrella</span></h3>
+  <figure>
+  <svg viewBox="0 0 740 280" width="720" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+    <!-- LEFT: tau vs gamma -->
+    <g>
+      <line x1="55" y1="230" x2="330" y2="230" stroke="#41536b" stroke-width="1.6"/>
+      <line x1="55" y1="230" x2="55" y2="30" stroke="#41536b" stroke-width="1.6"/>
+      <text x="192" y="252" font-size="9" fill="#41536b" text-anchor="middle">gradiente de velocidad  dv/dy = γ̇</text>
+      <text x="22" y="130" font-size="9" fill="#41536b" text-anchor="middle" transform="rotate(-90 22 130)">esfuerzo de corte  τ</text>
+      <!-- Bingham B -->
+      <line x1="55" y1="160" x2="320" y2="52" stroke="#c0392b" stroke-width="2.4"/>
+      <circle cx="55" cy="160" r="3.2" fill="#c0392b"/>
+      <text x="48" y="160" font-size="9" fill="#c0392b" text-anchor="end" font-weight="bold">τ₀</text>
+      <text x="326" y="50" font-size="9" fill="#c0392b" font-weight="bold">B</text>
+      <!-- Newtonian A -->
+      <line x1="55" y1="230" x2="320" y2="82" stroke="#1f6f8b" stroke-width="2.4"/>
+      <text x="326" y="82" font-size="9" fill="#1f6f8b" font-weight="bold">A</text>
+      <!-- Pseudoplastic C : concave down -->
+      <path d="M55,230 Q140,120 320,68" fill="none" stroke="#0f7a56" stroke-width="2.4"/>
+      <text x="326" y="66" font-size="9" fill="#0f7a56" font-weight="bold">C</text>
+      <!-- Dilatant D : concave up -->
+      <path d="M55,230 Q250,214 320,120" fill="none" stroke="#b4531b" stroke-width="2.4"/>
+      <text x="326" y="122" font-size="9" fill="#b4531b" font-weight="bold">D</text>
+      <text x="192" y="20" font-size="10" font-weight="bold" fill="#16202b" text-anchor="middle">Curvas de flujo</text>
+    </g>
+    <!-- RIGHT: apparent viscosity -->
+    <g transform="translate(390,0)">
+      <line x1="55" y1="230" x2="310" y2="230" stroke="#41536b" stroke-width="1.6"/>
+      <line x1="55" y1="230" x2="55" y2="30" stroke="#41536b" stroke-width="1.6"/>
+      <text x="182" y="252" font-size="9" fill="#41536b" text-anchor="middle">velocidad de cizalla  γ̇</text>
+      <text x="22" y="130" font-size="9" fill="#41536b" text-anchor="middle" transform="rotate(-90 22 130)">viscosidad aparente  μₐ</text>
+      <line x1="55" y1="130" x2="305" y2="130" stroke="#1f6f8b" stroke-width="2.4"/>
+      <text x="200" y="122" font-size="8.4" fill="#1f6f8b" font-weight="bold">Newtoniano: μ constante (n = 1)</text>
+      <path d="M62,52 Q120,165 305,196" fill="none" stroke="#0f7a56" stroke-width="2.4"/>
+      <text x="150" y="72" font-size="8.4" fill="#0f7a56" font-weight="bold">Pseudoplástico: μₐ baja (n &lt; 1)</text>
+      <path d="M62,208 Q210,196 305,58" fill="none" stroke="#b4531b" stroke-width="2.4"/>
+      <text x="175" y="222" font-size="8.4" fill="#b4531b" font-weight="bold">Dilatante: μₐ sube (n &gt; 1)</text>
+      <text x="182" y="20" font-size="10" font-weight="bold" fill="#16202b" text-anchor="middle">Viscosidad aparente</text>
+    </g>
+    <line x1="360" y1="25" x2="360" y2="245" stroke="#d9e2ec" stroke-width="1.4"/>
+    <text x="370" y="272" font-size="8.2" fill="#6b7f96">Regla mnemotécnica: PSEUDO = "se afloja" al agitar · DILATANTE = "se endurece" al agitar (como el almidón de maíz con agua)</text>
+  </svg>
+  <figcaption>Las cuatro curvas de flujo y su traducción en términos de viscosidad aparente.</figcaption>
+  </figure>
+
+  <table>
+    <tr><th class="ctr" style="width:8mm">#</th><th style="width:28mm">Tipo</th><th style="width:36mm">Comportamiento</th><th style="width:48mm">Ecuación</th><th>Ejemplos</th></tr>
+    <tr><td class="ctr"><b>A</b></td><td><b>Newtoniano</b></td>
+        <td><b>Linealidad</b> entre fuerza de corte y gradiente de velocidad. La pendiente siempre es la misma y <b>es la viscosidad</b>. μ permanece constante aunque cambien τ o γ̇.</td>
+        <td class="fr">τ = μ · γ̇ &nbsp;&nbsp;(n = 1, K = μ)</td>
+        <td>Gases y la mayoría de los líquidos. <b>Agua</b>, alcoholes, medios de cultivo simples, caldos de bacterias y levaduras</td></tr>
+    <tr><td class="ctr"><b>B</b></td><td><b>Plástico de Bingham</b></td>
+        <td>Se comporta como <b>cuerpo rígido a bajo estrés</b>: no fluye hasta que se aplica una fuerza de corte mínima <b>τ₀</b> (esfuerzo de cedencia o tensión tangencial de fluencia).</td>
+        <td class="fr">τ = τ₀ + μ<sub>p</sub> · γ̇<br><span style="font-size:7.6pt;font-family:'DejaVu Sans'">μ<sub>p</sub> = viscosidad plástica = pendiente</span></td>
+        <td>Pasta dental, pinturas, grasas. En bioprocesos: algunas suspensiones de <b>hongos filamentosos</b> y células vegetales</td></tr>
+    <tr><td class="ctr"><b>C</b></td><td><b>Pseudoplástico</b><br><span style="font-size:7.6pt">(shear-thinning)</span></td>
+        <td>Curva por el origen, <b>cóncava hacia abajo</b>; tiende a lineal a altas fuerzas de corte. <b>La viscosidad DISMINUYE al aumentar la fuerza de corte</b>. Por cada unidad extra de γ̇, τ crece cada vez menos.</td>
+        <td class="fr">τ = K · γ̇ⁿ &nbsp;&nbsp;con <b>n &lt; 1</b><br>μ<sub>a</sub> = K · γ̇<sup>(n−1)</sup></td>
+        <td>Soluciones poliméricas, <b>sangre</b>, CMC. <b>El más común en bioprocesos:</b> hongos filamentosos, células vegetales, caldos con exopolisacáridos</td></tr>
+    <tr><td class="ctr"><b>D</b></td><td><b>Dilatante</b><br><span style="font-size:7.6pt">(shear-thickening)</span></td>
+        <td>Curva por el origen, <b>cóncava hacia arriba</b>; tiende a lineal al aumentar la fuerza de corte. <b>La viscosidad AUMENTA con la fuerza de corte.</b></td>
+        <td class="fr">τ = K · γ̇ⁿ &nbsp;&nbsp;con <b>n &gt; 1</b></td>
+        <td>Arena en agua, <b>almidón de maíz en agua</b>, barros, resinas vinílicas. <b>No es común en bioprocesos</b></td></tr>
+  </table>
+
+  <div class="cols">
+    <div>
+      <div class="box key">
+        <span class="bt">Ley de la potencia (Ostwald–de Waele)</span>
+        <div class="f" style="margin:1.5mm 0;border:none;background:transparent;padding:0">τ = K · γ̇ⁿ</div>
+        <b>K</b> = índice de <b>consistencia</b> (cuán "espeso" es).<br>
+        <b>n</b> = índice de <b>comportamiento de flujo</b>: indica la <b>desviación respecto del newtoniano</b>.<br>
+        n y K son <b>características de cada fluido</b>. Obedecen a esta ley los <b>pseudoplásticos y los dilatantes</b>.
+      </div>
+      <div class="box def">
+        <span class="bt">Viscosidad aparente (μ<sub>a</sub>)</span>
+        En los no newtonianos la relación entre τ y γ̇ <b>no es constante</b>: esa relación variable se llama
+        <b>viscosidad aparente</b>. Por eso, al reportar la viscosidad de un caldo no newtoniano hay que decir
+        <b>a qué velocidad de cizalla</b> se midió.
+      </div>
+    </div>
+    <div>
+      <h4 class="sub">Viscosidad dependiente del tiempo</h4>
+      <table>
+        <tr><th style="width:24mm">Tipo</th><th>Qué pasa</th><th style="width:38mm">Ejemplos</th></tr>
+        <tr><td><b>Tixotrópico</b></td><td>La viscosidad aparente <b>DISMINUYE con el tiempo</b> de aplicación del esfuerzo</td><td>Geles, salsas, pinturas, <b>caldos microbianos</b></td></tr>
+        <tr><td><b>Reopéctico</b></td><td>La viscosidad aparente <b>AUMENTA con el tiempo</b></td><td>Suspensiones de yeso o cemento, tintas, crema batida, mezclas de arcillas</td></tr>
+      </table>
+      <div class="box warn">
+        <span class="bt">Ojo con la confusión clásica</span>
+        Pseudoplástico/dilatante dependen de <b>cuánta cizalla</b> aplico.<br>
+        Tixotrópico/reopéctico dependen de <b>cuánto tiempo</b> la aplico.
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">2.4 · Fluidos en movimiento y el número de Reynolds <span class="pill p2">se calcula seguro</span></h3>
+  <div class="cols">
+    <div>
+      <div class="box def">
+        <span class="bt">Número de Reynolds</span>
+        Variable <b>adimensional</b> que representa el <b>cociente entre las fuerzas de inercia</b> (tendencia a seguir en movimiento)
+        <b>y las fuerzas viscosas</b> (resistencia del fluido a deformarse).
+        La transición laminar → turbulento no depende solo de la velocidad, sino también de la <b>viscosidad, la densidad y la geometría</b>
+        del ducto o recipiente.
+      </div>
+      <div class="f"><span class="lbl">Re en tuberías de sección circular</span>
+        Re = <span class="frac"><span class="n">ρ · V · D<sub>i</sub></span><span class="d">μ</span></span>
+        <span class="note">D<sub>i</sub> = diámetro del tubo · V = <b>velocidad lineal</b> promedio · ρ = densidad · μ = viscosidad</span>
+      </div>
+      <div class="f" style="border-color:var(--c2);border-width:2px"><span class="lbl">Re en biorreactor agitado (¡el que más se usa!)</span>
+        Re<sub>i</sub> = <span class="frac"><span class="n">ρ · N<sub>i</sub> · D<sub>i</sub>²</span><span class="d">μ</span></span>
+        <span class="note">N<sub>i</sub> = velocidad de agitación en <b>rev/s</b> · D<sub>i</sub> (o D<sub>a</sub>) = diámetro del <b>impeller</b></span>
+      </div>
+      <div class="box warn">
+        <span class="bt">Regímenes en sistemas de mezclado (memorizar)</span>
+        <b>Re &lt; 10</b> → flujo <b>laminar</b><br>
+        <b>10 &lt; Re &lt; 10.000</b> → zona de <b>transición</b><br>
+        <b>Re &gt; 10.000 (10⁴)</b> → flujo <b>turbulento</b>
+      </div>
+    </div>
+    <div>
+      <figure>
+      <svg viewBox="0 0 350 300" width="340" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+        <text x="175" y="14" font-size="10" font-weight="bold" fill="#16202b" text-anchor="middle">Líneas de corriente</text>
+        <!-- laminar -->
+        <rect x="14" y="26" width="322" height="58" rx="5" fill="#e6f2f6" stroke="#1f6f8b"/>
+        <g stroke="#1f6f8b" stroke-width="1.5" fill="none">
+          <path d="M24,40 L326,40"/><path d="M24,52 L326,52"/><path d="M24,64 L326,64"/><path d="M24,76 L326,76"/>
+        </g>
+        <text x="20" y="37" font-size="8.4" font-weight="bold" fill="#14556c">(A) LAMINAR — velocidad constante, líneas paralelas equidistantes</text>
+        <!-- object -->
+        <rect x="14" y="94" width="322" height="70" rx="5" fill="#fdf6df" stroke="#e0b100"/>
+        <text x="20" y="105" font-size="8.4" font-weight="bold" fill="#8a6a00">(B) ESTACIONARIO alrededor de un objeto sumergido</text>
+        <circle cx="175" cy="132" r="15" fill="#8a6a00"/>
+        <g stroke="#8a6a00" stroke-width="1.4" fill="none">
+          <path d="M24,114 Q120,114 160,120 Q175,122 190,120 Q230,114 326,114"/>
+          <path d="M24,126 Q120,126 155,130 Q175,133 195,130 Q230,126 326,126"/>
+          <path d="M24,150 Q120,150 155,144 Q175,141 195,144 Q230,150 326,150"/>
+          <path d="M24,160 Q120,160 160,154 Q175,152 190,154 Q230,160 326,160"/>
+        </g>
+        <!-- turbulent -->
+        <rect x="14" y="174" width="322" height="66" rx="5" fill="#fdeceb" stroke="#c0392b"/>
+        <text x="20" y="186" font-size="8.4" font-weight="bold" fill="#c0392b">(C) TURBULENTO — remolinos, las partículas cruzan las líneas</text>
+        <g stroke="#c0392b" stroke-width="1.4" fill="none">
+          <path d="M26,208 C50,190 70,228 96,206 C118,188 140,226 166,204 C190,186 212,224 238,204 C260,188 284,224 326,206"/>
+          <path d="M26,226 C48,242 74,204 98,224 C122,244 146,206 172,226 C196,244 220,206 246,226 C270,242 298,208 326,226"/>
+          <circle cx="80" cy="200" r="8"/><circle cx="200" cy="216" r="7"/><circle cx="286" cy="200" r="6"/>
+        </g>
+        <!-- scale -->
+        <rect x="14" y="254" width="322" height="34" rx="5" fill="#fff" stroke="#d9e2ec"/>
+        <rect x="20" y="262" width="80" height="12" fill="#1f6f8b"/>
+        <rect x="100" y="262" width="150" height="12" fill="#e0b100"/>
+        <rect x="250" y="262" width="80" height="12" fill="#c0392b"/>
+        <text x="60" y="271.5" font-size="7.6" fill="#fff" text-anchor="middle" font-weight="bold">Re &lt; 10</text>
+        <text x="175" y="271.5" font-size="7.6" fill="#fff" text-anchor="middle" font-weight="bold">10 – 10.000 (transición)</text>
+        <text x="290" y="271.5" font-size="7.6" fill="#fff" text-anchor="middle" font-weight="bold">Re &gt; 10⁴</text>
+        <text x="60" y="284" font-size="7.4" fill="#41536b" text-anchor="middle">LAMINAR</text>
+        <text x="175" y="284" font-size="7.4" fill="#41536b" text-anchor="middle">en tanques agitados</text>
+        <text x="290" y="284" font-size="7.4" fill="#41536b" text-anchor="middle">TURBULENTO</text>
+      </svg>
+      <figcaption>El flujo estacionario puede ser laminar o turbulento; al interponerse obstáculos (paletas, células agregadas), si Re es alto las perturbaciones crecen y aparecen remolinos.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="box ex nobrk">
+    <span class="bt">Ejemplo resuelto 1 — Re de un biorreactor (el que dio la cátedra)</span>
+    <b>Datos:</b> N = 200 rpm · D<sub>i</sub> = 0,4 m · ρ = 1050 kg/m³ · μ = 1,3 cP.
+    <div class="cols" style="margin-top:2mm">
+      <div>
+        <b>Paso 1 — unidades.</b> N = 200/60 = <b>3,33 rev/s</b>. μ = 1,3 cP = <b>1,3 × 10⁻³ Pa·s</b>.<br>
+        <b>Paso 2 — fórmula de tanque agitado.</b><br>
+        Re = ρ·N·D<sub>i</sub>²/μ = (1050 × 3,33 × 0,4²) / 1,3×10⁻³
+      </div>
+      <div>
+        <b>Paso 3 — cuentas.</b> 1050 × 3,33 = 3500 ; × 0,16 = 560 ; / 0,0013 = <b>4,31 × 10⁵</b><br>
+        <b>Respuesta:</b> Re ≈ <b>430.000 ≫ 10⁴</b> → <span class="pill p3">régimen TURBULENTO</span>, plenamente desarrollado.
+        Es el régimen deseado para buena mezcla y transferencia de oxígeno.
+      </div>
+    </div>
+  </div>
+
+  <h4 class="sub">Tipos de impulsor mencionados en esta clase</h4>
+  <table>
+    <tr><th style="width:32mm">Impulsor</th><th>Característica</th><th style="width:52mm">Uso</th></tr>
+    <tr><td><b>Turbina Rushton</b> (paletas planas)</td><td>Genera <b>turbulencia intensa</b></td><td>Muy usado en <b>bioprocesos aeróbicos</b></td></tr>
+    <tr><td><b>Marine impeller</b> (hélice marina)</td><td>Más <b>suave</b>, favorece <b>flujos axiales</b></td><td>Cultivos más <b>sensibles</b></td></tr>
+    <tr><td><b>Spiral impeller</b></td><td>Mejora la mezcla en <b>medios muy viscosos</b></td><td>Caldos filamentosos, medios espesos</td></tr>
+  </table>
+  <p style="font-size:8.4pt"><b>Pregunta de la cátedra:</b> si mantengo constantes todas las variables del Re pero cambio el tipo de impulsor, ¿cambia algo?
+  <b>Sí:</b> el Re numérico es el mismo, pero el <b>patrón de flujo</b> (axial vs radial), la <b>distribución de la disipación de energía</b>,
+  la <b>cizalla local</b> y la <b>capacidad de dispersar gas</b> son distintos → cambian el mezclado, el k<sub>L</sub>a y el daño celular.
+  <b>El Re no cuenta toda la historia.</b></p>
+
+  <h3 class="sec">2.5 · Medición de la viscosidad: los cuatro viscosímetros</h3>
+  <div class="box def">
+    <span class="bt">Objetivo y mecanismo</span>
+    Crear una <b>situación de flujo controlado</b> donde se puedan leer τ y γ̇. Se aplica al fluido un <b>movimiento de rotación</b>
+    y se leen: <b>M = par de torsión (torque)</b> — capacidad de una fuerza para hacer girar un objeto alrededor de un eje — y
+    <b>Ω = velocidad angular</b> — la rapidez con la que se deforma el fluido.
+    Con eso se calcula la viscosidad de newtonianos y los parámetros (<b>K, n, τ₀</b>) de los no newtonianos.
+  </div>
+  <table>
+    <tr><th style="width:30mm">Viscosímetro</th><th style="width:22mm">Qué mide</th><th>Principio</th><th style="width:58mm">Ventajas / Limitaciones</th></tr>
+    <tr><td><b>Capilar (Ostwald)</b></td><td>Viscosidad <b>cinemática (ν)</b></td>
+      <td>Tiempo que tarda una cantidad conocida de fluido en atravesar un <b>tubo fino por gravedad</b>. A mayor viscosidad, más lento.</td>
+      <td><b>+</b> Preciso, simple y económico. Ideal para <b>newtonianos poco viscosos</b> (agua, alcoholes).<br>
+          <b>−</b> <b>No sirve</b> para líquidos complejos ni caldos con alta densidad celular, porque su comportamiento depende del proceso de corte y del tiempo.</td></tr>
+    <tr><td><b>Rotacional (Brookfield)</b></td><td>Viscosidad <b>dinámica (η o μ)</b></td>
+      <td>Mide el <b>torque necesario para vencer la resistencia al flujo</b> haciendo girar un eje/husillo (<b>spindle</b>).</td>
+      <td><b>+</b> Permite ajustar <b>velocidad, temperatura y tipo de rotor</b>. Apto para newtonianos <b>y</b> no newtonianos. Muy usado en biotecnología y alimentos.<br>
+          <i>Variables a registrar: tipo y tamaño de husillo, rpm, temperatura y viscosidad resultante (cP o mPa·s).</i></td></tr>
+    <tr><td><b>Cilindro coaxial</b></td><td>Dinámica</td>
+      <td>El fluido se coloca en el <b>anillo entre dos cilindros concéntricos</b>; uno queda inmóvil y el otro gira un flotador (radio R<sub>i</sub>) suspendido en el cilindro (radio R<sub>o</sub>); el líquido cubre el flotador a una altura h. Se miden Ω y M.</td>
+      <td><b>+</b> Más <b>preciso y reproducible</b> que el Ostwald; sirve para newtonianos y no newtonianos.<br>
+          <b>−</b> <b>No es útil para suspensiones celulares</b> (precipitación/centrifugación de las células).</td></tr>
+    <tr><td><b>De impeller / rodete</b></td><td>Dinámica (τ, γ̇)</td>
+      <td>Un rodete gira lentamente en el fluido y se mide con precisión el <b>torque M</b> y la <b>velocidad N<sub>i</sub></b>.
+          En flujo laminar: <span class="fr">τ = 2πMK / (64·D<sub>a</sub>²)</span> y <span class="fr">γ̇ = K · N<sub>i</sub></span>,
+          con D<sub>a</sub> = diámetro del rodete y K = constante que depende de su geometría.</td>
+      <td><b>+</b> <b>Impide la sedimentación</b> promoviendo la distribución uniforme de sólidos: es <b>el más útil para suspensiones microbianas</b>.
+          Reproduce <b>condiciones similares a las de un biorreactor agitado</b>.</td></tr>
+  </table>
+
+  <div class="box warn">
+    <span class="bt">Por qué los rotacionales/coaxiales fallan con suspensiones celulares (6 problemas)</span>
+    <ol style="margin:.5mm 0;padding-left:1.1em">
+      <li>Si la suspensión se <b>centrifuga</b> dentro del viscosímetro se forma una región de menor densidad cerca de la superficie de rotación.</li>
+      <li>El <b>sólido se escapa</b> durante la medición.</li>
+      <li>Las <b>partículas grandes</b> (de tamaño similar al hueco) interfieren en la medida.</li>
+      <li>Las medidas dependen de la <b>orientación de las partículas</b> en el campo de flujo.</li>
+      <li>Algunas partículas <b>floculan o se depositan</b> al aplicar la tensión.</li>
+      <li>Las partículas <b>pueden destruirse</b> durante la medición.</li>
+    </ol>
+    <b>Causa física:</b> el fluido está en un espacio <b>estrecho y bien definido</b>; al girar el rotor se crea un campo de velocidad
+    muy uniforme y laminar que <b>acentúa la fuerza centrífuga</b>, las partículas migran hacia afuera y, como el volumen de muestra es
+    pequeño y no hay turbulencia, se forman <b>zonas claras y zonas concentradas</b>: se pierde la homogeneidad.
+  </div>
+
+  <h3 class="sec">2.6 · Reología de medios de cultivo reales</h3>
+  <div class="cols">
+    <div>
+      <table>
+        <tr><th>Cultivo</th><th class="ctr">Comportamiento</th></tr>
+        <tr><td>Medios de cultivo y cultivos de <b>bacterias y levaduras</b></td><td class="ctr"><b>Newtoniano</b></td></tr>
+        <tr><td>Suspensiones de <b>células eucariotas</b> (con y sin suero)</td><td class="ctr"><b>Newtoniano</b><br><span style="font-size:7.6pt">viscosidad cercana a la del agua</span></td></tr>
+        <tr><td>Suspensiones de <b>hongos filamentosos</b> o de <b>células vegetales</b></td><td class="ctr"><b>Pseudoplástico</b><br><span style="font-size:7.6pt">o <b>plástico de Bingham</b> si hay τ₀ inicial</span></td></tr>
+      </table>
+      <h4 class="sub">Factores que afectan la viscosidad del medio</h4>
+      <p style="font-size:8.4pt">La reología de los medios de fermentación <b>cambia a lo largo de un proceso batch</b>:</p>
+      <ul style="font-size:8.5pt">
+        <li><b>Densidad celular</b></li>
+        <li><b>Morfología celular</b> (esféricas, hifas, filamentos)</li>
+        <li><b>Flexibilidad</b> de las células (rígidas vs flexibles)</li>
+        <li><b>Presión osmótica</b> (hinchamiento vs contracción)</li>
+        <li>Concentración de <b>sustrato polimérico</b> (polisacáridos)</li>
+        <li>Concentración de <b>producto polimérico</b> (p. ej. dextrano)</li>
+        <li>Variación de la <b>fuerza de corte</b></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f"><span class="lbl">Ecuación de Vand — viscosidad por concentración celular</span>
+        μ = μ<sub>L</sub> · (1 + 2,5 ψ + 7,25 ψ²)
+        <span class="note">μ<sub>L</sub> = viscosidad del líquido donde están suspendidas las células · ψ = fracción de sólidos en suspensión</span>
+      </div>
+      <div class="box key">
+        <span class="bt">Límites de validez de Vand (lo preguntan)</span>
+        Aplica para <b>levaduras y esporas con hasta un 14 % de sólidos</b> en suspensión.
+        Para muchos cultivos <b>no aplica</b>, por la <b>formación de agregados</b>: hay que tomar otras consideraciones.
+      </div>
+      <div class="box def">
+        <span class="bt">Para pensar (preguntas de la cátedra)</span>
+        <b>¿Qué pasa con la aireación y el mezclado si aumento la agitación?</b> Mejoran: más turbulencia rompe burbujas
+        (↑ área interfacial <i>a</i>) y homogeneiza; pero sube P, sube el calor y sube la <b>cizalla</b>.<br>
+        <b>¿Por qué importa la reología al escalar?</b> Porque al crecer el tanque, con el mismo medio, el Re, la turbulencia
+        y las zonas muertas cambian: lo que en laboratorio era turbulento en planta puede ser de transición.<br>
+        <b>¿Y si la viscosidad cambia durante el cultivo (exopolisacáridos)?</b> Cambia el mezclado y el k<sub>L</sub>a a lo largo
+        del batch → el proceso deja de ser reproducible → problema de <b>control de calidad y GMP</b>, porque los CQA no
+        se garantizan si las condiciones se corren lote a lote.
+      </div>
+    </div>
+  </div>
+
+  <div class="box ex">
+    <span class="bt">Caso de estudio de la cátedra — <i>Beauveria bassiana</i> (Nuñez &amp; Calderas, 2012)</span>
+    <table style="margin-top:1.5mm">
+      <tr><th style="width:44mm">Pregunta</th><th>Respuesta</th></tr>
+      <tr><td><b>Objetivo del trabajo</b></td><td>Evaluar cómo varían las propiedades reológicas y la hidrodinámica de un cultivo de <i>B. bassiana</i> en biorreactor, desarrollando un <b>modelo inerte (CMCNa–SF)</b> que simule esa reología y morfología <b>para facilitar estudios de escalado</b>.</td></tr>
+      <tr><td><b>Rol de cada componente</b></td><td><b>CMCNa</b> (carboximetilcelulosa) = fase líquida continua, aporta la <b>viscosidad base</b> y el comportamiento <b>pseudoplástico primario</b>. <b>Solka-Floc (SF, fibras de celulosa)</b> = simula la <b>biomasa sólida filamentosa</b>, formando una red tridimensional con resistencia física adicional e interacciones mecánicas entre partículas.</td></tr>
+      <tr><td><b>Método y por qué cilindros concéntricos y no cono-plato</b></td><td>Reómetro rotatorio <b>AR-G2</b>, flujo estacionario de cizalla simple entre <b>0,1 y 50 s⁻¹ a 25 °C</b>. Se eligieron <b>cilindros concéntricos</b> porque su <b>gap amplio (500 µm)</b> acomoda los agregados miceliares y las fibras <b>sin trabar la geometría, sin destruirlos y sin deslizamiento en pared</b>.</td></tr>
+      <tr><td><b>Qué muestran las curvas γ̇ vs μ<sub>a</sub></b></td><td>Caída constante de la viscosidad aparente al aumentar γ̇ → confirma <b>fluido no newtoniano pseudoplástico</b>. Ocurre porque el esfuerzo de cizalla <b>desentrelaza y alinea las hifas</b> en la dirección del flujo.</td></tr>
+      <tr><td><b>Qué pasa con K y n</b></td><td><b>K aumenta drásticamente</b> por acumulación de biomasa (hasta <b>22,43 P·sⁿ a 800 rpm</b>) y <b>n disminuye hasta 0,130–0,180</b>. En la práctica el caldo queda <b>extremadamente denso en reposo</b> → se forman <b>cavernas de mezclado</b> alrededor del agitador y <b>zonas muertas sin oxígeno</b> en la periferia.</td></tr>
+      <tr><td><b>¿300 rpm es óptimo?</b></td><td><b>Sí</b>: es el mejor compromiso. Supera los problemas de oxigenación y baja biomasa de 100 rpm (<b>20 g/L frente a 6,3 g/L</b>) y evita el incremento desmedido de viscosidad (K = 22,43), el mayor consumo energético y la inestabilidad de los tiempos de mezclado de 800 rpm.</td></tr>
+    </table>
+  </div>
+
+  <h3 class="sec">2.7 · Transporte de materia y números adimensionales</h3>
+  <div class="cols">
+    <div>
+      <div class="box def">
+        <span class="bt">Los dos modos de transferencia de masa</span>
+        <b>Convección:</b> transferencia debida al <b>movimiento global del fluido</b>, usualmente en régimen <b>turbulento</b>.
+        Flujo: <span class="fr">J<sub>a</sub> = C<sub>a</sub> · V<sub>a</sub></span>.
+        Puede ser <b>natural</b> (una burbuja que sube sola por el aire) o <b>forzada</b> (cuando yo genero ese movimiento, p. ej. agitando).<br><br>
+        <b>Difusión:</b> movimiento de un componente individual a través de una mezcla bajo un estímulo físico; la causa más común
+        es un <b>gradiente de concentración</b>, que mueve el componente en la dirección que <b>iguala las concentraciones</b>.
+        Generalmente en <b>flujo laminar</b>. También puede originarse por gradiente de <b>presión</b>, de <b>temperatura</b>,
+        o por <b>difusión forzada</b> (campo externo).
+      </div>
+      <div class="f"><span class="lbl">Ley de Fick (sistemas de una fase)</span>
+        J<sub>A</sub> = <span class="frac"><span class="n">N<sub>A</sub></span><span class="d">a</span></span> = −D<sub>AB</sub> · <span class="frac"><span class="n">dC<sub>A</sub></span><span class="d">dy</span></span>
+        <span class="note">J<sub>A</sub> = flujo másico (mol·s⁻¹·m⁻²) · N<sub>A</sub> = velocidad de transferencia (mol·s⁻¹) · a = área · D<sub>AB</sub> = difusividad de A en la mezcla</span>
+      </div>
+      <p style="font-size:8.4pt"><b>En resumen:</b> convección y difusión actúan <b>simultáneamente</b>, pero uno puede dominar
+      cuantitativamente y entonces solo hace falta considerar ese. <b>Ejemplo de la cátedra:</b> una gota de tinta azul en una taza de agua
+      se difunde <b>lentamente</b> por difusión molecular; si <b>agito</b>, sumo transferencia <b>convectiva</b> y el mezclado es mucho más rápido.</p>
+    </div>
+    <div>
+      <h4 class="sub">Los números adimensionales que hay que saber</h4>
+      <table>
+        <tr><th style="width:24mm">Número</th><th style="width:30mm">Fórmula</th><th>Qué compara / para qué sirve</th></tr>
+        <tr><td><b>Reynolds (Re)</b></td>
+            <td class="fr">tubería: ρVL/μ<br>tanque: ρND<sub>a</sub>²/μ</td>
+            <td><b>Inercia vs viscosidad.</b> Define el régimen de flujo.</td></tr>
+        <tr><td><b>Sherwood (Sh)</b></td><td class="fr">Sh = k<sub>c</sub>·L / D<sub>AB</sub></td>
+            <td><b>Transferencia de masa por convección vs por difusión.</b> Cuantifica cuánta transferencia de masa ocurre realmente. En un biorreactor agitado y aireado, ayuda a cuantificar <b>cuán eficiente es la transferencia de O₂ desde las burbujas al líquido</b>. k<sub>c</sub> = coeficiente global (m/s), L = longitud característica.</td></tr>
+        <tr><td><b>Schmidt (Sc)</b></td><td class="fr">Sc = μ/(ρ·D<sub>AB</sub>) = ν/D</td>
+            <td><b>Viscosidad cinemática vs difusividad de masa.</b> Caracteriza flujos con procesos simultáneos de momento y convección. <b>Sc alto</b> → domina la difusión de momento (viscosidad): la transferencia de masa es <b>más lenta</b>. <b>Sc bajo</b> → domina la difusión de masa (p. ej. gases).</td></tr>
+        <tr><td><b>Grashof (Gr)</b></td><td class="fr">Gr = L³·g·Δρ / (ρ·ν²)</td>
+            <td><b>Fuerza de flotación vs fuerza viscosa</b> en la capa límite, en <b>convección natural</b>. La densidad baja al subir la temperatura y el líquido asciende por flotación; la fuerza viscosa se opone. <b>Gr alto</b> → domina la flotación: hay convección natural relevante.</td></tr>
+      </table>
+      <div class="f"><span class="lbl">Correlación de Frössling</span>
+        Sh = 2 + 0,6 · Sc<sup>1/2</sup> · Re<sup>1/2</sup>
+        <span class="note">Vincula los tres: permite estimar la transferencia de masa conociendo el régimen de flujo y las propiedades del fluido</span>
+      </div>
+    </div>
+  </div>
+  <div class="box key">
+    <span class="bt">¿Para qué sirven los adimensionales?</span>
+    Son <b>la base que usan los ingenieros y los softwares de simulación</b> para modelar el transporte de masa en tanques agitados:
+    sirven para el <b>escalado</b>, para <b>ahorrar costos y tiempo</b> y para <b>optimizar el consumo energético</b>.
+    Por eso casi todas las correlaciones de esta materia (N<sub>p</sub> vs Re, Grenville–Nienow, Frössling) están escritas
+    con números adimensionales: <b>valen para cualquier escala</b>.
+  </div>
+  <h3 class="sec">Repaso relámpago de la Clase 2</h3>
+  <div class="cols">
+    <div>
+      <table>
+        <tr><th style="width:30mm">Si te preguntan…</th><th>Respondé</th></tr>
+        <tr><td><b>¿Qué es la viscosidad?</b></td><td>Resistencia interna del fluido al movimiento; la constante que relaciona el esfuerzo de corte con el gradiente de velocidad en flujo laminar (τ = μ·γ̇).</td></tr>
+        <tr><td><b>¿Cómo sé si un fluido es newtoniano?</b></td><td>Si al graficar τ vs γ̇ obtengo una <b>recta que pasa por el origen</b>: la viscosidad no cambia con la cizalla (n = 1).</td></tr>
+        <tr><td><b>¿Cuál es el no newtoniano típico de bioprocesos?</b></td><td>El <b>pseudoplástico</b> (n &lt; 1): hongos filamentosos, células vegetales, caldos con exopolisacáridos. Su viscosidad <b>baja</b> al agitar.</td></tr>
+        <tr><td><b>¿Para qué sirve el Re?</b></td><td>Para saber si el flujo es laminar o turbulento, y a partir de eso elegir la ecuación de potencia, estimar t<sub>m</sub> y anticipar el k<sub>L</sub>a.</td></tr>
+        <tr><td><b>¿Qué viscosímetro para un caldo con células?</b></td><td>El <b>de rodete/impeller</b>. Los coaxiales centrifugan las células y el capilar solo sirve para newtonianos poco viscosos.</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="box key">
+        <span class="bt">La cadena lógica completa de esta clase</span>
+        Densidad y viscosidad del medio <b>→</b> comportamiento reológico (newtoniano o no) <b>→</b> número de Reynolds
+        <b>→</b> régimen de flujo <b>→</b> turbulencia disponible <b>→</b> eficacia del mezclado, del transporte de materia
+        (Sh, Sc) y de la transferencia de oxígeno.<br><br>
+        <b>Y el corolario práctico:</b> como la viscosidad <b>cambia durante el cultivo</b> (crece la biomasa, aparecen
+        polímeros), <b>el proceso del final del batch no es el mismo que el del principio</b>. Por eso la reología
+        es un tema de <b>diseño y de escalado</b>, no una curiosidad de laboratorio.
+      </div>
+      <div class="box warn">
+        <span class="bt">Los 3 errores que más se cometen en esta clase</span>
+        <b>1.</b> Usar el Re de tubería en un tanque agitado (o al revés).<br>
+        <b>2.</b> Informar "la viscosidad" de un fluido pseudoplástico sin decir a qué velocidad de cizalla se midió:
+        en un no newtoniano <b>no existe "la" viscosidad</b>, existe la <b>viscosidad aparente</b> a cada γ̇.<br>
+        <b>3.</b> Confundir pseudoplástico/dilatante (dependen de <b>cuánta</b> cizalla) con tixotrópico/reopéctico
+        (dependen de <b>cuánto tiempo</b> se aplica).
+      </div>
+    </div>
+  </div>
+</section>

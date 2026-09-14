@@ -1,0 +1,1150 @@
+<title>Sala de Cultivo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#e8edeb; --panel:#fcfdfd; --panel2:#f2f6f4;
+  --ink:#0f1e1a; --ink2:#2c443d; --muted:#5c716b; --line:#ccdad5; --line2:#dfe9e5;
+  --accent:#0d7a63; --accent-soft:#dcefe9; --accent-ink:#0a5e4c;
+  --signal:#a86a0c; --signal-soft:#fbeed6;
+  --alert:#a5372a; --alert-soft:#fae5e1;
+  --shadow:0 1px 2px rgba(15,30,26,.06);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0b1513; --panel:#122320; --panel2:#0f1d1a;
+    --ink:#e2ede9; --ink2:#bcd0ca; --muted:#8aa39c; --line:#1e332e; --line2:#182a26;
+    --accent:#3ec49f; --accent-soft:#13322b; --accent-ink:#67d8b7;
+    --signal:#e2a343; --signal-soft:#332612;
+    --alert:#e47764; --alert-soft:#331915;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0b1513; --panel:#122320; --panel2:#0f1d1a;
+  --ink:#e2ede9; --ink2:#bcd0ca; --muted:#8aa39c; --line:#1e332e; --line2:#182a26;
+  --accent:#3ec49f; --accent-soft:#13322b; --accent-ink:#67d8b7;
+  --signal:#e2a343; --signal-soft:#332612;
+  --alert:#e47764; --alert-soft:#331915;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:15px; line-height:1.55; -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,h4{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",system-ui,sans-serif;margin:0;text-wrap:balance;line-height:1.15}
+.mono{font-family:"IBM Plex Mono",ui-monospace,"SFMono-Regular",monospace;font-variant-numeric:tabular-nums}
+p{margin:0 0 .7em}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+/* ---------- SHELL ---------- */
+.topbar{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:30;
+  background:color-mix(in srgb,var(--panel) 92%, transparent);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+}
+.topbar-in{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:9px;min-width:0}
+.brand .mark{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.14em;
+  color:var(--accent-ink); background:var(--accent-soft); padding:3px 7px;border-radius:5px;white-space:nowrap;
+}
+.brand h1{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.sat{margin-left:auto;display:flex;align-items:center;gap:9px}
+.sat-label{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.sat-bar{width:110px;height:8px;border-radius:4px;background:var(--line2);overflow:hidden;border:1px solid var(--line)}
+.sat-fill{height:100%;width:0;background:var(--accent);transition:width .45s cubic-bezier(.4,0,.2,1)}
+.sat-num{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
+.theme-btn{background:none;border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:13px;color:var(--muted)}
+
+nav.tabs{position:sticky;top:calc(env(safe-area-inset-top,0px) + 53px);z-index:29;background:var(--ground);border-bottom:1px solid var(--line)}
+.tabs-in{max-width:980px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;padding:0 10px;scrollbar-width:none}
+.tabs-in::-webkit-scrollbar{display:none}
+.tab{
+  background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;
+  padding:11px 12px;white-space:nowrap;color:var(--muted);font-size:14px;font-weight:500;
+  font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;letter-spacing:.01em;
+}
+.tab[aria-selected="true"]{color:var(--accent-ink);border-bottom-color:var(--accent);font-weight:600}
+.tab:hover{color:var(--ink)}
+
+main{max-width:980px;margin:0 auto;padding-block:20px 60px;padding-left:16px;padding-right:16px}
+.view[hidden]{display:none!important}
+[hidden]{display:none!important}
+
+/* ---------- PIEZAS ---------- */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.stack{display:flex;flex-direction:column;gap:16px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+h2.sec{font-size:22px;font-weight:700;letter-spacing:-.015em;margin-bottom:4px}
+h3.sub{font-size:16px;font-weight:600;margin-bottom:6px}
+.lede{color:var(--ink2);max-width:62ch}
+.chip{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.03em;padding:2px 8px;border-radius:20px;background:var(--panel2);color:var(--muted);border:1px solid var(--line)}
+.chip.on{background:var(--accent-soft);color:var(--accent-ink);border-color:transparent}
+.btn{
+  background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:14px;
+  font-weight:600;cursor:pointer;font-family:"IBM Plex Sans",sans-serif;
+}
+:root[data-theme="dark"] .btn, :root:not([data-theme="light"]) .btn{color:#06201a}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .btn{color:#fff}}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.small{padding:6px 12px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* ---------- PLAN ---------- */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}
+.slot{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;gap:11px;align-items:flex-start}
+.slot .when{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);padding:3px 7px;border-radius:5px;white-space:nowrap;flex:0 0 auto}
+.slot .what{font-size:13.5px;color:var(--ink2)}
+.idea{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 var(--r) var(--r) 0;padding:16px 18px}
+.idea h3{font-size:15px;margin-bottom:6px;color:var(--accent-ink)}
+.idea p{color:var(--ink2);margin-bottom:0}
+.errors li{margin-bottom:7px;color:var(--ink2)}
+.errors b{color:var(--ink)}
+.prog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.pstat{background:var(--panel2);border:1px solid var(--line2);border-radius:8px;padding:11px 13px}
+.pstat .n{font-family:"IBM Plex Mono",monospace;font-size:24px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.pstat .l{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+/* ---------- FLASHCARDS ---------- */
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.fbtn{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:5px 12px;font-size:12.5px;cursor:pointer;color:var(--muted)}
+.fbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel);font-weight:600}
+:root[data-theme="dark"] .fbtn[aria-pressed="true"]{color:#06201a}
+.flash{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 22px;min-height:230px;
+  display:flex;flex-direction:column;justify-content:center;cursor:pointer;position:relative;
+}
+.flash:hover{border-color:var(--accent)}
+.flash .topic{position:absolute;top:13px;left:20px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.flash .idx{position:absolute;top:13px;right:20px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+.flash .front{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;font-size:21px;font-weight:600;line-height:1.3;text-wrap:balance}
+.flash .back{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);color:var(--ink2);font-size:14.5px;line-height:1.6}
+.flash .hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:11.5px;color:var(--muted)}
+.flash.known{border-left:4px solid var(--accent)}
+.deck-nav{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.deck-nav .spacer{flex:1}
+
+/* ---------- QUIZ ---------- */
+.qcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.qtext{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;font-size:19px;font-weight:600;line-height:1.3;margin:6px 0 14px;text-wrap:balance}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{
+  text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:11px 14px;
+  cursor:pointer;display:flex;gap:11px;align-items:flex-start;font-size:14.5px;line-height:1.45;
+}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .letter{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;color:var(--muted);flex:0 0 auto;margin-top:2px}
+.opt.right{background:var(--accent-soft);border-color:var(--accent)}
+.opt.right .letter{color:var(--accent-ink)}
+.opt.wrong{background:var(--alert-soft);border-color:var(--alert)}
+.opt.wrong .letter{color:var(--alert)}
+.verdict{margin-top:14px;padding:13px 15px;border-radius:9px;font-size:14px;line-height:1.55;border-left:3px solid}
+.verdict.ok{background:var(--accent-soft);border-color:var(--accent);color:var(--ink2)}
+.verdict.no{background:var(--alert-soft);border-color:var(--alert);color:var(--ink2)}
+.verdict b{color:var(--ink)}
+.verdict .tagline{display:block;font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:700;font-size:14px;margin-bottom:4px}
+.verdict.ok .tagline{color:var(--accent-ink)}
+.verdict.no .tagline{color:var(--alert)}
+
+/* ---------- CALCULADORA ---------- */
+.calc{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:16px;align-items:start}
+@media(max-width:760px){.calc{grid-template-columns:1fr}}
+.field{margin-bottom:12px}
+.field label{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--muted);margin-bottom:4px;gap:8px}
+.field label b{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink);font-weight:600}
+.field input[type=range]{width:100%;accent-color:var(--accent)}
+.field input[type=number],.field select{
+  width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:7px 9px;
+  font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink);
+}
+.readouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:10px}
+.ro{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:12px 13px}
+.ro .k{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ro .v{font-family:"IBM Plex Mono",monospace;font-size:21px;font-weight:600;letter-spacing:-.02em;line-height:1.25;margin-top:3px;word-break:break-word}
+.ro .u{font-size:11.5px;color:var(--muted);font-family:"IBM Plex Sans",sans-serif}
+.ro.hero{grid-column:1/-1;background:var(--accent-soft);border-color:transparent}
+.ro.hero .v{font-size:27px;color:var(--accent-ink)}
+.flags{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.flag{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;padding:9px 12px;border-radius:8px;border-left:3px solid;line-height:1.5}
+.flag .ic{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12px;flex:0 0 auto;margin-top:1px}
+.flag.ok{background:var(--accent-soft);border-color:var(--accent);color:var(--ink2)}
+.flag.ok .ic{color:var(--accent-ink)}
+.flag.warn{background:var(--signal-soft);border-color:var(--signal);color:var(--ink2)}
+.flag.warn .ic{color:var(--signal)}
+.flag.bad{background:var(--alert-soft);border-color:var(--alert);color:var(--ink2)}
+.flag.bad .ic{color:var(--alert)}
+.regime{display:flex;height:26px;border-radius:7px;overflow:hidden;border:1px solid var(--line);margin:4px 0 2px}
+.regime div{display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;font-family:"IBM Plex Mono",monospace;color:var(--muted);background:var(--panel2);transition:all .3s}
+.regime div+div{border-left:1px solid var(--line)}
+.regime div.on{background:var(--accent);color:var(--panel)}
+:root[data-theme="dark"] .regime div.on{color:#06201a}
+.presets{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+
+/* ---------- CHULETA ---------- */
+.sheet table{width:100%;border-collapse:collapse;font-size:13.5px}
+.sheet th,.sheet td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line2);vertical-align:top}
+.sheet th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sheet td.f{font-family:"IBM Plex Mono",monospace;font-size:13px;white-space:nowrap}
+.sheet-wrap{overflow-x:auto}
+.search{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:14px;color:var(--ink);margin-bottom:14px}
+
+/* ---------- SIMULACRO ---------- */
+.exam-hud{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:14px;font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted)}
+.exam-hud .live{color:var(--ink);font-weight:600}
+.dots{display:flex;gap:4px;flex-wrap:wrap}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dot.done{background:var(--accent)}
+.score-hero{text-align:center;padding:26px 16px}
+.score-hero .big{font-family:"IBM Plex Mono",monospace;font-size:52px;font-weight:600;letter-spacing:-.03em;line-height:1}
+.review{border-top:1px solid var(--line2);padding-top:12px;margin-top:12px}
+.review h4{font-size:14.5px;margin-bottom:4px;font-family:"IBM Plex Sans Condensed",sans-serif}
+.review .yours{font-size:13px;color:var(--alert)}
+.review .correct{font-size:13px;color:var(--accent-ink)}
+.review .why{font-size:13px;color:var(--ink2);margin-top:4px}
+.review-item{margin-bottom:14px}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <span class="mark">I&amp;P · UADE</span>
+      <h1>Sala de Cultivo</h1>
+    </div>
+    <div class="sat">
+      <span class="sat-label">Saturación</span>
+      <div class="sat-bar"><div class="sat-fill" id="satFill"></div></div>
+      <span class="sat-num mono" id="satNum">0%</span>
+      <button class="theme-btn" id="themeBtn" title="Cambiar tema">◐</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Secciones">
+  <div class="tabs-in" role="tablist">
+    <button class="tab" role="tab" data-v="plan" aria-selected="true">Plan</button>
+    <button class="tab" role="tab" data-v="cards" aria-selected="false">Tarjetas</button>
+    <button class="tab" role="tab" data-v="quiz" aria-selected="false">Quiz</button>
+    <button class="tab" role="tab" data-v="calc" aria-selected="false">Biorreactor</button>
+    <button class="tab" role="tab" data-v="exam" aria-selected="false">Simulacro</button>
+    <button class="tab" role="tab" data-v="sheet" aria-selected="false">Chuleta</button>
+  </div>
+</nav>
+
+<main>
+<!-- =================== PLAN =================== -->
+<section class="view stack" id="v-plan">
+  <div>
+    <div class="eyebrow">Industrias y Procesos Biotecnológicos · Clases 1–4 + TP 1 y 2</div>
+    <h2 class="sec">De cero a rendir, en dos días</h2>
+    <p class="lede">Todo el contenido de las cuatro clases y los dos trabajos prácticos, convertido en algo que se puede practicar en vez de leer. La barra de arriba es tu saturación: sube cuando marcás tarjetas como sabidas y cuando acertás preguntas.</p>
+  </div>
+
+  <div class="idea">
+    <h3>La idea central de toda la materia</h3>
+    <p>Un biorreactor es un tanque donde <b>células vivas</b> necesitan comida, oxígeno y temperatura <b>uniformes</b>. Para lograr esa uniformidad hay que <b>mezclar</b>. Mezclar cuesta <b>potencia</b> y genera <b>cizalla</b>, que rompe células. Cuánto cuesta y qué tan bien se mezcla depende de las <b>propiedades del fluido</b> (ρ, μ) y de la <b>geometría</b> (D<sub>T</sub>, D<sub>i</sub>). Y cuando el tanque crece, <b>no se puede mantener todo constante a la vez</b>: hay que elegir qué conservar. Todo lo demás son detalles de esta misma historia.</p>
+  </div>
+
+  <div class="card">
+    <h3 class="sub">Tu progreso</h3>
+    <div class="prog-grid" id="progGrid"></div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn small ghost" id="resetBtn">Borrar progreso</button>
+      <span class="chip" id="syncChip">Guardado en este dispositivo</span>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="sub" style="margin-bottom:10px">Cronograma sugerido</h3>
+    <div class="plan-grid">
+      <div class="slot"><span class="when">LUN 2–3 h</span><span class="what">Clases <b>1 y 3</b>, que son conceptuales y no tienen cuentas. Pasá las tarjetas de esos dos bloques.</span></div>
+      <div class="slot"><span class="when">MAR 3 h</span><span class="what">Clases <b>2 y 4</b>: acá sí hay fórmulas. Usá la pestaña <b>Biorreactor</b> con los presets de los problemas de la cátedra.</span></div>
+      <div class="slot"><span class="when">MAR 2 h</span><span class="what"><b>TP 1 y TP 2</b>: relaciones geométricas, tabla de García-Ochoa y las respuestas a las discusiones.</span></div>
+      <div class="slot"><span class="when">MAR noche</span><span class="what"><b>Simulacro</b> completo. Después releé solamente lo que fallaste.</span></div>
+      <div class="slot"><span class="when">MIÉ 40 min</span><span class="what">Solo la <b>Chuleta</b>: fórmulas, números típicos y los seis errores clásicos.</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="sub">Los 6 errores que más se cometen</h3>
+    <ol class="errors" style="margin:0;padding-left:1.2em">
+      <li><b>rpm en vez de rev/s.</b> Re, N<sub>p</sub>, P y v<sub>tip</sub> piden N en rev/s: siempre dividí por 60.</li>
+      <li><b>cP sin convertir.</b> 1 cP = 10⁻³ Pa·s. Un caldo de 10 cP es 0,01 Pa·s.</li>
+      <li><b>Mezclar los dos Reynolds.</b> Tubería: ρ·V·D/μ con V velocidad lineal. Tanque: ρ·N·D<sub>i</sub>²/μ con N velocidad de giro.</li>
+      <li><b>Confundir OTR con OUR.</b> OTR es lo que el <i>equipo</i> entrega; OUR es lo que las <i>células</i> consumen. Debe cumplirse OTR &gt; OUR.</li>
+      <li><b>Escalar ×10 el volumen creyendo que las dimensiones van ×10.</b> Van ×∛10 = 2,15.</li>
+      <li><b>Pensar que más viscoso mezcla mejor.</b> Al revés: menos Re, menos turbulencia, zonas muertas y peor k<sub>L</sub>a.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- =================== TARJETAS =================== -->
+<section class="view stack" id="v-cards" hidden>
+  <div>
+    <h2 class="sec">Tarjetas</h2>
+    <p class="lede">Tocá la tarjeta para ver la respuesta. Marcala como sabida solo si la pudiste decir en voz alta antes de darla vuelta.</p>
+  </div>
+  <div class="filters" id="cardFilters"></div>
+  <div class="flash" id="flash" role="button" tabindex="0" aria-live="polite"></div>
+  <div class="deck-nav">
+    <button class="btn ghost small" id="prevCard">← Anterior</button>
+    <button class="btn ghost small" id="nextCard">Siguiente →</button>
+    <span class="spacer"></span>
+    <button class="btn ghost small" id="againBtn">Repasar</button>
+    <button class="btn small" id="knownBtn">La sé</button>
+  </div>
+  <div class="row"><button class="btn ghost small" id="shuffleCards">Mezclar mazo</button><button class="btn ghost small" id="onlyUnknown">Solo las que no sé</button></div>
+</section>
+
+<!-- =================== QUIZ =================== -->
+<section class="view stack" id="v-quiz" hidden>
+  <div>
+    <h2 class="sec">Quiz</h2>
+    <p class="lede">Multiple choice con explicación inmediata. Elegí el bloque que estés estudiando o dejá todos para mezclar.</p>
+  </div>
+  <div class="filters" id="quizFilters"></div>
+  <div class="qcard" id="quizCard"></div>
+  <div class="deck-nav">
+    <button class="btn ghost small" id="skipQ">Saltear</button>
+    <span class="spacer"></span>
+    <span class="chip mono" id="quizScore">0 / 0</span>
+    <button class="btn small" id="nextQ" disabled>Siguiente</button>
+  </div>
+</section>
+
+<!-- =================== BIORREACTOR =================== -->
+<section class="view stack" id="v-calc" hidden>
+  <div>
+    <h2 class="sec">Biorreactor de prueba</h2>
+    <p class="lede">Movés las variables y ves qué pasa con el régimen, la potencia, la cizalla y el tiempo de mezclado. Los presets cargan los problemas resueltos de la cátedra y el equipo del TP, así que podés comprobar tus cuentas.</p>
+  </div>
+  <div class="presets" id="presets"></div>
+  <div class="calc">
+    <div class="card">
+      <div class="eyebrow">Condiciones de operación</div>
+      <div class="field">
+        <label for="f-imp">Impulsor</label>
+        <select id="f-imp">
+          <option value="rushton">Turbina Rushton (radial)</option>
+          <option value="pitched">Pitched-blade (mixto)</option>
+          <option value="marine">Hélice marina (axial)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-N"><span>Velocidad de agitación</span> <b><span id="l-N"></span> rpm</b></label>
+        <input type="range" id="f-N" min="10" max="900" step="5">
+      </div>
+      <div class="field">
+        <label for="f-DT"><span>Diámetro del tanque D<sub>T</sub></span> <b><span id="l-DT"></span> m</b></label>
+        <input type="number" id="f-DT" step="0.01" min="0.05">
+      </div>
+      <div class="field">
+        <label for="f-Di"><span>Diámetro del agitador D<sub>i</sub></span> <b><span id="l-Di"></span> m</b></label>
+        <input type="number" id="f-Di" step="0.01" min="0.01">
+      </div>
+      <div class="field">
+        <label for="f-HL"><span>Altura de líquido H<sub>L</sub></span> <b><span id="l-HL"></span> m</b></label>
+        <input type="number" id="f-HL" step="0.01" min="0.05">
+      </div>
+      <div class="field">
+        <label for="f-rho"><span>Densidad ρ</span> <b><span id="l-rho"></span> kg/m³</b></label>
+        <input type="number" id="f-rho" step="1" min="500">
+      </div>
+      <div class="field">
+        <label for="f-mu"><span>Viscosidad μ</span> <b><span id="l-mu"></span> cP</b></label>
+        <input type="number" id="f-mu" step="0.1" min="0.1">
+      </div>
+      <div class="field">
+        <label for="f-cell">Cultivo (para el límite de cizalla)</label>
+        <select id="f-cell">
+          <option value="5">Microbiano — v_tip &lt; 5 m/s</option>
+          <option value="2.5">Hongo filamentoso — &lt; 2–3 m/s</option>
+          <option value="1.5">Célula de mamífero — &lt; 1,0–1,5 m/s</option>
+          <option value="1">Célula de insecto — &lt; 1,0 m/s</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="stack" style="gap:12px">
+      <div class="card">
+        <div class="eyebrow">Régimen de flujo</div>
+        <div class="regime" id="regime">
+          <div data-r="lam" style="flex:1">LAMINAR Re&lt;10</div>
+          <div data-r="tra" style="flex:2">TRANSICIÓN 10–10⁴</div>
+          <div data-r="tur" style="flex:1.4">TURBULENTO Re&gt;10⁴</div>
+        </div>
+        <div class="readouts" style="margin-top:12px">
+          <div class="ro hero"><div class="k">Número de Reynolds</div><div class="v" id="o-Re">—</div><div class="u" id="o-Re-note"></div></div>
+          <div class="ro"><div class="k">N° de potencia N<sub>p</sub></div><div class="v" id="o-Np">—</div><div class="u">adimensional</div></div>
+          <div class="ro"><div class="k">Potencia P</div><div class="v" id="o-P">—</div><div class="u">al fluido</div></div>
+          <div class="ro"><div class="k">Potencia volumétrica</div><div class="v" id="o-PV">—</div><div class="u">kW/m³</div></div>
+          <div class="ro"><div class="k">Velocidad de punta</div><div class="v" id="o-vtip">—</div><div class="u">m/s · cizalla máxima</div></div>
+          <div class="ro"><div class="k">Tiempo de mezclado</div><div class="v" id="o-tm">—</div><div class="u">s · Grenville–Nienow</div></div>
+          <div class="ro"><div class="k">Volumen de líquido</div><div class="v" id="o-V">—</div><div class="u">litros</div></div>
+          <div class="ro"><div class="k">N° de Froude</div><div class="v" id="o-Fr">—</div><div class="u">inercia / gravedad</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="eyebrow">Diagnóstico del equipo</div>
+        <div class="flags" id="flags"></div>
+      </div>
+
+      <div class="card">
+        <div class="eyebrow">Curva N<sub>p</sub> vs Re del impulsor elegido</div>
+        <div id="npChart"></div>
+        <p style="font-size:12.5px;color:var(--muted);margin:8px 0 0">En laminar N<sub>p</sub> ∝ 1/Re; en turbulento N<sub>p</sub> es constante y no depende de Re. El punto marca tu condición actual.</p>
+      </div>
+
+      <div class="card">
+        <div class="eyebrow">Si cambiás una sola cosa</div>
+        <div class="sheet-wrap"><table class="sheet" id="sensTable"></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== SIMULACRO =================== -->
+<section class="view stack" id="v-exam" hidden>
+  <div id="examIntro">
+    <h2 class="sec">Simulacro</h2>
+    <p class="lede">Veinte preguntas al azar de los cuatro bloques y los trabajos prácticos, sin corrección hasta el final. Al terminar vas a ver exactamente qué repasar.</p>
+    <button class="btn" id="startExam" style="margin-top:8px">Empezar simulacro</button>
+  </div>
+  <div id="examRun" hidden>
+    <div class="exam-hud">
+      <span>Pregunta <span class="live" id="exN">1</span> de 20</span>
+      <span>Tiempo <span class="live mono" id="exT">0:00</span></span>
+      <div class="dots" id="exDots"></div>
+    </div>
+    <div class="qcard" id="examCard"></div>
+    <div class="deck-nav"><span class="spacer"></span><button class="btn" id="exNext" disabled>Siguiente</button></div>
+  </div>
+  <div id="examDone" hidden></div>
+</section>
+
+<!-- =================== CHULETA =================== -->
+<section class="view stack" id="v-sheet" hidden>
+  <div>
+    <h2 class="sec">Chuleta</h2>
+    <p class="lede">Las fórmulas y los números que se preguntan. Buscá por nombre, símbolo o tema.</p>
+  </div>
+  <input class="search" id="sheetSearch" placeholder="Buscar: kLa, potencia, Rushton, vtip, baffles…" autocomplete="off">
+  <div class="card">
+    <h3 class="sub">Fórmulas</h3>
+    <div class="sheet-wrap"><table class="sheet"><thead><tr><th>Concepto</th><th>Fórmula</th><th>Nota</th></tr></thead><tbody id="fBody"></tbody></table></div>
+  </div>
+  <div class="card">
+    <h3 class="sub">Números que se preguntan</h3>
+    <div class="sheet-wrap"><table class="sheet"><thead><tr><th>Parámetro</th><th>Valor</th></tr></thead><tbody id="nBody"></tbody></table></div>
+  </div>
+  <div class="card">
+    <h3 class="sub">Las 6 proporcionalidades</h3>
+    <div class="sheet-wrap"><table class="sheet"><tbody id="pBody"></tbody></table></div>
+  </div>
+</section>
+</main>
+
+<script>
+/* ============================ CONTENIDO ============================ */
+const CARDS = [
+ // ---- CLASE 1 ----
+ ["C1","¿Qué es un bioproceso y qué disciplinas integra?","La aplicación de microorganismos viables y células de tejidos cultivados en un proceso industrial para generar productos específicos. Integra <b>bioquímica + microbiología + ingeniería</b> aplicadas a la tecnología industrial."],
+ ["C1","Las tres estrategias de producción","<b>1. M.O. wild-type:</b> el mejor productor natural, pero puede no cumplir GRAS y dar problemas de escalado y downstream.<br><b>2. M.O. modificado genéticamente:</b> wild-type al que se le modifican vías metabólicas (lisina por <i>C. glutamicum</i> auxótrofo).<br><b>3. Expresión heteróloga:</b> para proteínas recombinantes, con amplia variedad de hospedadores."],
+ ["C1","Producto tipo I: qué es y ejemplos","Productos <b>finales del catabolismo anaeróbico</b>. Sin O₂ hay fermentación y los enlaces fosfato ricos en energía pasan al ADP formando ATP. Ejemplos: <b>etanol, ácido láctico, acético, butírico y propiónico</b>."],
+ ["C1","Producto tipo II: qué es y cómo se produce","<b>Intermediarios del metabolismo primario</b>, &lt;1500 Da, procesos <b>aerobios</b>, baratos y de baja actividad biológica. En m.o. normales no se acumulan: se usan m.o. modificados + batch alimentado o continuo, buscando una <b>regulación anormal</b> que derive la fuente de carbono al producto. Aminoácidos, ác. cítrico, xantano, vitaminas."],
+ ["C1","Producto tipo III: qué es y por qué es especial","<b>Metabolitos secundarios</b>, no necesarios para el crecimiento. Producen <b>feedback negativo</b>, aparecen en <b>menor concentración</b> pero con <b>mayor especificidad biológica</b>. Los precursores suelen ser limitantes, así que conviene usar m.o. <b>deficientes en la regulación</b> de su síntesis. Antibióticos, toxinas, alcaloides, giberelinas."],
+ ["C1","Ácido propiónico: m.o., uso y cuello de botella","<i>Propionibacterium acidipropionici</i> y <i>P. freudenreichii</i>. Conservante alimentario <b>E280</b>. Críticos: <b>pH y temperatura</b>. El cuello de botella es la <b>inhibición por el propio producto</b>: al subir la concentración de ácido caen el crecimiento y la productividad."],
+ ["C1","Ácido cítrico: los cuatro números","<i>Aspergillus niger</i>. <b>~2 millones de toneladas</b> por año (2020), <b>rendimiento &gt; 70 %</b> y el <b>≈80 %</b> se produce por <b>fermentación sumergida</b>."],
+ ["C1","Penicilina: los datos de proceso","<i>Penicillium chrysogenum</i>. Biosíntesis en 3 pasos: catalítico, oxidativo e intercambio de cadenas. Reactores de <b>hasta 100.000 L</b>, proceso <b>aeróbico</b>, inóculo del <b>10 % v/v</b> de un cultivo de 20 g/L, y la mayor parte de la biomasa se obtiene en las <b>primeras 40 h</b>."],
+ ["C1","Upstream: qué incluye","Tanques de almacenamiento, <b>crecimiento y preparación de medios</b>, <b>esterilización</b> y el <b>cultivo para la inoculación</b> con materia prima esterilizada. La etapa inicial cubre selección del hospedador, vectores, clones y desarrollo del proceso; la avanzada, robustez, escalado final y validación."],
+ ["C1","Downstream: las dos etapas","<b>Recuperación:</b> extraer/separar el producto de las células y restos, solubilizarlo si es insoluble, clarificar y quitar impurezas dañinas.<br><b>Purificación:</b> quitar impurezas de proceso y de producto, concentrar el API y cambiar la formulación. Siempre preservando los <b>CQA</b> con alto rendimiento."],
+ ["C1","Las 5 condiciones del biorreactor ideal","t<sub>m</sub> = 0 · temperatura constante y homogénea · gradientes de nutrientes minimizados · sin agregados moleculares · modelo de flujo ideal."],
+ ["C1","Escalas de biorreactores por volumen","Frascos agitados <b>50–1000 mL</b> · experimental <b>1–20 L</b> · piloto <b>50–5000 L</b> · industrial <b>25–1000 m³</b>. Los dos primeros son para I+D o desarrollo de inóculos."],
+ ["C1","QbT vs QbD","<b>QbT:</b> se evalúa el producto al final; calidad = aprobar un control; reacción a fallos.<br><b>QbD:</b> se diseña el proceso para que siempre dé calidad; calidad = comprender y controlar; prevención de fallos."],
+ ["C1","¿Qué es PAT?","<b>Process Analytical Technology:</b> diseñar, analizar y controlar procesos de fabricación <b>mediante la medición en tiempo real</b> de variables críticas. Facilita el control predictivo y continuo para asegurar los CQA."],
+ ["C1","Los 4 pasos del modelado de bioprocesos","1. Definición de las variables del sistema · 2. Análisis cinético · 3. Balances de masa · 4. Validación (primero a pequeña escala, luego verificada a mayor escala)."],
+ ["C1","Variable de estado vs variable operativa","<b>Estado:</b> caracteriza el sistema — concentración de células, de sustrato, de producto.<br><b>Operativa:</b> condición específica impuesta — una concentración inicial, una tasa de alimentación."],
+ ["C1","OUR, OTR y la regla de oro","<b>OUR</b> = q<sub>O2</sub>·X, lo que consumen las células. <b>OTR</b> = k<sub>L</sub>a·(C*−C<sub>L</sub>), lo que entrega el equipo. Debe cumplirse <b>OTR &gt; OUR</b> para que dC<sub>L</sub>/dt sea positivo."],
+ ["C1","Valores de C<sub>L</sub>* que hay que saber","En agua destilada a 30 °C con <b>aire</b>: <b>≈7 mg/L</b>. Con <b>oxígeno puro</b>: <b>≈43 mg/L</b>. En un medio de cultivo típico la solubilidad es un <b>5–25 % menor</b> que en agua por electrolitos y compuestos orgánicos."],
+ ["C1","Rangos de k<sub>L</sub>a","Biorreactores de <b>células animales: 1–25 h⁻¹</b>. <b>Fermentadores microbianos: 100–400 h⁻¹</b>. Un cultivo animal agota el O₂ disponible en una hora; uno microbiano, en segundos."],
+ ["C1","¿k<sub>L</sub>a depende del O₂ del gas de entrada?","<b>No.</b> k<sub>L</sub>a no se ve influido por la cantidad de O₂ en el gas de entrada; <b>C<sub>L</sub>* sí</b>. k<sub>L</sub>a es una característica del biorreactor, aunque su valor real depende de T, medio y configuración."],
+ ["C1","Escalabilidad vs trazabilidad","<b>Escalabilidad:</b> que la tecnología pueda aplicarse a cada escala, del primer uso pequeño a la fabricación.<br><b>Trazabilidad:</b> abarca <b>materiales y diseño</b>, se documenta en los equipos y se verifica en la cualificación; es necesaria para el cumplimiento regulatorio."],
+ // ---- CLASE 2 ----
+ ["C2","Los tres fenómenos de transporte","<b>Cantidad de movimiento</b> (mecánica de fluidos): cómo se mueven los fluidos — reología, viscosidad, turbulencia, Re.<br><b>Materia:</b> cómo se trasladan nutrientes, O₂ y metabolitos — difusión y convección.<br><b>Energía:</b> cómo se intercambia calor — mantener la T óptima."],
+ ["C2","¿Qué es un fluido?","Sustancia que sufre <b>deformación continua</b> cuando se la somete a una fuerza de corte; es decir, <b>fluye</b>. Las propiedades reológicas se basan en su resistencia a fluir bajo esfuerzo de corte."],
+ ["C2","Ley de viscosidad de Newton","<b>τ = −μ·(dv/dy) = μ·γ̇</b>, válida <b>solo en flujo laminar</b>. El signo negativo es porque el gradiente es negativo respecto de la dirección de la fuerza y τ se toma positivo."],
+ ["C2","Viscosidad dinámica vs cinemática","<b>Dinámica (μ):</b> resistencia interna al movimiento cuando se aplica una fuerza; Pa·s o cP.<br><b>Cinemática (ν = μ/ρ):</b> facilidad con la que fluye bajo la gravedad; se interpreta como la <b>difusividad del momento</b>; m²/s."],
+ ["C2","¿Qué es la capa límite?","La región donde el flujo se ajusta desde <b>velocidad cero en la pared</b> (el fluido se adhiere y no se desliza) hasta el máximo de la corriente principal. Su <b>espesor depende del número de Reynolds</b>."],
+ ["C2","Fluido pseudoplástico","Curva cóncava hacia abajo que pasa por el origen. <b>La viscosidad DISMINUYE al aumentar la fuerza de corte</b> (n &lt; 1 en τ = K·γ̇ⁿ). Soluciones poliméricas, sangre, CMC. <b>Es el no newtoniano típico de bioprocesos.</b>"],
+ ["C2","Fluido dilatante","Curva cóncava hacia arriba que pasa por el origen. <b>La viscosidad AUMENTA con la fuerza de corte</b> (n &gt; 1). Arena en agua, almidón de maíz, barros, resinas vinílicas. <b>No es común en bioprocesos.</b>"],
+ ["C2","Plástico de Bingham","Se comporta como <b>cuerpo rígido a bajo estrés</b>: no fluye hasta que se aplica una fuerza mínima <b>τ₀</b> (esfuerzo de cedencia). τ = τ₀ + μ<sub>p</sub>·γ̇, donde μ<sub>p</sub> es la viscosidad plástica. Pasta dental, pinturas, grasas."],
+ ["C2","K y n en la ley de la potencia","<b>K</b> = índice de <b>consistencia</b>. <b>n</b> = índice de <b>comportamiento de flujo</b>, que mide la desviación respecto del newtoniano. Newtoniano: n = 1 y K = μ."],
+ ["C2","Tixotrópico vs reopéctico","Ambos dependen del <b>tiempo</b>, no de cuánta cizalla. <b>Tixotrópico:</b> la viscosidad aparente <b>baja con el tiempo</b> (geles, salsas, caldos microbianos). <b>Reopéctico:</b> <b>sube con el tiempo</b> (yeso, cemento, tintas, crema batida)."],
+ ["C2","Los dos Reynolds","<b>Tubería:</b> Re = ρ·V·D<sub>i</sub>/μ, con V = velocidad lineal promedio.<br><b>Tanque agitado:</b> Re<sub>i</sub> = ρ·N<sub>i</sub>·D<sub>i</sub>²/μ, con N en rev/s y D<sub>i</sub> el diámetro del impulsor."],
+ ["C2","Regímenes en sistemas de mezclado","<b>Re &lt; 10</b> laminar · <b>10 &lt; Re &lt; 10.000</b> transición · <b>Re &gt; 10.000</b> turbulento."],
+ ["C2","Los cuatro viscosímetros","<b>Capilar (Ostwald):</b> cinemática, por gravedad; solo newtonianos poco viscosos.<br><b>Rotacional (Brookfield):</b> dinámica por torque; newtonianos y no newtonianos.<br><b>Cilindro coaxial:</b> preciso, pero <b>no sirve con células</b> (precipitan).<br><b>De rodete/impeller:</b> impide la sedimentación; <b>el mejor para suspensiones microbianas</b>."],
+ ["C2","¿Por qué fallan los coaxiales con suspensiones celulares?","El fluido está en un espacio estrecho; al girar el rotor se crea un campo laminar muy uniforme que <b>acentúa la fuerza centrífuga</b>: las partículas migran hacia afuera, se forman zonas claras y concentradas y se pierde la homogeneidad. Además las partículas grandes interfieren, floculan o se destruyen."],
+ ["C2","Reología de los distintos cultivos","<b>Bacterias y levaduras:</b> newtoniano. <b>Células eucariotas en suspensión:</b> newtoniano, viscosidad cercana al agua. <b>Hongos filamentosos y células vegetales:</b> pseudoplásticos, o <b>Bingham</b> si hay un τ₀ inicial."],
+ ["C2","Ecuación de Vand y su límite","μ = μ<sub>L</sub>·(1 + 2,5ψ + 7,25ψ²), con ψ = fracción de sólidos. Aplica a <b>levaduras y esporas hasta 14 % de sólidos</b>. <b>No aplica</b> cuando hay formación de agregados."],
+ ["C2","Factores que cambian la viscosidad durante el batch","Densidad celular · morfología (esféricas, hifas, filamentos) · flexibilidad de las células · presión osmótica · concentración de sustrato polimérico · concentración de producto polimérico (dextrano) · variación de la fuerza de corte."],
+ ["C2","Caso <i>Beauveria bassiana</i>: qué pasó con K y n","<b>K aumenta drásticamente</b> por acumulación de biomasa (hasta 22,43 a 800 rpm) y <b>n cae a 0,130–0,180</b>. El caldo queda extremadamente denso en reposo: se forman <b>cavernas de mezclado</b> alrededor del agitador y <b>zonas muertas sin oxígeno</b> en la periferia. El óptimo fue <b>300 rpm</b>."],
+ ["C2","Convección vs difusión","<b>Convección:</b> transferencia por el <b>movimiento global del fluido</b>, en régimen turbulento; puede ser natural o forzada.<br><b>Difusión:</b> movimiento de un componente por un <b>gradiente de concentración</b> (o de presión o temperatura), generalmente en flujo laminar. Ley de Fick: J = −D·(dC/dy)."],
+ ["C2","Sherwood, Schmidt y Grashof","<b>Sh = k<sub>c</sub>L/D</b>: transferencia de masa por convección vs difusión.<br><b>Sc = μ/(ρD) = ν/D</b>: viscosidad cinemática vs difusividad de masa; Sc alto = transferencia más lenta.<br><b>Gr</b>: fuerza de flotación vs fuerza viscosa en convección natural."],
+ // ---- CLASE 3 ----
+ ["C3","Las 5 razones por las que se mezcla","1. Mezclar compuestos solubles como la glucosa · 2. Dispersar gases en pequeñas burbujas · 3. Mantener sólidos en suspensión · 4. Dispersar líquidos inmiscibles · 5. Promover la transferencia de calor."],
+ ["C3","Relaciones geométricas del tanque agitado","D<sub>i</sub>/D<sub>T</sub> = <b>1/4–1/2</b> (típico 1/3) · H<sub>L</sub>/D<sub>T</sub> = <b>1–1,25</b> · C<sub>i</sub>/D<sub>T</sub> = <b>1/6–1/2</b> · W<sub>BF</sub>/D<sub>T</sub> = <b>1/10–1/12</b> con luz C<sub>BF</sub> = D<sub>T</sub>/50 · <b>4 baffles</b> equidistantes."],
+ ["C3","¿Qué pasa si no hay baffles? (los 4 problemas del vórtice)","1. <b>Mezclado ineficiente</b>: el líquido solo gira, no hay flujo de arriba abajo → zonas muertas y gradientes.<br>2. <b>Entrada descontrolada de aire</b> superficial → riesgo de contaminación.<br>3. <b>Burbujas grandes y espuma</b>: menor tiempo de permanencia y menor transferencia de O₂.<br>4. <b>Mayor consumo energético sin beneficio</b>."],
+ ["C3","Factor de escala geométrico","<b>R = ∛(V<sub>nuevo</sub>/V<sub>original</sub>)</b>. Si el volumen se multiplica por 10, las dimensiones lineales solo se multiplican por <b>2,15</b>, porque los volúmenes cambian de forma cúbica."],
+ ["C3","¿Cuántos impulsores según H<sub>L</sub>/D<sub>T</sub>?","<b>&lt;1,2</b> → 1 impulsor · <b>1,2–2,0</b> → 2 · <b>&gt;2,0</b> → 3 o más. Separación entre ellos <b>1,0–1,5 D<sub>i</sub></b>, e inmersión del superior de al menos <b>1,0–1,2 D<sub>i</sub></b> para evitar vórtices que succionen aire."],
+ ["C3","Flujo axial vs radial","<b>Axial:</b> paletas inclinadas &lt;90°; el fluido baja al fondo, se esparce y sube por las paredes. Útil para evitar sedimentación de sólidos.<br><b>Radial:</b> paletas paralelas al eje; el líquido va a las paredes y se divide en <b>dos corrientes</b>, una hacia arriba y otra hacia abajo."],
+ ["C3","Flooding, loading y dispersión completa","<b>Flooding:</b> alta aireación o baja agitación; el gas rodea al agitador, que no puede bombear.<br><b>Loading:</b> al subir N o bajar el caudal, las paletas procesan el gas y lo dispersan hacia las paredes.<br><b>Dispersión completa:</b> gas homogéneo en todo el vaso — la situación deseada."],
+ ["C3","Turbina Rushton","<b>6 paletas planas montadas en un disco</b>, flujo <b>radial</b>, D<sub>i</sub> = 1/3–1/2 D<sub>T</sub>. La más frecuente en fermentaciones <b>aeróbicas</b>. Excelente dispersión de gas, pero <b>alto requerimiento de potencia</b>, baja capacidad de bombeo por unidad de potencia y más daño celular."],
+ ["C3","Cavidades ventiladas","Zonas de <b>baja presión detrás de cada paleta</b> de la Rushton, generadas por la aceleración centrífuga de los vórtices, donde <b>se acumula el gas</b>. <b>La efectividad de la dispersión de gases está controlada por su tamaño y estructura.</b>"],
+ ["C3","Hélice marina","Típicamente <b>3 paletas</b>, flujo <b>axial</b>, D<sub>i</sub> ≈ 1/3 D<sub>T</sub>. El <b>paso</b> es el avance por revolución. <b>Menor cizalla</b> que la Rushton y <b>más eficaz para suspender sólidos</b>, pero con gasificación a alta velocidad puede generar inestabilidades de flujo y en el motor."],
+ ["C3","Turbina pitched-blade","Genera componentes <b>axial y radial</b> a la vez. Produce fuertes flujos de líquido y <b>mayor eficiencia de movimiento que la Rushton</b>; soporta caudales de gas varias veces mayores sin inundarse. Pero tiene <b>menor eficiencia en la dispersión de gas y en la transferencia de O₂</b> y su energía turbulenta no se distribuye uniformemente."],
+ ["C3","Principio del airlift","No tiene partes móviles. El aire se inyecta <b>solo en el riser</b>, la retención de gas <b>reduce la densidad</b> allí y el líquido asciende; arriba el gas se desprende en la <b>zona de desgasificación</b> y el líquido más pesado y sin burbujas <b>recircula por el downcomer</b>. Circula por <b>diferencia de densidad</b>."],
+ ["C3","Las 4 partes del airlift","<b>Riser</b> (por donde se inyecta el aire y asciende el líquido) · <b>Downcomer</b> (desgasificado de medio + células que descienden) · <b>Base</b> (boquilla perforada, placa o sparger) · <b>Zona de desgasificación</b> arriba."],
+ ["C3","Ventajas del airlift","Bajo cizallamiento, apto para <b>células vegetales y animales</b> · <b>esterilidad fácil de mantener</b> · en columnas de hasta 60 m la presión en el fondo <b>aumenta la solubilidad del O₂ y el k<sub>L</sub>a</b> · se pueden construir recipientes enormes (hasta 2300 m³) con gran remoción de calor."],
+ ["C3","Desventajas del airlift","<b>Alto costo de capital</b> · <b>alto costo energético</b> (más caudal y presión de aire, baja eficiencia de compresión) · <b>condiciones cambiantes</b> a lo largo del circuito · <b>mala separación gas-líquido con espuma</b> · en continuo hace falta <b>alimentación en múltiples puntos</b> para evitar ciclos de inanición."],
+ ["C3","Relación H:D del airlift y por qué","<b>6–10 : 1</b>. Es una columna esbelta porque así aumenta el <b>tiempo de contacto</b> de la burbuja con el líquido, la <b>presión hidrostática</b> en el fondo (más solubilidad de O₂) y la <b>fuerza impulsora de la circulación</b> natural."],
+ ["C3","Fotobiorreactores","Para <b>microalgas y cianobacterias</b>; suelen ser <b>tipo airlift</b>. Hay que suministrar <b>aire con CO₂ y ciclos de luz</b>. Es difícil modelarlos con cinéticas simples por la <b>interacción de la dinámica de fluidos con la fotosíntesis</b>."],
+ ["C3","Biorreactores de membrana","Combinan <b>biorreacción y operación de membrana en una sola unidad</b>. La membrana <b>compartimenta</b> la herramienta biológica y <b>promueve y controla el transporte</b> dentro y fuera del compartimento; puede ser <b>proveedora de reactivos</b> y/o <b>barrera selectiva de eliminación de productos</b>, y también soporte del biocomponente."],
+ ["C3","Sensor de temperatura preferido y por qué","El <b>termómetro de resistencia de platino</b>: alta precisión, gran estabilidad y <b>señal de salida lineal</b>. Se instala en bolsas de acero inoxidable de paredes finas rellenas con líquido conductor del calor. La termocupla es barata pero de baja resolución; el termistor es sensible pero <b>poco lineal</b>."],
+ ["C3","Electrodo de O₂: polarográfico vs galvánico","<b>Polarográfico:</b> cátodo de Pt o Au, ánodo Ag/AgCl, electrolito KCl; se polariza con fuente externa y necesita <b>~10 min encendido</b> antes de medir.<br><b>Galvánico:</b> ánodo de Zn, Pb o Cd y cátodo de Ag o Au; salida lineal, pero <b>vida útil más corta</b> porque está siempre polarizado."],
+ ["C3","Electrodo de pH: cómo funciona","Membrana de <b>vidrio muy fina (0,2–0,5 mm)</b> que forma con el agua una <b>capa de gel hidratada de 50–500 Å</b> en ambos lados. Los H⁺ dentro de esa capa son móviles: la diferencia de actividad entre ambos lados establece un <b>potencial dependiente del pH</b>. Se usa <b>Ag/AgCl</b> como salida eléctrica."],
+ ["C3","Control de espuma: mecánico vs químico","<b>Mecánico</b> (cuchillas o discos en el eje: pala, cono, aguja, barra): alta eficiencia y <b>no modifica las propiedades del líquido</b>.<br><b>Químico</b> (siliconas): reduce la tensión interfacial, es caro, puede inhibir y <b>baja el k<sub>L</sub>a neto</b>. Por eso se prefieren los mecánicos."],
+ ["C3","PID aplicado al oxígeno disuelto","<b>P:</b> si el DO está 10 % abajo del set point, abre más aire o sube la agitación en la misma proporción.<br><b>I:</b> si el error persiste minutos, lo acumula y actúa cada vez más fuerte.<br><b>D:</b> si el DO empieza a caer rápido, se anticipa y corrige antes de que la caída sea grande."],
+ // ---- CLASE 4 ----
+ ["C4","El problema central del escalado","<b>Mantener todo constante a la vez es físicamente imposible.</b> Si se conserva P/V, la v<sub>tip</sub> aumenta; si se conserva v<sub>tip</sub>, la P/V disminuye. El ingeniero debe <b>elegir qué parámetro conservar</b> y aceptar las contrapartidas."],
+ ["C4","Los 5 criterios de escalado","<b>Re</b> (régimen de flujo) · <b>P/V</b> (potencia volumétrica) · <b>v<sub>tip</sub></b> (cizalla) · <b>k<sub>L</sub>a</b> (transferencia de O₂) · <b>t<sub>m</sub></b> (tiempo de mezclado)."],
+ ["C4","¿Cuándo se usa cada criterio?","<b>k<sub>L</sub>a:</b> procesos aerobios — antibióticos, polisacáridos, <i>E. coli</i> recombinante.<br><b>P/V:</b> procesos sin alta aireación — fermentaciones alcohólicas, células eucariotas.<br><b>v<sub>tip</sub>:</b> cultivos sensibles a la cizalla; <b>es el criterio principal para anticuerpos con células CHO</b>.<br><b>Re y t<sub>m</sub>:</b> raramente, porque están atados a N."],
+ ["C4","Potencia en régimen laminar","<b>P = k₁·N²·D<sub>a</sub>³·μ</b> (Re &lt; 10). Es <b>independiente de la densidad</b> y <b>proporcional a la viscosidad</b>: en fluidos muy viscosos el motor debe vencer la resistencia interna y consume mucha energía. k₁ ≈ 71 para turbina de 6 paletas planas, ≈41 para hélice marina."],
+ ["C4","Potencia en régimen turbulento","<b>P = N<sub>p</sub>'·N³·D<sub>a</sub>⁵·ρ</b> (Re &gt; 10⁴). N<sub>p</sub>' es constante e <b>independiente de Re</b>. La potencia es <b>independiente de la viscosidad</b> y <b>proporcional a la densidad</b>. N<sub>p</sub>' ≈ 5 para Rushton y ≈0,35 para hélice marina."],
+ ["C4","Número de potencia y número de Froude","<b>N<sub>p</sub> = P/(ρ·D<sub>a</sub>⁵·N³)</b>: relaciona la potencia consumida con las propiedades del fluido y la geometría.<br><b>Fr = D<sub>a</sub>·N²/g</b>: inercia vs gravedad. Fr alto mantiene los sólidos dispersos; Fr bajo y los sólidos van al fondo."],
+ ["C4","Valores típicos de P/V","<b>~10 kW/m³</b> en recipientes pequeños y <b>~1–2 kW/m³</b> en reactores de ~100 m³. Los biorreactores chicos requieren una potencia específica mayor que los grandes."],
+ ["C4","Tip speed: fórmula y límites","<b>v<sub>tip</sub> = π·N·D<sub>i</sub></b>, en m/s. Mamífero <b>&lt;1,0–1,5</b> (CHO hasta ~2 con Pluronic F-68) · insecto <b>&lt;1,0</b> · hongos filamentosos <b>&lt;2–3</b> · microbianos <b>&lt;5</b>."],
+ ["C4","La contrapartida del tip speed","A mayor escala, mantener la misma v<sub>tip</sub> exige <b>rpm más bajas</b> porque D<sub>i</sub> es mayor. Eso hace <b>caer la P/V</b>, que puede quedar por debajo del nivel necesario para una mezcla y una transferencia de oxígeno adecuadas."],
+ ["C4","Los 3 mecanismos del mezclado","<b>Distribución</b> (macromezclado): transportar el soluto a todas las regiones; es el <b>paso más lento</b>.<br><b>Dispersión</b>: romper el flujo en remolinos cada vez más pequeños.<br><b>Difusión</b> (micromezclado): dentro de remolinos de 30–100 µm la homogeneidad se logra en ~1 s."],
+ ["C4","Escala de Kolmogorov","<b>λ = (ν³/ε)<sup>1/4</sup></b>, el tamaño del remolino más pequeño. ν es la viscosidad cinemática y ε la tasa de energía disipada por unidad de masa (proporcional a P/masa). A Re alto se genera un amplio espectro de tamaños de remolinos."],
+ ["C4","Definición exacta de t<sub>m</sub>","Tiempo requerido para alcanzar el grado de homogeneidad necesario <b>partiendo de un estado completamente segregado</b>. Usualmente es cuando la concentración del trazador difiere de la final <b>en menos del 10 %</b> de la diferencia total. Industrialmente (1–100 m³): <b>30–120 s</b>."],
+ ["C4","Correlación de Grenville–Nienow","t<sub>m</sub> = 5,9·D<sub>T</sub><sup>2/3</sup>·(P/ρV<sub>L</sub>)<sup>−1/3</sup>·(D<sub>i</sub>/D<sub>T</sub>)<sup>−1/3</sup>. Vale para tanques <b>con deflectores, un único agitador y H<sub>L</sub> = D<sub>T</sub></b>, en régimen turbulento y con el gas bien dispersado."],
+ ["C4","Cómo depende t<sub>m</sub> de N y de los diámetros","<b>t<sub>m</sub> ∝ 1/N</b>: se reduce de manera directamente proporcional a la velocidad del agitador. A N constante, <b>t<sub>m</sub> ∝ (D<sub>T</sub>/D<sub>i</sub>)²</b>. Se reduce mucho con D<sub>i</sub>/D<sub>T</sub> grande, pero eso <b>aumenta el consumo de energía</b>."],
+ ["C4","Las cavernas de los pseudoplásticos","Su viscosidad aparente es <b>baja cerca del agitador</b> (alta cizalla) y <b>alta lejos</b>. Se forman <b>cavernas</b>: zonas tipo pileta alrededor del impulsor, fuera de las cuales el líquido apenas se mueve. La mezcla dentro es intensa pero <b>casi no hay intercambio con el resto del tanque</b>. Solución: cambiar la geometría o usar <b>múltiples agitadores</b>."],
+ ["C4","Los dos coeficientes de k<sub>L</sub>a","<b>k<sub>L</sub></b>: coeficiente de transferencia de masa, describe el transporte de O₂ a la fase líquida.<br><b>a</b>: área de intercambio gas-líquido por unidad de volumen. Como es difícil medirlos por separado, se combinan en un solo parámetro."],
+ ["C4","Burbujas y k<sub>L</sub>a: el matiz","Muchas burbujas pequeñas dan <b>más área <i>a</i></b> y más retención de gas. <b>Pero</b> el <b>k<sub>L</sub> de burbujas menores a 2–3 mm se reduce</b> por efectos superficiales, y hay que <b>evitar las &lt;1 mm</b>, especialmente en caldos viscosos."],
+ ["C4","Coalescencia y sales","Que las burbujas pequeñas se fusionen es <b>indeseable</b>: reduce <i>a</i> y la retención de gas. <b>La presencia de sales e iones SUPRIME la coalescencia</b>, por eso los medios de fermentación simples suelen ser <b>no coalescentes</b> y transfieren mejor el oxígeno."],
+ ["C4","Efecto de la viscosidad sobre k<sub>L</sub>a","Al aumentar μ <b>se engrosan las capas límite</b> alrededor de las burbujas (más resistencia), se <b>amortigua la turbulencia</b>, cambian las cavidades ventiladas y baja la eficacia de la dispersión. Salvo en fluidos de baja viscosidad, <b>k<sub>L</sub>a disminuye al aumentar la viscosidad</b>."],
+ ["C4","Efecto de la temperatura sobre la transferencia de O₂","Al subir T, <b>C* baja</b> pero la <b>difusividad del O₂ sube y con ella k<sub>L</sub></b>. Entre <b>10 y 40 °C</b> es más probable que un aumento de T <b>aumente</b> la transferencia. <b>Por encima de 40 °C</b> la solubilidad cae fuerte y la empeora."],
+ ["C4","Por qué los antiespumantes bajan el k<sub>L</sub>a","Reducen la tensión superficial → burbujas más chicas → <b>sube <i>a</i></b>. Pero también <b>reducen la movilidad de la interfase</b> → <b>baja k<sub>L</sub></b>. En los de silicona la caída de k<sub>L</sub> supera el aumento de <i>a</i>, así que el <b>k<sub>L</sub>a neto se reduce</b>."],
+ ["C4","Los 3 métodos para medir k<sub>L</sub>a","<b>Balance de oxígeno:</b> el más fiable, con una sola medición y durante la operación normal, pero caro y con errores de hasta 100 % si se mide mal.<br><b>Sulfito (Cooper):</b> el primero, ya <b>no se recomienda</b>: da valores más altos.<br><b>Desgasificado dinámico:</b> el más usado; pendiente de ln(1−C<sub>L</sub>/C*) vs t = <b>−k<sub>L</sub>a</b>."],
+ ["C4","Scale-down: qué es","Hacer los experimentos a pequeña escala <b>en condiciones que realmente puedan lograrse, física y económicamente, a escala de producción</b>. Ej.: si la potencia de la planta tiene un tope, calculo el t<sub>m</sub> que eso da en el reactor grande y uso una potencia en el chico que <b>simule esas condiciones de mezcla</b>."],
+ ["C4","Por qué t<sub>m</sub> constante casi nunca se usa","Escalar de <b>1 m³ a 1000 m³</b> manteniendo t<sub>m</sub> implicaría un gasto de potencia <b>2000 veces mayor</b>: mucho más de lo económica o técnicamente factible. <b>Es inevitable que t<sub>m</sub> aumente con la escala</b>, y por eso el escalado suele venir con caída de rendimiento y productividad."],
+ // ---- TP ----
+ ["TP","TP 1 · Qué se mide en el tanque agitado","<b>D<sub>T</sub></b> diámetro interno · <b>H<sub>L</sub></b> altura útil del líquido · <b>D<sub>i</sub></b> diámetro del agitador · <b>L<sub>B</sub></b> largo de paleta · <b>W<sub>B</sub></b> ancho de paleta · <b>W<sub>BF</sub></b> ancho del deflector · <b>C<sub>i</sub></b> altura del agitador respecto al fondo."],
+ ["TP","TP 1 · Qué proporciones se calculan","<b>D<sub>i</sub>/D<sub>T</sub> · H<sub>L</sub>/D<sub>T</sub> · W<sub>BF</sub>/D<sub>T</sub> · C<sub>i</sub>/D<sub>i</sub> · L<sub>B</sub>/D<sub>i</sub> · W<sub>B</sub>/D<sub>i</sub></b>, y se contrastan con la <b>Tabla 1 de García-Ochoa et al. (2011)</b>."],
+ ["TP","TP 1 · Partes a identificar en el Figmay de 2 L","Camisa · sensor de temperatura · eje · agitador tipo <b>pitched blade</b> · burbujeador (sparger) · tapa · puerto de muestreo · condensador."],
+ ["TP","TP 1 · Dimensiones del airlift","<b>H<sub>T</sub></b> altura total · <b>H<sub>L</sub></b> altura del líquido · <b>D<sub>T</sub></b> diámetro externo · <b>D<sub>D</sub></b> diámetro del tubo draft · <b>H<sub>D</sub></b> altura del draft. Proporciones: <b>D<sub>T</sub>/H<sub>T</sub> · D<sub>D</sub>/D<sub>T</sub> · H<sub>D</sub>/H<sub>T</sub></b>."],
+ ["TP","TP 2 · Los dos medios y por qué","<b>Medio A (baja viscosidad):</b> agua. <b>Medio B (alta viscosidad):</b> agua + glicerol o <b>CMC al 1–2 %</b>. Sirven para ver cómo la viscosidad cambia el patrón de flujo, el tiempo de mezclado y la potencia en el mismo equipo."],
+ ["TP","TP 2 · Densidad: picnómetro","Pesar vacío y seco (<b>m₀</b>), llenar <b>sin burbujas</b>, tapón, eliminar exceso, secar el exterior, pesar lleno (<b>m₁</b>), registrar T y repetir al menos dos veces. <b>ρ = (m₁ − m₀)/V</b>, con V el volumen <b>calibrado</b> del picnómetro."],
+ ["TP","TP 2 · Densidad: densímetro","Muestra en probeta a temperatura de trabajo; introducir el densímetro <b>sin tocar paredes ni fondo</b>; esperar que se estabilice; leer <b>evitando el error de paralaje</b>; registrar T. Después se compara con el picnómetro y se calcula el % de diferencia."],
+ ["TP","TP 2 · Qué hay que registrar del Brookfield","<b>Tipo y tamaño del husillo (spindle) · velocidad de rotación en rpm · temperatura del fluido · viscosidad dinámica</b> en cP o mPa·s. En un fluido pseudoplástico la viscosidad depende de la cizalla, así que sin las rpm el dato no significa nada."],
+ ["TP","TP 2 · Cómo se mide el tiempo de mezclado","Cargar <b>2 L</b>, registrar las condiciones (rpm en el agitado, caudal de aire en el airlift), iniciar la agitación, inyectar <b>2–3 mL de trazador</b> en un punto definido y arrancar el cronómetro <b>simultáneamente</b>; registrar el tiempo hasta homogeneidad visual; <b>repetir dos veces por medio en cada reactor</b> y promediar."],
+ ["TP","TP 2 · La limitación del ensayo y cómo resolverla","La homogeneidad <b>visual</b> es subjetiva. Se resuelve usando un <b>trazador salino o ácido con conductímetro o pH-metro</b>, y definiendo el criterio objetivo del <b>±10 % respecto de la concentración final</b>."]
+];
+
+const QUIZ = [
+ ["C1","Un proceso produce penicilina con <i>P. chrysogenum</i>. ¿De qué tipo de producto se trata?",["Tipo I: producto final del catabolismo anaeróbico","Tipo II: intermediario del metabolismo primario","Tipo III: metabolito secundario","Producto de alto peso molecular"],2,"La penicilina es un antibiótico, y los antibióticos son <b>metabolitos secundarios</b> (tipo III): no son necesarios para el crecimiento, aparecen en menor concentración y tienen mayor especificidad biológica."],
+ ["C1","¿Cuál de estas afirmaciones sobre k<sub>L</sub>a es correcta?",["Aumenta si enriquezco el gas de entrada con oxígeno puro","No depende del O₂ del gas de entrada, pero C<sub>L</sub>* sí","Es una propiedad del microorganismo, no del equipo","Se mantiene constante durante todo el batch"],1,"k<sub>L</sub>a es una característica del <b>biorreactor</b> y no se ve influido por la cantidad de O₂ en el gas de entrada; <b>C<sub>L</sub>* sí</b> aumenta con O₂ puro (de ~7 a ~43 mg/L). Además el valor real cambia con T, medio y configuración."],
+ ["C1","La etapa de <b>recuperación</b> del downstream incluye…",["Cromatografía de afinidad y formulación final","Separar sólidos del líquido, romper células y clarificar","Selección del clon productor","Esterilización del medio de cultivo"],1,"La recuperación extrae y separa el producto de las células y restos celulares, lo solubiliza si es insoluble y lo clarifica. La cromatografía y la formulación son de <b>purificación</b>; el clon y la esterilización son <b>upstream</b>."],
+ ["C1","Un cultivo tiene OUR = 40 mmol/L·h y el equipo entrega OTR = 25 mmol/L·h. ¿Qué pasa?",["Se acumula oxígeno disuelto","El cultivo se limita por oxígeno y dC<sub>L</sub>/dt es negativo","Nada: OTR y OUR son independientes","Aumenta el riesgo de daño oxidativo"],1,"dC<sub>L</sub>/dt = OTR − OUR = −15: el oxígeno disuelto <b>cae</b>. El requisito de todo proceso aerobio es <b>OTR &gt; OUR</b>."],
+ ["C1","¿Qué diferencia principal hay entre QbT y QbD?",["QbD usa más controles de calidad al final","QbT diseña el proceso; QbD lo audita","QbD comprende y controla el proceso para prevenir fallos; QbT solo evalúa el producto final","Son lo mismo con distinto nombre"],2,"QbT = calidad es aprobar un control al final, reacción a fallos. QbD = se <b>diseña el proceso</b> para que siempre dé calidad; calidad es <b>comprender y controlar</b>, con prevención en vez de reacción."],
+ ["C1","¿Cuál es el cuello de botella industrial de la producción de ácido propiónico?",["La baja solubilidad del oxígeno","La inhibición por el propio producto","El costo de los sustratos","La contaminación por levaduras"],1,"Al aumentar la concentración de ácido propiónico <b>disminuyen el crecimiento celular y la productividad</b>. Por eso se buscan cepas más tolerantes al ácido y procesos que lo retiren durante la fermentación."],
+ ["C1","¿Qué es una variable de estado en el modelado de un bioproceso?",["La tasa de alimentación del fed-batch","La concentración de biomasa, sustrato o producto","El volumen nominal del tanque","La velocidad de agitación fijada por el operador"],1,"Las <b>variables de estado</b> caracterizan el sistema (X, S, P). Las de alimentación, concentración inicial o agitación son <b>variables operativas</b>."],
+ ["C1","¿Qué rango de k<sub>L</sub>a corresponde a un fermentador microbiano?",["1–25 h⁻¹","100–400 h⁻¹","0,1–1 h⁻¹","1000–4000 h⁻¹"],1,"Los fermentadores microbianos trabajan en <b>100–400 h⁻¹</b>; los reactores de células animales, en <b>1–25 h⁻¹</b>, porque la demanda de O₂ es mucho menor."],
+ ["C1","Las válvulas <b>de diafragma tipo weir</b> se usan en biorreactores porque…",["Son las más baratas del mercado","Garantizan higiene, drenaje total y cero zonas muertas","Permiten medir el caudal","Sirven solo para sistemas single-use"],1,"Son el estándar de la industria justamente por la higiene: <b>drenaje total y cero deadlegs</b>. Las de pinza son las típicas de single-use."],
+ // C2
+ ["C2","Un biorreactor gira a 180 rpm con D<sub>i</sub> = 0,5 m; el medio tiene ρ = 1000 kg/m³ y μ = 2 cP. ¿Cuál es el régimen?",["Laminar","Transición","Turbulento","Faltan datos para saberlo"],2,"N = 3 rev/s; μ = 0,002 Pa·s. Re = 1000·3·0,25/0,002 = <b>3,75×10⁵</b>, muy por encima de 10⁴: <b>turbulento</b>. El error clásico acá es no pasar rpm a rev/s ni cP a Pa·s."],
+ ["C2","Un caldo de hongo filamentoso se comporta como…",["Newtoniano","Pseudoplástico (o Bingham si hay τ₀)","Dilatante","Ideal, sin viscosidad"],1,"Las suspensiones de hongos filamentosos y de células vegetales se modelan como <b>pseudoplásticas</b>, o como <b>plásticos de Bingham</b> si hay un esfuerzo de cedencia inicial τ₀."],
+ ["C2","En un fluido pseudoplástico, al aumentar la velocidad de cizalla la viscosidad aparente…",["Aumenta","Disminuye","No cambia","Aumenta y después disminuye"],1,"<b>Disminuye</b> (n &lt; 1). Por eso en un tanque agitado tienen viscosidad baja cerca del impulsor y alta lejos de él, lo que forma <b>cavernas</b>."],
+ ["C2","¿Qué viscosímetro conviene para un caldo de fermentación con alta densidad celular?",["Capilar de Ostwald","De cilindros coaxiales","De impeller o rodete","Ninguno: hay que centrifugar primero"],2,"El <b>de rodete</b> impide la sedimentación y distribuye los sólidos uniformemente, reproduciendo condiciones parecidas a las de un biorreactor agitado. El coaxial centrifuga las células y el Ostwald solo sirve para newtonianos poco viscosos."],
+ ["C2","La viscosidad cinemática ν se define como…",["μ·ρ","μ/ρ","ρ/μ","τ/γ̇"],1,"<b>ν = μ/ρ</b>, en m²/s. Mide la facilidad con que el fluido fluye bajo la gravedad y se interpreta como la <b>difusividad del momento</b>."],
+ ["C2","La ecuación de Vand aplica hasta…",["14 % de sólidos en suspensión, en levaduras y esporas","50 % de sólidos, en cualquier cultivo","Solo en fluidos dilatantes","Cualquier suspensión, incluso con agregados"],0,"Vale para <b>levaduras y esporas con hasta un 14 % de sólidos</b>. Para muchos cultivos no aplica por la <b>formación de agregados</b>."],
+ ["C2","¿Qué compara el número de Schmidt?",["Convección vs difusión de masa","Viscosidad cinemática vs difusividad de masa","Inercia vs gravedad","Flotación vs fuerza viscosa"],1,"<b>Sc = ν/D = μ/(ρD)</b>. Sc alto significa que domina la difusión de momento y la <b>transferencia de masa es más lenta</b>. Sh compara convección vs difusión y Gr, flotación vs viscosidad."],
+ ["C2","Un fluido tixotrópico es aquel cuya viscosidad aparente…",["Disminuye al aumentar la cizalla","Disminuye con el tiempo de aplicación del esfuerzo","Aumenta al aumentar la cizalla","Aumenta con el tiempo de aplicación del esfuerzo"],1,"Tixotrópico y reopéctico dependen del <b>tiempo</b>; pseudoplástico y dilatante dependen de <b>cuánta cizalla</b>. Los caldos microbianos suelen ser tixotrópicos."],
+ ["C2","La ley de viscosidad de Newton τ = μ·γ̇ es válida…",["Siempre","Solo en flujo laminar","Solo en flujo turbulento","Solo para gases"],1,"Se define como la relación entre esfuerzo de corte y gradiente de velocidad <b>en condiciones de flujo laminar</b>."],
+ ["C2","En el caso de <i>Beauveria bassiana</i>, ¿por qué se eligieron cilindros concéntricos en vez de cono-plato?",["Porque son más baratos","Porque el gap amplio de 500 µm acomoda agregados y fibras sin trabarlos ni destruirlos","Porque miden viscosidad cinemática","Porque el cono-plato no sirve para fluidos pseudoplásticos"],1,"El <b>gap amplio (500 µm)</b> acomoda los agregados miceliares y las fibras <b>sin trabar la geometría, sin destruirlos mecánicamente y sin deslizamiento en pared</b>."],
+ // C3
+ ["C3","¿Cuál es la función principal de los deflectores (baffles)?",["Aumentar el volumen útil del tanque","Romper el flujo circular y generar turbulencia, evitando el vórtice","Sostener el eje del agitador","Dispersar el gas del sparger"],1,"Rompen el flujo circular generado por la rotación del agitador. Sin ellos aparece <b>vórtice</b>: mezcla pobre, zonas muertas, entrada descontrolada de aire y energía desperdiciada."],
+ ["C3","Un tanque tiene H<sub>L</sub>/D<sub>T</sub> = 1,6. ¿Cuántos impulsores conviene usar?",["1","2","3 o más","Ninguno: hay que usar airlift"],1,"La regla empírica: &lt;1,2 → 1 impulsor; <b>1,2–2,0 → 2</b>; &gt;2,0 → 3 o más. La separación entre ellos debe ser de 1,0 a 1,5 D<sub>i</sub>."],
+ ["C3","¿Qué agitador genera flujo <b>radial</b> y es el más usado en fermentaciones aeróbicas?",["Hélice marina","Turbina Rushton","Pitched-blade","Impulsor espiral"],1,"La <b>Rushton</b> de 6 paletas planas montadas en disco genera flujo radial y es la más frecuente en la industria de fermentaciones, por su excelente dispersión de gas."],
+ ["C3","El efecto <b>flooding</b> ocurre cuando…",["El caudal de aire es muy bajo para la agitación","El gas rodea al agitador y este no puede bombear eficazmente","Se forma espuma en la superficie","El líquido supera la altura máxima del tanque"],1,"A altas velocidades de aireación o bajas velocidades de agitación, el agitador <b>se rodea de gas</b> y se excede su capacidad de manejo: queda inundado y no bombea."],
+ ["C3","Quiero escalar un tanque de 20 L a 160 L con similitud geométrica. ¿Por cuánto se multiplican las dimensiones lineales?",["8","2","2,83","4"],1,"R = ∛(160/20) = <b>∛8 = 2</b>. Los volúmenes cambian de forma cúbica, así que ×8 en volumen es solo ×2 en dimensiones lineales."],
+ ["C3","¿Qué ventaja tiene el airlift frente al tanque agitado?",["Mejor transferencia de oxígeno en cualquier condición","Control independiente de mezcla y aireación","Baja cizalla y esterilidad fácil de mantener","Menor costo de capital a gran escala"],2,"Al no tener partes móviles, el airlift da <b>baja cizalla</b> (apto para células vegetales y animales) y <b>esterilidad fácil de mantener</b>. Justamente NO permite controlar mezcla y aireación por separado, y su costo de capital a gran escala es alto."],
+ ["C3","La relación H:D típica de un airlift es 6–10:1 porque…",["Ahorra material de construcción","Aumenta el tiempo de contacto de la burbuja, la presión hidrostática y la fuerza impulsora de la circulación","Reduce la formación de espuma","Es la única forma de instalar el tubo draft"],1,"Una columna esbelta da más <b>tiempo de contacto</b> gas-líquido, más <b>presión hidrostática</b> en el fondo (más solubilidad de O₂, mayor k<sub>L</sub>a) y mayor <b>fuerza impulsora</b> de la circulación natural."],
+ ["C3","¿Cuál es el sensor de temperatura preferido en biorreactores?",["Termocupla, por barata","Termistor, por sensible","Termómetro de resistencia de platino, por preciso, estable y lineal","Termómetro de vidrio, por económico"],2,"El de <b>platino</b> se prefiere por su alta precisión, gran estabilidad y <b>salida lineal</b>. La termocupla tiene baja resolución y el termistor da una salida muy poco lineal."],
+ ["C3","Un electrodo <b>polarográfico</b> de oxígeno disuelto se caracteriza por…",["Ánodo de zinc y no requerir encendido previo","Cátodo de Pt o Au, ánodo Ag/AgCl y necesitar ~10 min de polarización","Medir por extinción de fluorescencia","No usar membrana"],1,"El polarográfico usa <b>cátodo de Pt o Au, ánodo Ag/AgCl y electrolito KCl</b>, y hay que encenderlo <b>unos 10 minutos</b> antes de medir. El galvánico usa ánodo de Zn/Pb/Cd y tiene vida útil más corta."],
+ ["C3","¿Por qué se prefieren los rompe-espumas mecánicos a los antiespumantes químicos?",["Son más baratos","No modifican las propiedades del líquido y así mantienen alto el k<sub>L</sub>a","Funcionan sin electricidad","Los químicos están prohibidos por GMP"],1,"Los antiespumantes de silicona bajan el k<sub>L</sub>a neto (reducen k<sub>L</sub> más de lo que aumentan <i>a</i>) y pueden inhibir el cultivo. Los mecánicos <b>no cambian las propiedades del líquido</b>."],
+ ["C3","¿Qué hace la acción <b>derivativa</b> de un PID sobre el oxígeno disuelto?",["Corrige en proporción al error actual","Acumula el error a lo largo del tiempo","Se anticipa cuando el DO empieza a caer rápido","Apaga el sistema si el DO llega a cero"],2,"La acción D <b>reacciona anticipándose</b> a la velocidad de cambio: si el DO empieza a bajar rápido, ajusta antes de que la caída sea grande."],
+ ["C3","Las <b>cavidades ventiladas</b> de una turbina Rushton son…",["Orificios en el disco del agitador","Zonas de baja presión detrás de las paletas donde se acumula el gas","Burbujas atrapadas en el sparger","Espacios entre el agitador y los baffles"],1,"Los vórtices detrás de cada paleta generan aceleración centrífuga y <b>reducción de presión</b>; el gas se acumula ahí. <b>Su tamaño y estructura controlan la efectividad de la dispersión de gases.</b>"],
+ // C4
+ ["C4","Si duplico la velocidad de agitación en régimen turbulento, la potencia…",["Se duplica","Se multiplica por 4","Se multiplica por 8","No cambia"],2,"En régimen turbulento <b>P = N<sub>p</sub>'·N³·D<sub>a</sub>⁵·ρ</b>, así que <b>P ∝ N³</b>: duplicar N multiplica la potencia por <b>8</b>."],
+ ["C4","En régimen laminar, la potencia consumida…",["Depende de la densidad, no de la viscosidad","Depende de la viscosidad, no de la densidad","No depende de ninguna de las dos","Depende del cuadrado de la densidad"],1,"En laminar <b>P = k₁·N²·D<sub>a</sub>³·μ</b>: es <b>independiente de ρ y proporcional a μ</b>. En turbulento es al revés: independiente de μ y proporcional a ρ."],
+ ["C4","Voy a escalar un proceso de anticuerpos con células CHO. ¿Qué criterio uso?",["k<sub>L</sub>a","P/V","Velocidad de punta (v<sub>tip</sub>)","Tiempo de mezclado"],2,"Lo limitante en células de mamífero es la <b>cizalla</b>. v<sub>tip</sub> es el criterio principal para producción de anticuerpos con CHO. El costo es que la P/V cae con la escala."],
+ ["C4","Una hélice marina de 1,3 m gira a 240 rpm. ¿Cuál es su velocidad de punta?",["5,2 m/s","16,3 m/s","3,1 m/s","31,2 m/s"],1,"v<sub>tip</sub> = π·N·D<sub>i</sub> = π × 4 rev/s × 1,3 m = <b>16,3 m/s</b>. Es altísima: supera de lejos el límite microbiano de 5 m/s."],
+ ["C4","¿Cuál es el valor típico de N<sub>p</sub>' de una turbina Rushton en régimen turbulento?",["0,35","1,5","5","71"],2,"<b>N<sub>p</sub>' ≈ 5</b> para la Rushton de 6 paletas planas. 0,35 es la hélice marina, y 71 es el <b>k₁</b> de la turbina en régimen <b>laminar</b>."],
+ ["C4","El tiempo de mezclado t<sub>m</sub> se define como el tiempo tras el cual…",["El trazador toca todas las paredes del tanque","La concentración del trazador difiere de la final en menos del 10 %","El agitador completa una vuelta entera","Se alcanza el estado estacionario del oxígeno"],1,"Es el tiempo para alcanzar la homogeneidad necesaria partiendo de un estado completamente segregado; el criterio usual es <b>&lt;10 % de diferencia respecto de C<sub>f</sub></b>."],
+ ["C4","Según la correlación de Grenville–Nienow, a N constante t<sub>m</sub> es proporcional a…",["(D<sub>i</sub>/D<sub>T</sub>)²","(D<sub>T</sub>/D<sub>i</sub>)²","D<sub>T</sub>³","1/D<sub>T</sub>"],1,"A N constante, <b>t<sub>m</sub> ∝ (D<sub>T</sub>/D<sub>i</sub>)²</b>. Por eso los agitadores con D<sub>i</sub>/D<sub>T</sub> grande mezclan mucho más rápido… a costa de más energía (P ∝ D<sub>i</sub>⁵)."],
+ ["C4","¿Cuál es el método más fiable para determinar k<sub>L</sub>a?",["Método del sulfito (Cooper)","Balance de oxígeno con analizadores de gases","Desgasificado dinámico","Titulación de Winkler"],1,"El <b>balance de oxígeno</b> es el procedimiento más fiable y permite una medición en un único punto durante la operación normal; el problema es el costo y que exige medir gases, caudal, presión y T con precisión."],
+ ["C4","En el método dinámico de gassing-out, k<sub>L</sub>a se obtiene…",["Del área bajo la curva de DO vs tiempo","De la pendiente de ln(1 − C<sub>L</sub>/C*) vs t, que vale −k<sub>L</sub>a","Del valor de DO en estado estacionario","Del caudal de nitrógeno usado para desoxigenar"],1,"Integrando dC<sub>L</sub>/dt = k<sub>L</sub>a(C*−C<sub>L</sub>) queda <b>ln(1 − C<sub>L</sub>/C*) = −k<sub>L</sub>a·t</b>: se grafica y la <b>pendiente es −k<sub>L</sub>a</b>."],
+ ["C4","Al aumentar la viscosidad del caldo, el k<sub>L</sub>a…",["Aumenta, porque las burbujas quedan más tiempo","Disminuye, porque engrosa las capas límite y amortigua la turbulencia","No cambia","Aumenta solo si el fluido es pseudoplástico"],1,"Más viscosidad = capas límite más gruesas alrededor de las burbujas, turbulencia amortiguada y peor dispersión de gas. <b>Salvo en fluidos de baja viscosidad, k<sub>L</sub>a disminuye.</b>"],
+ ["C4","¿Por qué un medio con sales suele transferir mejor el oxígeno?",["Las sales aumentan la solubilidad del O₂","Las sales suprimen la coalescencia y mantienen las burbujas chicas","Las sales bajan la viscosidad","Las sales aumentan la presión parcial de O₂"],1,"La presencia de <b>sales e iones suprime la coalescencia</b>: las burbujas no se fusionan, se conserva el área interfacial <i>a</i> y la retención de gas, y el <b>k<sub>L</sub>a es mayor</b>."],
+ ["C4","Entre 10 y 40 °C, subir la temperatura de una fermentación aeróbica…",["Siempre empeora la transferencia de O₂ porque C* baja","Probablemente aumenta la transferencia, porque el aumento de k<sub>L</sub> compensa la caída de C*","No tiene ningún efecto","Solo afecta al OUR, no al OTR"],1,"Al subir T, C* baja pero la <b>difusividad del O₂ aumenta y con ella k<sub>L</sub></b>. En el rango operativo 10–40 °C es más probable que la transferencia <b>aumente</b>. Arriba de 40 °C la solubilidad cae fuerte y empeora."],
+ ["C4","¿Por qué casi nunca se escala manteniendo t<sub>m</sub> constante?",["Porque t<sub>m</sub> no se puede medir","Porque exigiría aumentos de potencia impracticables — de 1 a 1000 m³ serían 2000 veces más","Porque t<sub>m</sub> no afecta al cultivo","Porque solo aplica a fluidos newtonianos"],1,"La relación entre t<sub>m</sub> y el consumo de energía lo hace inviable: escalar de 1 m³ a 1000 m³ manteniendo t<sub>m</sub> implicaría <b>2000 veces más potencia</b>. Es inevitable que t<sub>m</sub> crezca con la escala."],
+ ["C4","En el ejercicio del ácido itacónico, al pasar de 5 L a 50 L cambiaron las rpm y el vvm pero se mantuvo k<sub>L</sub>a ≈ 0,02 s⁻¹. ¿Por qué?",["Porque las rpm no afectan la transferencia de oxígeno","Porque rpm y vvm son medios, y lo que le importa a la célula es recibir oxígeno","Porque el reactor de 50 L tiene otro tipo de impulsor","Porque a mayor escala se usa oxígeno puro"],1,"rpm y vvm son <b>medios, no fines</b>. Lo limitante biológicamente es la <b>disponibilidad de oxígeno</b>, que describe el k<sub>L</sub>a. A mayor escala el mismo k<sub>L</sub>a se logra con menos rpm (D<sub>i</sub> mayor) y menos vvm (más volumen y columna más alta)."],
+ ["C4","La escala de Kolmogorov λ representa…",["El diámetro medio de las burbujas","El tamaño del remolino más pequeño que puede formarse","La distancia entre impulsores","El espesor de la capa límite en la pared"],1,"<b>λ = (ν³/ε)<sup>1/4</sup></b> es el tamaño de los remolinos más pequeños. Dentro de remolinos de 30–100 µm la homogeneidad por difusión se alcanza en ~1 s."],
+ // TP
+ ["TP","En el TP 1, ¿con qué bibliografía se contrastan las relaciones geométricas medidas?",["Doran, Bioprocess Engineering Principles","García-Ochoa et al. (2011), Stirred Tank Bioreactors","Bates et al. (1963)","Mahmood et al. (2015)"],1,"La consigna pide contrastar con la <b>Tabla 1 de García-Ochoa, Santos y Gomez (2011)</b>, <i>Stirred Tank Bioreactors</i>, Comprehensive Biotechnology."],
+ ["TP","En el TP 2, el medio de alta viscosidad se prepara con…",["Agua + glicerol o CMC al 1–2 %","Agua + NaCl saturado","Medio de cultivo concentrado","Glicerina pura"],0,"<b>Medio A:</b> agua (baja viscosidad). <b>Medio B:</b> agua + <b>glicerol o CMC al 1–2 %</b>. La CMC además aporta comportamiento pseudoplástico, parecido al de un caldo real."],
+ ["TP","¿Por qué en el TP 2 se usa un viscosímetro Brookfield y no un capilar de Ostwald?",["Porque es más barato","Porque mide viscosidad dinámica y sirve para no newtonianos, variando rpm y temperatura","Porque el Ostwald no funciona con agua","Porque el Brookfield mide densidad además de viscosidad"],1,"El rotacional mide la viscosidad <b>dinámica</b> (la que entra en el Re) y permite ajustar <b>velocidad, temperatura y husillo</b>, así que sirve para <b>no newtonianos</b> como la CMC. El Ostwald solo da viscosidad cinemática de newtonianos poco viscosos."],
+ ["TP","Al comparar el tiempo de mezclado del medio viscoso en ambos reactores, se espera que…",["El airlift se vea mucho más afectado que el tanque agitado","Ambos se afecten por igual","El airlift mejore por la mayor retención de gas","El tanque agitado no pueda mezclarlo"],0,"En el tanque agitado se puede compensar subiendo N. En el airlift la circulación depende <b>solo de la diferencia de densidad</b> generada por el gas, así que la viscosidad <b>frena la circulación natural</b> y aparecen canalización y zonas muertas."],
+ ["TP","¿Cuál es la principal limitación del método de medición de t<sub>m</sub> del TP 2 y cómo se resuelve?",["El trazador contamina el reactor; usar agua destilada","La homogeneidad visual es subjetiva; usar trazador salino con conductímetro y el criterio del ±10 %","El cronómetro no tiene precisión; usar video","El volumen de 2 L es muy chico; escalar a 20 L"],1,"Decidir a ojo cuándo está homogéneo es <b>subjetivo</b>. La solución es un <b>trazador salino o ácido con conductímetro o pH-metro</b> y el criterio objetivo del <b>±10 %</b> respecto de la concentración final."],
+ ["TP","En el airlift del TP 1 se miden H<sub>T</sub>, H<sub>L</sub>, D<sub>T</sub>, D<sub>D</sub> y H<sub>D</sub>. ¿Qué proporción es la que se compara con el valor típico de 0,6?",["D<sub>T</sub>/H<sub>T</sub>","D<sub>D</sub>/D<sub>T</sub>","H<sub>D</sub>/H<sub>T</sub>","H<sub>L</sub>/H<sub>T</sub>"],1,"La relación entre el <b>diámetro del tubo draft y el del reactor</b> ronda <b>0,6</b> (Mahmood et al., 2015, con fondo cónico de 25°)."]
+];
+
+const FORMULAS = [
+ ["Densidad","ρ = m / V","kg/m³ o g/mL"],
+ ["Esfuerzo de corte","τ = F / A","Pa"],
+ ["Ley de Newton","τ = μ · γ̇ = −μ (dv/dy)","solo flujo laminar"],
+ ["Viscosidad cinemática","ν = μ / ρ","m²/s"],
+ ["Ley de la potencia (Ostwald)","τ = K · γ̇ⁿ","n&lt;1 pseudoplástico, n&gt;1 dilatante"],
+ ["Viscosidad aparente","μa = K · γ̇⁽ⁿ⁻¹⁾","no newtonianos"],
+ ["Plástico de Bingham","τ = τ₀ + μp · γ̇","τ₀ = esfuerzo de cedencia"],
+ ["Ecuación de Vand","μ = μL (1 + 2,5ψ + 7,25ψ²)","hasta 14 % de sólidos"],
+ ["Reynolds en tubería","Re = ρ · V · Di / μ","V = velocidad lineal"],
+ ["Reynolds en tanque agitado","Rei = ρ · N · Da² / μ","N en rev/s"],
+ ["Número de Froude","Fr = Da · N² / g","inercia vs gravedad"],
+ ["Número de potencia","Np = P / (ρ · Da⁵ · N³)","adimensional"],
+ ["Potencia — laminar","P = k₁ · N² · Da³ · μ","Re&lt;10 · no depende de ρ"],
+ ["Potencia — turbulento","P = Np' · N³ · Da⁵ · ρ","Re&gt;10⁴ · no depende de μ"],
+ ["Potencia por torque","P = 2π · Ni · M","medición experimental"],
+ ["Velocidad de punta","vtip = π · N · Di","m/s · cizalla máxima"],
+ ["Escala de Kolmogorov","λ = (ν³ / ε)^(1/4)","tamaño de remolino"],
+ ["Grenville–Nienow","tm = 5,9 · DT^(2/3) · (P/ρVL)^(−1/3) · (Di/DT)^(−1/3)","turbulento, H=DT, 1 agitador"],
+ ["Factor de escala","R = ∛(Vnuevo / Voriginal)","similitud geométrica"],
+ ["Volumen cilíndrico","V = (π/4) · DT² · HL","m³"],
+ ["% de oxígeno disuelto","%DO = (CL / CL*) · 100","CL* por ley de Henry"],
+ ["OTR","OTR = kLa · (C* − CL)","lo que entrega el equipo"],
+ ["OUR","OUR = qO2 · X","lo que consumen las células"],
+ ["Acumulación de O₂","dCL/dt = OTR − OUR","debe ser > 0"],
+ ["kLa por balance de O₂","kLa = (QO2,IN − QO2,OUT) / [V (C* − CL)]","estado estacionario"],
+ ["kLa dinámico","ln(1 − CL/C*) = −kLa · t","pendiente = −kLa"],
+ ["Crecimiento específico","μ = (1/X) · (dX/dt)","h⁻¹"],
+ ["Tiempo de duplicación","td = ln2 / μ","h"],
+ ["Ley de Fick","JA = −DAB · (dCA/dy)","difusión"],
+ ["Sherwood","Sh = kc · L / DAB","convección / difusión"],
+ ["Schmidt","Sc = μ / (ρ · DAB) = ν / D","momento / masa"],
+ ["Frössling","Sh = 2 + 0,6 · Sc^(1/2) · Re^(1/2)","correlación"],
+ ["Balance de masa","Δ = Entra − Sale + reacción neta","recipiente bien mezclado"]
+];
+
+const NUMEROS = [
+ ["Re laminar / turbulento (tanque)","&lt; 10 &nbsp;/&nbsp; &gt; 10.000"],
+ ["Di / DT","1/4 – 1/2 (típico 1/3)"],
+ ["HL / DT","1,0 – 1,25"],
+ ["Ci / DT","1/6 – 1/2"],
+ ["WBF / DT","1/10 – 1/12 · luz CBF = DT/50"],
+ ["Número de baffles","4, equidistantes"],
+ ["LB/Di y WB/Di","≈ 1/4 y ≈ 1/5"],
+ ["Turbina Rushton","6 paletas planas en disco · Di = 1/3–1/2 DT"],
+ ["Hélice marina","3 paletas · Di ≈ 1/3 DT"],
+ ["Np' turbulento","Rushton ≈ 5–6 · hélice marina ≈ 0,35"],
+ ["k₁ laminar","turbina 6 paletas ≈ 71 · hélice ≈ 41"],
+ ["Impulsores según HL/DT","&lt;1,2 → 1 · 1,2–2 → 2 · &gt;2 → 3+"],
+ ["Separación entre impulsores","1,0 – 1,5 × Di"],
+ ["Inmersión del impulsor superior","≥ 1,0 – 1,2 × Di"],
+ ["Rango de viscosidad de turbinas y hélices","1 a ~10⁴ cP"],
+ ["Airlift H:D","6 – 10 : 1 · Ddraft/DT ≈ 0,6"],
+ ["Airlift: altura y volumen máximos","hasta 60 m · reactor récord 2300 m³"],
+ ["tm industrial (1–100 m³)","30 – 120 s"],
+ ["P/V reactores chicos / de ~100 m³","~10 kW/m³ &nbsp;/&nbsp; ~1–2 kW/m³"],
+ ["vtip mamífero / insecto","&lt;1,0–1,5 m/s (CHO ~2 con Pluronic F-68) / &lt;1,0 m/s"],
+ ["vtip hongos / microbianos","&lt;2–3 m/s &nbsp;/&nbsp; &lt;5 m/s"],
+ ["kLa células animales / microbianos","1–25 h⁻¹ &nbsp;/&nbsp; 100–400 h⁻¹"],
+ ["CL* agua 30 °C con aire / con O₂ puro","≈7 mg/L &nbsp;/&nbsp; ≈43 mg/L"],
+ ["Solubilidad de O₂ en medio de cultivo","5 – 25 % menor que en agua"],
+ ["Burbujas: límites","kL cae por debajo de 2–3 mm · evitar &lt;1 mm"],
+ ["Remolinos y difusión","30–100 µm → homogéneo en ≈1 s"],
+ ["Filtros estériles","0,22 µm"],
+ ["Acero inoxidable / single-use","304 y 316L · bolsas de 100–2500 L"],
+ ["Sondas reutilizables","estándar de 12 mm"],
+ ["Membrana de pH","vidrio 0,2–0,5 mm · capa de gel 50–500 Å"],
+ ["Escalas de biorreactores","frascos 50–1000 mL · exp. 1–20 L · piloto 50–5000 L · industrial 25–1000 m³"],
+ ["Metabolitos primarios","&lt; 1500 Da"],
+ ["Penicilina","reactores hasta 100.000 L · inóculo 10 % v/v · biomasa en 40 h"],
+ ["Ácido cítrico","~2 Mt/año · rendimiento &gt;70 % · 80 % en fermentación sumergida"],
+ ["Conversión de unidades","1 cP = 10⁻³ Pa·s · 1 W = 1 kg·m²/s³"]
+];
+
+const PROPS = [
+ ["P ∝ N³","en régimen turbulento: duplicar N multiplica la potencia por 8"],
+ ["P ∝ Da⁵","el diámetro del agitador es la variable más cara de todas"],
+ ["P ∝ ρ (turbulento) · P ∝ μ (laminar)","en cada régimen manda una propiedad distinta"],
+ ["tm ∝ 1/N","agitar más rápido mezcla proporcionalmente más rápido"],
+ ["tm ∝ (DT/Di)²","a N constante, el agitador chico penaliza el mezclado al cuadrado"],
+ ["vtip ∝ N · Di","la cizalla crece linealmente, no al cubo: por eso se puede acotar"]
+];
+
+const PRESETS = {
+  "TP · Figmay 2 L":      {imp:"pitched", N:300, DT:0.13, Di:0.05, HL:0.15, rho:1000, mu:1, cell:"5"},
+  "TP · medio con CMC":   {imp:"pitched", N:300, DT:0.13, Di:0.05, HL:0.15, rho:1010, mu:500, cell:"5"},
+  "Problema 1 · hélice 50 m³": {imp:"marine", N:240, DT:4.0, Di:1.3, HL:4.0, rho:1000, mu:10, cell:"5"},
+  "Problema 2 · turbina 1,83 m": {imp:"rushton", N:90, DT:1.83, Di:0.61, HL:1.83, rho:929, mu:10, cell:"5"},
+  "Ejercicio de tm":      {imp:"rushton", N:300, DT:0.30, Di:0.10, HL:0.45, rho:1000, mu:1, cell:"5"},
+  "Cultivo CHO 200 L":    {imp:"marine", N:60, DT:0.60, Di:0.24, HL:0.70, rho:1010, mu:1.2, cell:"1.5"}
+};
+const IMP = {
+  rushton:{name:"Turbina Rushton", Npt:5.0, k1:71},
+  pitched:{name:"Pitched-blade",   Npt:1.5, k1:45},
+  marine: {name:"Hélice marina",   Npt:0.35,k1:41}
+};
+const BLOCKS = {C1:"Clase 1",C2:"Clase 2",C3:"Clase 3",C4:"Clase 4",TP:"TP 1 y 2"};
+
+/* ============================ ESTADO ============================ */
+const LSKEY = "ip-sala-de-cultivo-v1";
+let S = {known:{}, quiz:{}, exams:[], updatedAt:0};
+let dbNs = null;
+
+function loadLocal(){
+  try{ const r = localStorage.getItem(LSKEY); if(r) return JSON.parse(r); }catch(e){}
+  return null;
+}
+function saveLocal(){
+  try{ localStorage.setItem(LSKEY, JSON.stringify(S)); }catch(e){}
+}
+let saveTimer=null;
+function persist(){
+  S.updatedAt = Date.now();
+  saveLocal();
+  renderProgress();
+  if(dbNs){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(()=>{
+      dbNs.doc("progreso/estado").set(JSON.parse(JSON.stringify(S))).catch(()=>{});
+    }, 900);
+  }
+}
+(function bootState(){
+  const l = loadLocal(); if(l) S = Object.assign(S, l);
+})();
+
+/* ============================ NAVEGACIÓN ============================ */
+const views = {plan:"v-plan",cards:"v-cards",quiz:"v-quiz",calc:"v-calc",exam:"v-exam",sheet:"v-sheet"};
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected", x===t ? "true":"false"));
+    Object.entries(views).forEach(([k,id])=>{ document.getElementById(id).hidden = (k!==t.dataset.v); });
+    window.scrollTo({top:0,behavior:"instant"});
+  });
+});
+const themeBtn = document.getElementById("themeBtn");
+themeBtn.addEventListener("click",()=>{
+  const cur = document.documentElement.getAttribute("data-theme");
+  const isDark = cur ? cur==="dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.setAttribute("data-theme", isDark ? "light":"dark");
+  drawNpChart();
+});
+
+/* ============================ PROGRESO ============================ */
+function renderProgress(){
+  const knownN = Object.keys(S.known).filter(k=>S.known[k]).length;
+  const qIds = Object.keys(S.quiz);
+  let right=0, tot=0;
+  qIds.forEach(id=>{ right += S.quiz[id].r||0; tot += (S.quiz[id].r||0)+(S.quiz[id].w||0); });
+  const cardPart = knownN / CARDS.length;
+  const quizPart = qIds.length ? Object.keys(S.quiz).filter(id=>(S.quiz[id].r||0)>0).length / QUIZ.length : 0;
+  const sat = Math.round(100*(0.55*cardPart + 0.45*quizPart));
+  document.getElementById("satFill").style.width = sat+"%";
+  document.getElementById("satNum").textContent = sat+"%";
+  const best = S.exams.length ? Math.max(...S.exams.map(e=>e.score)) : null;
+  document.getElementById("progGrid").innerHTML = `
+    <div class="pstat"><div class="n mono">${knownN}<span style="font-size:15px;color:var(--muted)">/${CARDS.length}</span></div><div class="l">tarjetas marcadas como sabidas</div></div>
+    <div class="pstat"><div class="n mono">${tot ? Math.round(100*right/tot) : 0}%</div><div class="l">aciertos en el quiz (${tot} respondidas)</div></div>
+    <div class="pstat"><div class="n mono">${best===null ? "—" : best+"/20"}</div><div class="l">mejor simulacro (${S.exams.length} ${S.exams.length===1?"intento":"intentos"})</div></div>`;
+}
+
+/* ============================ TARJETAS ============================ */
+let deck = CARDS.map((c,i)=>i), ci = 0, cardFilter="all", hideKnown=false, flipped=false;
+function cardId(i){ return "k"+i; }
+function buildDeck(){
+  deck = CARDS.map((c,i)=>i)
+    .filter(i => cardFilter==="all" || CARDS[i][0]===cardFilter)
+    .filter(i => !hideKnown || !S.known[cardId(i)]);
+  if(!deck.length) deck = CARDS.map((c,i)=>i).filter(i=>cardFilter==="all"||CARDS[i][0]===cardFilter);
+  ci = 0; flipped=false; renderCard();
+}
+function renderCard(){
+  const el = document.getElementById("flash");
+  if(!deck.length){ el.innerHTML = "<div class='front'>No hay tarjetas en este filtro.</div>"; return; }
+  const i = deck[ci], c = CARDS[i], known = !!S.known[cardId(i)];
+  el.className = "flash"+(known?" known":"");
+  el.innerHTML = `<span class="topic">${BLOCKS[c[0]]}</span><span class="idx mono">${ci+1}/${deck.length}</span>
+    <div class="front">${c[1]}</div>
+    ${flipped ? `<div class="back">${c[2]}</div>` : ``}
+    <span class="hint">${flipped ? (known?"Marcada como sabida":"¿La supiste? Marcala abajo") : "Tocá para ver la respuesta"}</span>`;
+}
+document.getElementById("flash").addEventListener("click",()=>{flipped=!flipped;renderCard();});
+document.getElementById("flash").addEventListener("keydown",e=>{ if(e.key===" "||e.key==="Enter"){e.preventDefault();flipped=!flipped;renderCard();} });
+function step(d){ if(!deck.length) return; ci=(ci+d+deck.length)%deck.length; flipped=false; renderCard(); }
+document.getElementById("nextCard").onclick = ()=>step(1);
+document.getElementById("prevCard").onclick = ()=>step(-1);
+document.getElementById("knownBtn").onclick = ()=>{ if(!deck.length)return; S.known[cardId(deck[ci])]=true; persist(); step(1); };
+document.getElementById("againBtn").onclick = ()=>{ if(!deck.length)return; S.known[cardId(deck[ci])]=false; persist(); step(1); };
+document.getElementById("shuffleCards").onclick = ()=>{ for(let k=deck.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[deck[k],deck[j]]=[deck[j],deck[k]];} ci=0;flipped=false;renderCard(); };
+document.getElementById("onlyUnknown").onclick = (e)=>{ hideKnown=!hideKnown; e.target.textContent = hideKnown ? "Ver todas" : "Solo las que no sé"; buildDeck(); };
+(function(){
+  const wrap = document.getElementById("cardFilters");
+  const opts = [["all","Todas"]].concat(Object.entries(BLOCKS));
+  wrap.innerHTML = opts.map(([k,v])=>`<button class="fbtn" data-k="${k}" aria-pressed="${k==='all'}">${v}</button>`).join("");
+  wrap.querySelectorAll(".fbtn").forEach(b=>b.onclick=()=>{
+    cardFilter=b.dataset.k; wrap.querySelectorAll(".fbtn").forEach(x=>x.setAttribute("aria-pressed", x===b));
+    buildDeck();
+  });
+})();
+
+/* ============================ QUIZ ============================ */
+let qFilter="all", qPool=[], qi=0, qAnswered=false, qRight=0, qTot=0;
+function buildQuiz(){
+  qPool = QUIZ.map((q,i)=>i).filter(i=>qFilter==="all"||QUIZ[i][0]===qFilter);
+  for(let k=qPool.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[qPool[k],qPool[j]]=[qPool[j],qPool[k]];}
+  qi=0; qAnswered=false; renderQuiz();
+}
+function renderQuiz(){
+  const el = document.getElementById("quizCard");
+  if(!qPool.length){ el.innerHTML="<p>No hay preguntas en este filtro.</p>"; return; }
+  const q = QUIZ[qPool[qi]];
+  el.innerHTML = `<div class="eyebrow">${BLOCKS[q[0]]} · pregunta ${qi+1} de ${qPool.length}</div>
+    <div class="qtext">${q[1]}</div>
+    <div class="opts">${q[2].map((o,k)=>`<button class="opt" data-k="${k}"><span class="letter">${"ABCD"[k]}</span><span>${o}</span></button>`).join("")}</div>
+    <div id="verdict"></div>`;
+  el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(parseInt(b.dataset.k,10)));
+  document.getElementById("nextQ").disabled = true;
+  qAnswered = false;
+}
+function answer(k){
+  if(qAnswered) return; qAnswered=true;
+  const idx = qPool[qi], q = QUIZ[idx], ok = k===q[3];
+  const el = document.getElementById("quizCard");
+  el.querySelectorAll(".opt").forEach(b=>{
+    const bk = parseInt(b.dataset.k,10);
+    b.disabled = true;
+    if(bk===q[3]) b.classList.add("right");
+    else if(bk===k) b.classList.add("wrong");
+  });
+  document.getElementById("verdict").innerHTML =
+    `<div class="verdict ${ok?"ok":"no"}"><span class="tagline">${ok?"Correcto":"No — la correcta es la "+"ABCD"[q[3]]}</span>${q[4]}</div>`;
+  const id = "q"+idx;
+  S.quiz[id] = S.quiz[id] || {r:0,w:0};
+  if(ok){S.quiz[id].r++; qRight++;} else S.quiz[id].w++;
+  qTot++;
+  document.getElementById("quizScore").textContent = qRight+" / "+qTot;
+  document.getElementById("nextQ").disabled = false;
+  persist();
+}
+document.getElementById("nextQ").onclick = ()=>{ qi=(qi+1)%qPool.length; renderQuiz(); };
+document.getElementById("skipQ").onclick = ()=>{ qi=(qi+1)%qPool.length; renderQuiz(); };
+(function(){
+  const wrap = document.getElementById("quizFilters");
+  const opts = [["all","Todas"]].concat(Object.entries(BLOCKS));
+  wrap.innerHTML = opts.map(([k,v])=>`<button class="fbtn" data-k="${k}" aria-pressed="${k==='all'}">${v}</button>`).join("");
+  wrap.querySelectorAll(".fbtn").forEach(b=>b.onclick=()=>{
+    qFilter=b.dataset.k; wrap.querySelectorAll(".fbtn").forEach(x=>x.setAttribute("aria-pressed", x===b));
+    buildQuiz();
+  });
+})();
+
+/* ============================ BIORREACTOR ============================ */
+const F = {};
+["imp","N","DT","Di","HL","rho","mu","cell"].forEach(k=>F[k]=document.getElementById("f-"+k));
+function setPreset(p){
+  F.imp.value=p.imp; F.N.value=p.N; F.DT.value=p.DT; F.Di.value=p.Di;
+  F.HL.value=p.HL; F.rho.value=p.rho; F.mu.value=p.mu; F.cell.value=p.cell;
+  compute();
+}
+(function(){
+  const wrap = document.getElementById("presets");
+  wrap.innerHTML = Object.keys(PRESETS).map(k=>`<button class="fbtn" data-k="${k}">${k}</button>`).join("");
+  wrap.querySelectorAll(".fbtn").forEach(b=>b.onclick=()=>{
+    wrap.querySelectorAll(".fbtn").forEach(x=>x.setAttribute("aria-pressed", x===b));
+    setPreset(PRESETS[b.dataset.k]);
+  });
+})();
+Object.values(F).forEach(inp=>inp.addEventListener("input",compute));
+
+const fmt = (x,d=2)=>{
+  if(!isFinite(x)) return "—";
+  const a=Math.abs(x);
+  if(a!==0 && (a<0.01 || a>=100000)){
+    const e=Math.floor(Math.log10(a)); const m=x/Math.pow(10,e);
+    return m.toFixed(2).replace(".",",")+"·10"+String(e).split("").map(c=>"⁻⁰¹²³⁴⁵⁶⁷⁸⁹"["-0123456789".indexOf(c)]).join("");
+  }
+  const t = x.toFixed(a>=100?0:a>=10?1:d);
+  const [ip,dp] = t.split(".");
+  return ip.replace(/\B(?=(\d{3})+(?!\d))/g,".") + (dp?","+dp:"");
+};
+let LAST = {};
+function physics(v){
+  const N=v.N/60, mu=v.mu*1e-3, imp=IMP[v.imp];
+  const Re = v.rho*N*v.Di*v.Di/mu;
+  const Np = Math.max(imp.k1/Re, imp.Npt);
+  const P  = Np*v.rho*Math.pow(N,3)*Math.pow(v.Di,5);
+  const VL = Math.PI/4*v.DT*v.DT*v.HL;
+  const PV = P/VL;
+  const vtip = Math.PI*N*v.Di;
+  const eps = P/(v.rho*VL);
+  const tm = 5.9*Math.pow(v.DT,2/3)*Math.pow(eps,-1/3)*Math.pow(v.Di/v.DT,-1/3);
+  const Fr = v.Di*N*N/9.81;
+  return {Re,Np,P,VL,PV,vtip,tm,Fr,N};
+}
+function readFields(){
+  return {imp:F.imp.value, N:+F.N.value, DT:+F.DT.value, Di:+F.Di.value,
+          HL:+F.HL.value, rho:+F.rho.value, mu:+F.mu.value, cell:+F.cell.value};
+}
+function compute(){
+  const v = readFields();
+  if(!(v.N>0&&v.DT>0&&v.Di>0&&v.HL>0&&v.rho>0&&v.mu>0)) return;
+  const r = physics(v); LAST = {v,r};
+  document.getElementById("l-N").textContent=v.N;
+  document.getElementById("l-DT").textContent=v.DT;
+  document.getElementById("l-Di").textContent=v.Di;
+  document.getElementById("l-HL").textContent=v.HL;
+  document.getElementById("l-rho").textContent=v.rho;
+  document.getElementById("l-mu").textContent=v.mu;
+
+  const reg = r.Re<10?"lam":(r.Re>1e4?"tur":"tra");
+  document.querySelectorAll("#regime div").forEach(d=>d.classList.toggle("on", d.dataset.r===reg));
+  document.getElementById("o-Re").textContent = fmt(r.Re);
+  document.getElementById("o-Re-note").textContent =
+    reg==="lam" ? "laminar — P = k₁N²Di³μ" : reg==="tur" ? "turbulento — P = Np'N³Di⁵ρ" : "transición — Np estimado";
+  document.getElementById("o-Np").textContent = fmt(r.Np);
+  document.getElementById("o-P").textContent = r.P>=1000 ? fmt(r.P/1000)+" kW" : fmt(r.P)+" W";
+  document.getElementById("o-PV").textContent = fmt(r.PV/1000,2);
+  document.getElementById("o-vtip").textContent = fmt(r.vtip);
+  document.getElementById("o-tm").textContent = reg==="tur" ? fmt(r.tm,1) : "n/a";
+  document.getElementById("o-V").textContent = fmt(r.VL*1000,1);
+  document.getElementById("o-Fr").textContent = fmt(r.Fr,3);
+
+  // Diagnóstico
+  const f=[];
+  const cellName = F.cell.options[F.cell.selectedIndex].text.split("—")[0].trim();
+  if(reg==="tur") f.push(["ok","Re","Flujo turbulento plenamente desarrollado: es el régimen deseado para buena mezcla y transferencia de oxígeno."]);
+  else if(reg==="tra") f.push(["warn","Re","Zona de transición. Np ya no es constante y la correlación de tm no aplica; la mezcla empieza a degradarse."]);
+  else f.push(["bad","Re","Régimen laminar. Sin turbulencia aparecen zonas muertas y cavernas alrededor del agitador, y el kLa se desploma."]);
+
+  if(r.vtip > v.cell) f.push(["bad","vtip",`La velocidad de punta (${fmt(r.vtip)} m/s) supera el límite de ${v.cell} m/s para ${cellName.toLowerCase()}: la cizalla dañaría el cultivo. Bajá N o el diámetro del agitador.`]);
+  else if(r.vtip > 0.8*v.cell) f.push(["warn","vtip",`Estás al ${Math.round(100*r.vtip/v.cell)} % del límite de cizalla para ${cellName.toLowerCase()}. Queda poco margen para subir agitación.`]);
+  else f.push(["ok","vtip",`Cizalla dentro de lo tolerable para ${cellName.toLowerCase()} (límite ${v.cell} m/s).`]);
+
+  const rd = v.Di/v.DT;
+  if(rd<0.25||rd>0.5) f.push(["warn","Di/DT",`Di/DT = ${rd.toFixed(2).replace(".",",")}, fuera del rango recomendado 0,25–0,50. ${rd<0.25?"Un agitador chico mezcla lento: tm crece con (DT/Di)².":"Un agitador grande mezcla rápido pero P ∝ Di⁵ dispara el consumo."}`]);
+  else f.push(["ok","Di/DT",`Di/DT = ${rd.toFixed(2).replace(".",",")}, dentro del rango clásico 0,25–0,50.`]);
+
+  const hd = v.HL/v.DT;
+  if(hd>2) f.push(["bad","HL/DT",`HL/DT = ${hd.toFixed(2).replace(".",",")}: hacen falta 3 o más impulsores, separados 1,0–1,5 Di.`]);
+  else if(hd>1.2) f.push(["warn","HL/DT",`HL/DT = ${hd.toFixed(2).replace(".",",")}: por encima de 1,2 conviene un segundo impulsor, o el líquido de arriba queda lejos del agitador.`]);
+  else f.push(["ok","HL/DT",`HL/DT = ${hd.toFixed(2).replace(".",",")}, dentro de 1,0–1,25: alcanza con un solo impulsor.`]);
+
+  const pvk = r.PV/1000;
+  if(pvk>12) f.push(["warn","P/V",`${fmt(pvk)} kW/m³ está por encima de lo habitual incluso en equipos chicos (~10 kW/m³): mucho calor a remover.`]);
+  else if(pvk<0.5) f.push(["warn","P/V",`${fmt(pvk)} kW/m³ es baja frente a los 1–2 kW/m³ de un reactor industrial: puede no alcanzar para homogeneizar.`]);
+  else f.push(["ok","P/V",`${fmt(pvk)} kW/m³, en el orden de los 1–10 kW/m³ habituales.`]);
+
+  if(reg==="tur"){
+    if(r.tm>120) f.push(["warn","tm",`tm ≈ ${fmt(r.tm,1)} s, por encima de los 30–120 s típicos de un reactor industrial.`]);
+    else f.push(["ok","tm",`tm ≈ ${fmt(r.tm,1)} s. Recordá que la correlación asume HL = DT y un solo agitador.`]);
+  }
+  document.getElementById("flags").innerHTML = f.map(([c,ic,t])=>`<div class="flag ${c}"><span class="ic">${ic}</span><span>${t}</span></div>`).join("");
+
+  // Sensibilidad
+  const rows = [
+    ["Duplicar la velocidad N", physics({...v,N:v.N*2})],
+    ["Agitador 20 % más grande", physics({...v,Di:v.Di*1.2})],
+    ["Viscosidad ×100", physics({...v,mu:v.mu*100})],
+    ["Escalar el volumen ×10 (R = 2,15)", physics({...v,DT:v.DT*2.154,Di:v.Di*2.154,HL:v.HL*2.154})]
+  ];
+  document.getElementById("sensTable").innerHTML =
+    `<thead><tr><th>Cambio</th><th>Re</th><th>P</th><th>v<sub>tip</sub></th></tr></thead><tbody>`+
+    rows.map(([lab,x])=>{
+      const dP = x.P/r.P;
+      return `<tr><td>${lab}</td><td class="f">${fmt(x.Re)}</td><td class="f">${fmt(x.P>=1000?x.P/1000:x.P)} ${x.P>=1000?"kW":"W"} <span style="color:var(--muted)">(×${fmt(dP,1)})</span></td><td class="f">${fmt(x.vtip)} m/s</td></tr>`;
+    }).join("")+`</tbody>`;
+
+  drawNpChart();
+}
+
+function drawNpChart(){
+  if(!LAST.r) return;
+  const {v,r} = LAST, imp = IMP[v.imp];
+  const W=560,H=190,ml=42,mr=14,mt=12,mb=30;
+  const x = re => ml + (Math.log10(Math.max(1,Math.min(1e6,re)))/6)*(W-ml-mr);
+  const ymin=0.05, ymax=200;
+  const y = np => mt + (1 - Math.log10(np/ymin)/Math.log10(ymax/ymin))*(H-mt-mb);
+  let d="";
+  for(let L=0; L<=600; L++){
+    const re = Math.pow(10, L/100);
+    const np = Math.max(imp.k1/re, imp.Npt);
+    d += (L?" L":"M")+x(re).toFixed(1)+","+y(np).toFixed(1);
+  }
+  const ticksX=[1,10,100,1000,1e4,1e5,1e6], labX=["10⁰","10¹","10²","10³","10⁴","10⁵","10⁶"];
+  const ticksY=[0.1,1,10,100], labY=["0,1","1","10","100"];
+  const px=x(r.Re), py=y(r.Np);
+  document.getElementById("npChart").innerHTML =
+`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Curva de número de potencia contra Reynolds para ${imp.name}; el punto actual está en Re ${fmt(r.Re)} y Np ${fmt(r.Np)}" style="display:block;max-width:100%">
+  <g stroke="var(--line2)" stroke-width="1">
+    ${ticksY.map(t=>`<line x1="${ml}" y1="${y(t)}" x2="${W-mr}" y2="${y(t)}"/>`).join("")}
+  </g>
+  <g fill="var(--muted)" font-size="9" font-family="IBM Plex Mono, monospace" text-anchor="end">
+    ${ticksY.map((t,i)=>`<text x="${ml-6}" y="${y(t)+3}">${labY[i]}</text>`).join("")}
+  </g>
+  <g fill="var(--muted)" font-size="9" font-family="IBM Plex Mono, monospace" text-anchor="middle">
+    ${ticksX.map((t,i)=>`<text x="${x(t)}" y="${H-12}">${labX[i]}</text>`).join("")}
+  </g>
+  <line x1="${ml}" y1="${H-mb}" x2="${W-mr}" y2="${H-mb}" stroke="var(--line)" stroke-width="1"/>
+  <line x1="${ml}" y1="${mt}" x2="${ml}" y2="${H-mb}" stroke="var(--line)" stroke-width="1"/>
+  <text x="${(ml+W-mr)/2}" y="${H-1}" fill="var(--muted)" font-size="9.5" font-family="IBM Plex Sans, sans-serif" text-anchor="middle">Número de Reynolds</text>
+  <text x="11" y="${(mt+H-mb)/2}" fill="var(--muted)" font-size="9.5" font-family="IBM Plex Sans, sans-serif" text-anchor="middle" transform="rotate(-90 11 ${(mt+H-mb)/2})">N⌄p</text>
+  <path d="${d}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
+  <line x1="${x(1e4)}" y1="${mt}" x2="${x(1e4)}" y2="${H-mb}" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3" opacity=".55"/>
+  <text x="${x(1e4)+4}" y="${mt+10}" fill="var(--muted)" font-size="9" font-family="IBM Plex Sans, sans-serif">turbulento →</text>
+  <circle cx="${px}" cy="${py}" r="7" fill="var(--panel)" stroke="var(--panel)" stroke-width="3"/>
+  <circle cx="${px}" cy="${py}" r="5" fill="var(--signal)"/>
+  <text x="${px < W-140 ? px+11 : px-11}" y="${py+3.5}" fill="var(--ink)" font-size="10.5" font-family="IBM Plex Mono, monospace" text-anchor="${px < W-140 ? "start":"end"}">Np = ${fmt(r.Np)}</text>
+</svg>`;
+}
+
+/* ============================ SIMULACRO ============================ */
+let exPool=[], exI=0, exAns=[], exT0=0, exTimer=null;
+document.getElementById("startExam").onclick = ()=>{
+  exPool = QUIZ.map((q,i)=>i);
+  for(let k=exPool.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[exPool[k],exPool[j]]=[exPool[j],exPool[k]];}
+  exPool = exPool.slice(0,20);
+  exI=0; exAns=[]; exT0=Date.now();
+  document.getElementById("examIntro").hidden=true;
+  document.getElementById("examDone").hidden=true;
+  document.getElementById("examRun").hidden=false;
+  clearInterval(exTimer);
+  exTimer = setInterval(()=>{
+    const s=Math.floor((Date.now()-exT0)/1000);
+    document.getElementById("exT").textContent = Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+  },1000);
+  renderExam();
+};
+function renderExam(){
+  const q = QUIZ[exPool[exI]];
+  document.getElementById("exN").textContent = exI+1;
+  document.getElementById("exDots").innerHTML = exPool.map((_,i)=>`<span class="dot${i<exAns.length?" done":""}"></span>`).join("");
+  document.getElementById("examCard").innerHTML =
+    `<div class="eyebrow">${BLOCKS[q[0]]}</div><div class="qtext">${q[1]}</div>
+     <div class="opts">${q[2].map((o,k)=>`<button class="opt" data-k="${k}"><span class="letter">${"ABCD"[k]}</span><span>${o}</span></button>`).join("")}</div>`;
+  document.querySelectorAll("#examCard .opt").forEach(b=>b.onclick=()=>{
+    document.querySelectorAll("#examCard .opt").forEach(x=>x.style.borderColor="var(--line)");
+    b.style.borderColor="var(--accent)";
+    exAns[exI]=parseInt(b.dataset.k,10);
+    document.getElementById("exNext").disabled=false;
+  });
+  document.getElementById("exNext").disabled = exAns[exI]===undefined;
+  document.getElementById("exNext").textContent = exI===19 ? "Terminar" : "Siguiente";
+}
+document.getElementById("exNext").onclick = ()=>{
+  if(exI<19){ exI++; renderExam(); }
+  else finishExam();
+};
+function finishExam(){
+  clearInterval(exTimer);
+  const secs = Math.floor((Date.now()-exT0)/1000);
+  let score=0; const wrong=[];
+  exPool.forEach((idx,i)=>{
+    const q=QUIZ[idx]; const ok = exAns[i]===q[3];
+    if(ok) score++; else wrong.push({q, mine:exAns[i]});
+    const id="q"+idx; S.quiz[id]=S.quiz[id]||{r:0,w:0}; ok?S.quiz[id].r++:S.quiz[id].w++;
+  });
+  S.exams.push({score, secs, at:Date.now()}); persist();
+  const pct = Math.round(100*score/20);
+  const msg = pct>=85 ? "Estás lista. Repasá solo lo que sigue abajo."
+            : pct>=70 ? "Vas bien. Cerrá los temas de abajo y repetí el simulacro."
+            : pct>=50 ? "Falta, pero es recuperable en una tarde. Empezá por los bloques donde fallaste."
+                      : "Volvé a las tarjetas de los bloques que fallaste antes de repetir el simulacro.";
+  const color = pct>=70 ? "var(--accent)" : pct>=50 ? "var(--signal)" : "var(--alert)";
+  document.getElementById("examRun").hidden=true;
+  const done = document.getElementById("examDone");
+  done.hidden=false;
+  done.innerHTML = `<div class="card score-hero">
+      <div class="eyebrow">Resultado del simulacro</div>
+      <div class="big mono" style="color:${color}">${score}<span style="font-size:24px;color:var(--muted)">/20</span></div>
+      <p class="lede" style="margin:10px auto 0;max-width:46ch">${msg}</p>
+      <p class="mono" style="font-size:12.5px;color:var(--muted);margin-top:6px">${Math.floor(secs/60)} min ${secs%60} s · ${pct}% de aciertos</p>
+      <button class="btn" id="againExam" style="margin-top:12px">Otro simulacro</button>
+    </div>
+    ${wrong.length?`<div class="card" style="margin-top:14px"><h3 class="sub">Lo que hay que repasar (${wrong.length})</h3>
+      ${wrong.map(w=>`<div class="review review-item">
+        <h4>${w.q[1]}</h4>
+        <div class="yours">Tu respuesta: ${w.mine===undefined?"sin responder":w.q[2][w.mine]}</div>
+        <div class="correct">Correcta: ${w.q[2][w.q[3]]}</div>
+        <div class="why">${w.q[4]}</div></div>`).join("")}
+    </div>`:``}`;
+  document.getElementById("againExam").onclick = ()=>document.getElementById("startExam").click();
+}
+
+/* ============================ CHULETA ============================ */
+function renderSheet(filter){
+  const f = (filter||"").toLowerCase().trim();
+  const hit = arr => !f || arr.join(" ").toLowerCase().includes(f);
+  document.getElementById("fBody").innerHTML = FORMULAS.filter(hit)
+    .map(r=>`<tr><td><b>${r[0]}</b></td><td class="f">${r[1]}</td><td style="color:var(--muted)">${r[2]}</td></tr>`).join("")
+    || `<tr><td colspan="3" style="color:var(--muted)">Sin resultados.</td></tr>`;
+  document.getElementById("nBody").innerHTML = NUMEROS.filter(hit)
+    .map(r=>`<tr><td><b>${r[0]}</b></td><td class="f">${r[1]}</td></tr>`).join("")
+    || `<tr><td colspan="2" style="color:var(--muted)">Sin resultados.</td></tr>`;
+  document.getElementById("pBody").innerHTML = PROPS.filter(hit)
+    .map(r=>`<tr><td class="f" style="color:var(--accent-ink);font-weight:600">${r[0]}</td><td>${r[1]}</td></tr>`).join("")
+    || `<tr><td colspan="2" style="color:var(--muted)">Sin resultados.</td></tr>`;
+}
+document.getElementById("sheetSearch").addEventListener("input",e=>renderSheet(e.target.value));
+
+/* ============================ RESET ============================ */
+document.getElementById("resetBtn").onclick = ()=>{
+  if(!confirm("Se borran las tarjetas marcadas, las estadísticas del quiz y los simulacros. ¿Seguro?")) return;
+  S = {known:{}, quiz:{}, exams:[], updatedAt:Date.now()};
+  qRight=0; qTot=0; document.getElementById("quizScore").textContent="0 / 0";
+  persist(); buildDeck(); buildQuiz();
+};
+
+/* ============================ ARRANQUE ============================ */
+buildDeck(); buildQuiz(); renderProgress(); renderSheet("");
+setPreset(PRESETS["TP · Figmay 2 L"]);
+document.querySelector("#presets .fbtn").setAttribute("aria-pressed","true");
+
+(async ()=>{
+  try{
+    const db = await window.claude?.use?.("db");
+    if(!db) return;
+    dbNs = db;
+    const snap = await db.doc("progreso/estado").get();
+    const remote = snap && snap.data ? snap.data : snap;
+    if(remote && remote.updatedAt && remote.updatedAt > (S.updatedAt||0)){
+      S = Object.assign({known:{},quiz:{},exams:[]}, remote);
+      saveLocal(); renderProgress(); buildDeck();
+    }
+    document.getElementById("syncChip").textContent = "Sincronizado entre tus dispositivos";
+    document.getElementById("syncChip").classList.add("on");
+  }catch(e){ /* sin sincronización: queda el guardado local */ }
+})();
+</script>
