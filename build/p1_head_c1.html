@@ -105,7 +105,8 @@
   /* ---------- TABLAS ---------- */
   table{ width:100%; border-collapse:collapse; margin:2.5mm 0; font-size:8.6pt; break-inside:auto; }
   tr{ break-inside:avoid; }
-  th,td{ border:1px solid var(--line); padding:1.9mm 2.2mm; text-align:left; vertical-align:top; }
+  th,td{ border:1px solid var(--line); padding:1.9mm 2.2mm; text-align:left; vertical-align:top;
+         overflow-wrap:anywhere; }
   th{ background:var(--bg-soft); font-weight:700; color:var(--ink2); }
   tbody tr:nth-child(even) td{ background:#fbfdfe; }
   td.ctr,th.ctr{ text-align:center; }
@@ -138,6 +139,7 @@
   figure{ margin:3mm 0; break-inside:avoid; text-align:center; }
   figcaption{ font-size:8.1pt; color:var(--muted); margin-top:1.5mm; text-align:center; }
   svg{ max-width:100%; height:auto; overflow:hidden; }
+  svg text{ stroke:none; }   /* evita que el texto herede el trazo del grupo y se dibuje dos veces */
   .q{ break-inside:avoid; margin:0 0 2.6mm; padding-left:6mm; position:relative; }
   .q .n{ position:absolute; left:0; top:.2mm; font-weight:800; color:var(--c1); font-size:8.6pt; }
   .q .a{ color:#1b5e20; }
