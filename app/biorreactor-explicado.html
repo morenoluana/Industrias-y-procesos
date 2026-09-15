@@ -1,0 +1,1223 @@
+<title>Biorreactor Explicado</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#eceff1; --surface:#ffffff; --surface2:#f4f6f7; --edge:#d6dde1; --edge2:#e6ebee;
+  --ink:#131b21; --ink2:#364650; --muted:#64757f;
+  --amber:#a8650f; --amber-soft:#fbeeda; --amber-ink:#8a5209;
+  --slate:#2b5f7e; --slate-soft:#e2edf3;
+  --good:#276d4e; --good-soft:#e0f0e8;
+  --bad:#a93c2c; --bad-soft:#fae7e3;
+  --shadow:0 1px 2px rgba(19,27,33,.07), 0 6px 18px -12px rgba(19,27,33,.22);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0f1519; --surface:#171f25; --surface2:#131b20; --edge:#26333b; --edge2:#1d272d;
+    --ink:#e6edf1; --ink2:#c0ccd4; --muted:#8b9aa4;
+    --amber:#e5a444; --amber-soft:#2e2211; --amber-ink:#f0bd6b;
+    --slate:#6fb4d6; --slate-soft:#132833;
+    --good:#5fc496; --good-soft:#12291f;
+    --bad:#e4806d; --bad-soft:#2d1713;
+    --shadow:0 1px 2px rgba(0,0,0,.45), 0 8px 22px -14px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0f1519; --surface:#171f25; --surface2:#131b20; --edge:#26333b; --edge2:#1d272d;
+  --ink:#e6edf1; --ink2:#c0ccd4; --muted:#8b9aa4;
+  --amber:#e5a444; --amber-soft:#2e2211; --amber-ink:#f0bd6b;
+  --slate:#6fb4d6; --slate-soft:#132833;
+  --good:#5fc496; --good-soft:#12291f;
+  --bad:#e4806d; --bad-soft:#2d1713;
+  --shadow:0 1px 2px rgba(0,0,0,.45), 0 8px 22px -14px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"Public Sans",system-ui,-apple-system,sans-serif;
+  font-size:16px; line-height:1.62; -webkit-text-size-adjust:100%;
+}
+h1,h2,h3{font-family:"Fraunces","Public Sans",Georgia,serif;margin:0;line-height:1.14;text-wrap:balance;font-weight:600}
+p{margin:0 0 .85em}
+a{color:var(--slate)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:5px}
+.mono{font-family:"DM Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+[hidden]{display:none!important}
+
+/* ---------- barra superior ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
+  background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--edge)}
+.bar-in{max-width:880px;margin:0 auto;padding:9px 18px;display:flex;align-items:center;gap:12px}
+.bar .name{font-family:"Fraunces",serif;font-weight:700;font-size:16px;letter-spacing:-.01em;white-space:nowrap}
+.dots{display:flex;gap:5px;margin-left:auto;align-items:center}
+.dots button{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--edge);background:transparent;padding:0;cursor:pointer}
+.dots button.seen{background:var(--amber);border-color:var(--amber)}
+.dots button.here{box-shadow:0 0 0 3px var(--amber-soft)}
+.tbtn{background:none;border:1px solid var(--edge);border-radius:7px;padding:4px 9px;cursor:pointer;color:var(--muted);font-size:14px;line-height:1}
+
+/* ---------- estructura ---------- */
+main{max-width:880px;margin:0 auto;padding-left:18px;padding-right:18px;padding-block:0 72px}
+.hero{padding-block:44px 30px;border-bottom:1px solid var(--edge)}
+.kicker{font-family:"DM Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber-ink);margin-bottom:14px}
+.hero h1{font-size:clamp(34px,8vw,54px);letter-spacing:-.025em;margin-bottom:16px}
+.hero .lede{font-size:18px;color:var(--ink2);max-width:60ch}
+.hero .lede b{color:var(--ink)}
+
+.lesson{padding-block:40px;border-bottom:1px solid var(--edge)}
+.lesson:last-of-type{border-bottom:none}
+.num{font-family:"DM Mono",monospace;font-size:12px;letter-spacing:.16em;color:var(--muted);margin-bottom:9px;display:flex;align-items:center;gap:9px}
+.num i{font-style:normal;background:var(--amber);color:var(--surface);width:22px;height:22px;border-radius:6px;
+  display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:500}
+:root[data-theme="dark"] .num i{color:#141b21}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .num i{color:#141b21}}
+.lesson h2{font-size:clamp(24px,5vw,31px);letter-spacing:-.02em;margin-bottom:12px}
+.lesson .body{font-size:16.5px;color:var(--ink2);max-width:64ch}
+.lesson .body b,.lesson .body strong{color:var(--ink);font-weight:600}
+
+.oneline{border-left:3px solid var(--amber);background:var(--amber-soft);padding:13px 17px;border-radius:0 9px 9px 0;margin:18px 0;max-width:64ch}
+.oneline .t{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-ink);display:block;margin-bottom:3px}
+.oneline p{margin:0;color:var(--ink);font-weight:500}
+
+.aside{background:var(--surface2);border:1px solid var(--edge2);border-radius:10px;padding:14px 17px;margin:18px 0;font-size:15px;color:var(--ink2);max-width:64ch}
+.aside .t{font-weight:700;color:var(--ink);display:block;margin-bottom:3px;font-size:15px}
+
+/* ---------- demos ---------- */
+.demo{background:var(--surface);border:1px solid var(--edge);border-radius:14px;padding:16px;margin:22px 0;box-shadow:var(--shadow)}
+.demo-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:12px}
+.demo-h .tag{font-family:"DM Mono",monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--slate);background:var(--slate-soft);padding:3px 8px;border-radius:5px}
+.demo-h .ttl{font-weight:600;font-size:15.5px}
+canvas{display:block;width:100%;border-radius:10px;background:var(--surface2);touch-action:pan-y}
+.ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin-top:13px}
+.ctrl label{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13px;color:var(--muted);margin-bottom:3px}
+.ctrl label b{font-family:"DM Mono",monospace;font-size:13.5px;color:var(--ink);font-weight:500}
+.ctrl input[type=range]{width:100%;accent-color:var(--amber)}
+.segs{display:flex;gap:5px;flex-wrap:wrap}
+.seg{background:var(--surface2);border:1px solid var(--edge);border-radius:8px;padding:6px 11px;font-size:13.5px;cursor:pointer;color:var(--ink2)}
+.seg[aria-pressed="true"]{background:var(--amber);border-color:var(--amber);color:var(--surface);font-weight:600}
+:root[data-theme="dark"] .seg[aria-pressed="true"]{color:#141b21}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .seg[aria-pressed="true"]{color:#141b21}}
+.act{background:var(--slate);border:none;border-radius:8px;padding:8px 15px;font-size:14px;font-weight:600;color:#fff;cursor:pointer}
+:root[data-theme="dark"] .act{color:#0f1519}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .act{color:#0f1519}}
+.act:disabled{opacity:.45;cursor:not-allowed}
+.outs{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:10px;margin-top:13px}
+.out{background:var(--surface2);border:1px solid var(--edge2);border-radius:9px;padding:9px 11px}
+.out .k{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.out .v{font-family:"DM Mono",monospace;font-size:19px;font-weight:500;letter-spacing:-.02em;margin-top:1px}
+.verdict{margin-top:12px;border-radius:9px;padding:11px 14px;font-size:14.5px;line-height:1.5;border-left:3px solid}
+.v-good{background:var(--good-soft);border-color:var(--good);color:var(--ink2)}
+.v-warn{background:var(--amber-soft);border-color:var(--amber);color:var(--ink2)}
+.v-bad{background:var(--bad-soft);border-color:var(--bad);color:var(--ink2)}
+.verdict b{color:var(--ink)}
+.meter{height:9px;border-radius:5px;background:var(--edge2);overflow:hidden;margin-top:5px}
+.meter i{display:block;height:100%;background:var(--amber);width:0;transition:width .25s linear}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:10px}
+.legend span{display:flex;align-items:center;gap:6px}
+.swatch{width:11px;height:11px;border-radius:50%;flex:0 0 auto}
+
+/* ---------- partes clicables ---------- */
+.parts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,260px);gap:16px;align-items:start}
+@media(max-width:620px){.parts{grid-template-columns:1fr}}
+.hot{cursor:pointer}
+.hot:hover .hit{stroke:var(--amber);stroke-width:2.5}
+.hit{fill:transparent;stroke:transparent;stroke-width:2}
+.hot[aria-pressed="true"] .hit{stroke:var(--amber);stroke-width:2.5}
+.partbox{background:var(--surface2);border:1px solid var(--edge2);border-radius:10px;padding:14px 15px;font-size:14.5px;color:var(--ink2);min-height:118px}
+.partbox h4{margin:0 0 4px;font-family:"Public Sans",sans-serif;font-size:15px;font-weight:700;color:var(--ink)}
+
+/* ---------- checkpoint ---------- */
+.check{background:var(--surface);border:1px solid var(--edge);border-radius:14px;padding:16px;margin-top:22px}
+.check .q{font-weight:600;font-size:16px;margin-bottom:11px}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{text-align:left;background:var(--surface2);border:1px solid var(--edge);border-radius:9px;padding:10px 13px;cursor:pointer;font-size:14.8px;line-height:1.45}
+.opt:hover:not(:disabled){border-color:var(--amber)}
+.opt.ok{background:var(--good-soft);border-color:var(--good)}
+.opt.no{background:var(--bad-soft);border-color:var(--bad)}
+.why{margin-top:10px;font-size:14.5px;color:var(--ink2);border-left:3px solid var(--edge);padding-left:12px}
+.why b{color:var(--ink)}
+
+/* ---------- tablas ---------- */
+.tw{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:430px}
+th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--edge2);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.n{font-family:"DM Mono",monospace;font-variant-numeric:tabular-nums}
+
+/* ---------- final ---------- */
+.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-top:18px}
+.link{display:block;background:var(--surface);border:1px solid var(--edge);border-radius:12px;padding:15px;text-decoration:none;color:inherit}
+.link:hover{border-color:var(--amber)}
+.link .t{font-weight:700;margin-bottom:3px}
+.link .d{font-size:14px;color:var(--muted)}
+.vids{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.vid{font-size:13.5px;background:var(--surface2);border:1px solid var(--edge);border-radius:20px;padding:6px 13px;text-decoration:none;color:var(--ink2)}
+.vid:hover{border-color:var(--slate);color:var(--slate)}
+footer{max-width:880px;margin:0 auto;padding:26px 18px 40px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--edge)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<header class="bar">
+  <div class="bar-in">
+    <span class="name">Biorreactor Explicado</span>
+    <div class="dots" id="dots" aria-label="Progreso"></div>
+    <button class="tbtn" id="theme" title="Cambiar tema">◐</button>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="kicker">Industrias y Procesos Biotecnológicos · UADE</div>
+  <h1>Todo esto es un tanque con bichos adentro</h1>
+  <p class="lede">Nueve lecciones cortas para entender la materia <b>desde cero</b>, sin fórmulas al principio. Cada una tiene algo con lo que podés jugar: movés una perilla y ves qué pasa. Cuando entiendas <b>qué pasa</b>, las fórmulas son solo la forma de escribirlo.</p>
+  <div class="oneline">
+    <span class="t">La materia entera, en un párrafo</span>
+    <p>Hay células vivas dentro de un tanque. Necesitan comida, oxígeno y temperatura <b>parejos en todo el tanque</b>. Para emparejarlos hay que <b>revolver</b>. Revolver cuesta <b>energía</b> y lastima células. Y cuando el tanque se hace más grande, <b>no se puede tener todo a la vez</b>: hay que elegir. Todo lo demás son detalles de esto.</p>
+  </div>
+</section>
+
+<!-- ============ 1 ============ -->
+<section class="lesson" id="L1">
+  <div class="num"><i>1</i> Lección uno</div>
+  <h2>¿Qué es un bioproceso?</h2>
+  <div class="body">
+    <p>Un bioproceso es <b>usar seres vivos como si fueran una fábrica</b>. En vez de sintetizar una molécula con reacciones químicas, ponés microorganismos a trabajar: los alimentás y ellos fabrican lo que te interesa.</p>
+    <p>Casi todo lo que te rodea pasó por acá: la <b>penicilina</b>, el <b>ácido cítrico</b> de las gaseosas, la <b>insulina</b>, el <b>etanol</b>, las <b>enzimas</b> del detergente. Y todos siguen el mismo camino de tres partes. Tocá cada una:</p>
+  </div>
+
+  <div class="demo">
+    <div class="demo-h"><span class="tag">Interactivo</span><span class="ttl">El camino de un bioproceso</span></div>
+    <div class="parts">
+      <div>
+        <svg viewBox="0 0 440 150" width="100%" role="img" aria-label="Diagrama de las tres etapas: upstream, biorreactor y downstream">
+          <defs><marker id="fa1" markerWidth="8" markerHeight="8" refX="7" refY="2.5" orient="auto"><path d="M0,0 L8,2.5 L0,5 z" fill="var(--muted)"/></marker></defs>
+          <g class="hot" data-stage="up" role="button" tabindex="0" aria-pressed="true">
+            <rect x="6" y="28" width="122" height="84" rx="10" fill="var(--slate-soft)"/>
+            <rect class="hit" x="6" y="28" width="122" height="84" rx="10"/>
+            <text x="67" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="var(--slate)" font-family="Public Sans, sans-serif">UPSTREAM</text>
+            <text x="67" y="62" text-anchor="middle" font-size="12" fill="var(--ink2)" font-family="Public Sans, sans-serif">Preparar</text>
+            <text x="67" y="80" text-anchor="middle" font-size="12" fill="var(--ink2)" font-family="Public Sans, sans-serif">el terreno</text>
+            <text x="67" y="99" text-anchor="middle" font-size="10.5" fill="var(--muted)" font-family="Public Sans, sans-serif">medio · inóculo</text>
+          </g>
+          <path d="M132,70 L152,70" stroke="var(--muted)" stroke-width="1.6" marker-end="url(#fa1)"/>
+          <g class="hot" data-stage="bio" role="button" tabindex="0" aria-pressed="false">
+            <rect x="158" y="28" width="122" height="84" rx="10" fill="var(--amber-soft)"/>
+            <rect class="hit" x="158" y="28" width="122" height="84" rx="10"/>
+            <text x="219" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="var(--amber-ink)" font-family="Public Sans, sans-serif">BIORREACTOR</text>
+            <text x="219" y="62" text-anchor="middle" font-size="12" fill="var(--ink2)" font-family="Public Sans, sans-serif">Cultivar</text>
+            <text x="219" y="80" text-anchor="middle" font-size="12" fill="var(--ink2)" font-family="Public Sans, sans-serif">las células</text>
+            <text x="219" y="99" text-anchor="middle" font-size="10.5" fill="var(--muted)" font-family="Public Sans, sans-serif">pH · T · oxígeno</text>
+          </g>
+          <path d="M284,70 L304,70" stroke="var(--muted)" stroke-width="1.6" marker-end="url(#fa1)"/>
+          <g class="hot" data-stage="down" role="button" tabindex="0" aria-pressed="false">
+            <rect x="310" y="28" width="124" height="84" rx="10" fill="var(--good-soft)"/>
+            <rect class="hit" x="310" y="28" width="124" height="84" rx="10"/>
+            <text x="372" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="var(--good)" font-family="Public Sans, sans-serif">DOWNSTREAM</text>
+            <text x="372" y="62" text-anchor="middle" font-size="12" fill="var(--ink2)" font-family="Public Sans, sans-serif">Sacar y limpiar</text>
+            <text x="372" y="80" text-anchor="middle" font-size="12" fill="var(--ink2)" font-family="Public Sans, sans-serif">el producto</text>
+            <text x="372" y="99" text-anchor="middle" font-size="10.5" fill="var(--muted)" font-family="Public Sans, sans-serif">separar · purificar</text>
+          </g>
+          <text x="220" y="136" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="Public Sans, sans-serif">Tocá cada etapa para ver qué pasa adentro</text>
+        </svg>
+      </div>
+      <div class="partbox" id="stageBox"></div>
+    </div>
+  </div>
+
+  <div class="oneline"><span class="t">Para el examen</span>
+    <p>El biorreactor <b>no es una unidad aislada</b>: es el centro de un proceso integrado con un antes (upstream) y un después (downstream).</p></div>
+  <div class="check" data-q="1"></div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="lesson" id="L2">
+  <div class="num"><i>2</i> Lección dos</div>
+  <h2>El tanque por dentro</h2>
+  <div class="body">
+    <p>El biorreactor más usado es el <b>tanque agitado</b>: una olla de acero con un motor arriba que hace girar unas paletas, y aire que entra por abajo. Cada pieza está ahí por una razón concreta. Tocá cada una para saber cuál:</p>
+  </div>
+
+  <div class="demo">
+    <div class="demo-h"><span class="tag">Interactivo</span><span class="ttl">Las partes y para qué sirve cada una</span></div>
+    <div class="parts">
+      <div>
+        <svg viewBox="0 0 300 300" width="100%" role="img" aria-label="Corte de un biorreactor de tanque agitado con sus partes clicables">
+          <rect x="72" y="66" width="156" height="184" rx="4" fill="var(--slate-soft)"/>
+          <path d="M78,72 L78,222 Q78,244 100,244 L200,244 Q222,244 222,222 L222,72 Z" fill="var(--surface2)" stroke="var(--edge)" stroke-width="2"/>
+          <path d="M80,120 L80,221 Q80,242 100,242 L200,242 Q220,242 220,221 L220,120 Z" fill="var(--amber-soft)"/>
+          <line x1="80" y1="120" x2="220" y2="120" stroke="var(--amber)" stroke-width="1.5"/>
+          <g class="hot" data-part="motor" role="button" tabindex="0" aria-pressed="false">
+            <rect x="123" y="16" width="54" height="24" rx="5" fill="var(--ink2)"/>
+            <text x="150" y="32" text-anchor="middle" font-size="11" fill="var(--surface)" font-family="Public Sans, sans-serif" font-weight="600">MOTOR</text>
+            <rect class="hit" x="119" y="12" width="62" height="32" rx="7"/>
+          </g>
+          <g class="hot" data-part="eje" role="button" tabindex="0" aria-pressed="false">
+            <rect x="146" y="40" width="8" height="150" fill="var(--muted)"/>
+            <rect class="hit" x="139" y="40" width="22" height="150" rx="5"/>
+          </g>
+          <g class="hot" data-part="agit" role="button" tabindex="0" aria-pressed="false">
+            <path d="M112,182 L148,190 L148,198 L112,190 Z" fill="var(--good)"/>
+            <path d="M188,182 L152,190 L152,198 L188,190 Z" fill="var(--good)"/>
+            <rect class="hit" x="106" y="176" width="88" height="28" rx="7"/>
+          </g>
+          <g class="hot" data-part="baffle" role="button" tabindex="0" aria-pressed="false">
+            <rect x="80" y="120" width="12" height="118" fill="var(--amber)" opacity=".75"/>
+            <rect x="208" y="120" width="12" height="118" fill="var(--amber)" opacity=".75"/>
+            <rect class="hit" x="76" y="116" width="20" height="126" rx="5"/>
+          </g>
+          <g class="hot" data-part="sparger" role="button" tabindex="0" aria-pressed="false">
+            <ellipse cx="150" cy="222" rx="34" ry="7" fill="none" stroke="var(--slate)" stroke-width="3"/>
+            <line x1="150" y1="244" x2="150" y2="266" stroke="var(--slate)" stroke-width="3"/>
+            <g fill="none" stroke="var(--slate)" stroke-width="1.2" opacity=".85">
+              <circle cx="128" cy="204" r="3.4"/><circle cx="152" cy="192" r="4"/><circle cx="172" cy="206" r="3.4"/>
+              <circle cx="138" cy="164" r="3.6"/><circle cx="166" cy="150" r="3"/><circle cx="150" cy="134" r="3.4"/>
+            </g>
+            <rect class="hit" x="112" y="212" width="76" height="30" rx="7"/>
+            <text x="150" y="282" text-anchor="middle" font-size="10.5" fill="var(--muted)" font-family="Public Sans, sans-serif">aire estéril</text>
+          </g>
+          <g class="hot" data-part="camisa" role="button" tabindex="0" aria-pressed="false">
+            <rect class="hit" x="68" y="62" width="14" height="190" rx="5"/>
+            <rect x="72" y="66" width="7" height="184" fill="var(--slate)" opacity=".5"/>
+          </g>
+          <g class="hot" data-part="sonda" role="button" tabindex="0" aria-pressed="false">
+            <rect x="103" y="74" width="7" height="96" rx="3" fill="var(--bad)"/>
+            <rect class="hit" x="97" y="70" width="19" height="104" rx="5"/>
+          </g>
+          <text x="150" y="296" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="Public Sans, sans-serif">Tocá una pieza del dibujo</text>
+        </svg>
+      </div>
+      <div class="partbox" id="partBox"></div>
+    </div>
+  </div>
+
+  <div class="aside"><span class="t">El dato que siempre preguntan</span>
+    Las proporciones no son libres. El agitador mide entre <b>1/4 y 1/2</b> del diámetro del tanque, el líquido llega a una altura de <b>1 a 1,25</b> veces ese diámetro, y los deflectores son <b>4</b> y miden <b>1/10</b> del diámetro. Salirse de ahí trae problemas concretos, que vas a ver en la lección 4.</div>
+  <div class="check" data-q="2"></div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="lesson" id="L3">
+  <div class="num"><i>3</i> Lección tres</div>
+  <h2>Viscosidad: por qué la miel no es agua</h2>
+  <div class="body">
+    <p>Imaginate el líquido como un <b>mazo de cartas</b>. Si empujás la carta de arriba, arrastra a la de abajo, esa a la siguiente, y así. Cuánto se arrastran entre sí es la <b>viscosidad</b>: la fricción interna del fluido.</p>
+    <p>En el agua las capas casi no se arrastran. En la miel, muchísimo. Y en un cultivo de hongos, que es una maraña de filamentos, también muchísimo — <b>y eso arruina el mezclado</b>.</p>
+  </div>
+
+  <div class="demo">
+    <div class="demo-h"><span class="tag">Jugá</span><span class="ttl">Movés la placa de arriba y mirás qué hace el líquido</span></div>
+    <canvas id="cvCouette" height="200" aria-label="Animación de dos placas con líquido entre ellas; la de arriba se mueve y arrastra al líquido"></canvas>
+    <div class="ctrls">
+      <div class="ctrl"><label for="cS">Fuerza con la que empujás la placa <b><span id="lS"></span></b></label><input type="range" id="cS" min="10" max="100" value="60"></div>
+      <div class="ctrl"><label for="cM">Viscosidad del líquido <b><span id="lM"></span> cP</b></label><input type="range" id="cM" min="1" max="1000" value="1"></div>
+    </div>
+    <div class="outs">
+      <div class="out"><div class="k">Velocidad arriba</div><div class="v" id="oU">—</div></div>
+      <div class="out"><div class="k">Esfuerzo de corte τ</div><div class="v" id="oTau">—</div></div>
+      <div class="out"><div class="k">Se parece a</div><div class="v" id="oLike" style="font-size:15px">—</div></div>
+    </div>
+    <div class="verdict v-warn" id="cVerdict"></div>
+  </div>
+
+  <div class="oneline"><span class="t">La fórmula, ahora que ya la entendés</span>
+    <p><span class="mono">τ = μ · γ̇</span> — el esfuerzo que aplicás (τ) es igual a la viscosidad (μ) por lo rápido que se deforma el fluido (γ̇). <b>Si el fluido es más viscoso, te cuesta más lograr la misma deformación.</b> Eso es todo lo que dice la ley de Newton.</p></div>
+  <div class="check" data-q="3"></div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="lesson" id="L4">
+  <div class="num"><i>4</i> Lección cuatro</div>
+  <h2>Fluidos que cambian cuando los revolvés</h2>
+  <div class="body">
+    <p>Acá viene lo raro. En el agua, la viscosidad es siempre la misma, revuelvas fuerte o suave. Se llama <b>newtoniano</b>. Pero muchos caldos de fermentación <b>no</b> se portan así.</p>
+    <p>El caso típico en bioprocesos es el <b>pseudoplástico</b>: cuanto más fuerte lo revolvés, <b>más líquido se vuelve</b>. Pensá en el kétchup o en el champú. Pasa porque los filamentos del hongo, que en reposo están enredados, se <b>alinean</b> en la dirección del flujo.</p>
+  </div>
+
+  <div class="demo">
+    <div class="demo-h"><span class="tag">Jugá</span><span class="ttl">Elegí el tipo de fluido y mové la cizalla</span></div>
+    <div class="segs" id="rhSegs" style="margin-bottom:12px">
+      <button class="seg" data-f="newt" aria-pressed="true">Newtoniano (agua)</button>
+      <button class="seg" data-f="pseudo" aria-pressed="false">Pseudoplástico (hongos)</button>
+      <button class="seg" data-f="dilat" aria-pressed="false">Dilatante (maicena)</button>
+      <button class="seg" data-f="bing" aria-pressed="false">Bingham (dentífrico)</button>
+    </div>
+    <div id="rhPlot"></div>
+    <div class="ctrls">
+      <div class="ctrl"><label for="rhG">Cuánto lo revolvés (velocidad de cizalla γ̇) <b><span id="lG"></span> s⁻¹</b></label><input type="range" id="rhG" min="1" max="100" value="20"></div>
+    </div>
+    <div class="outs">
+      <div class="out"><div class="k">Viscosidad aparente</div><div class="v" id="oMuA">—</div></div>
+      <div class="out"><div class="k">Índice n</div><div class="v" id="oIdx">—</div></div>
+    </div>
+    <div class="verdict v-warn" id="rhVerdict"></div>
+  </div>
+
+  <div class="aside"><span class="t">Por qué esto te importa</span>
+    En un cultivo de hongos la viscosidad <b>cambia durante el batch</b>: al principio el caldo es casi agua, y al final es una sopa espesa llena de micelio. <b>El proceso del final no es el mismo que el del principio</b>, y eso es un problema de diseño y de reproducibilidad.</div>
+  <div class="check" data-q="4"></div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="lesson" id="L5">
+  <div class="num"><i>5</i> Lección cinco</div>
+  <h2>Reynolds: ¿río tranquilo o rápido revuelto?</h2>
+  <div class="body">
+    <p>Si entendés esta lección, entendés la mitad de la materia.</p>
+    <p>Cuando un fluido se mueve, puede hacerlo de dos maneras. En <b>flujo laminar</b> las capas se deslizan ordenadas, como los carriles de una autopista: nadie cambia de carril, así que <b>casi no hay mezcla</b>. En <b>flujo turbulento</b> se forman remolinos que cruzan todo: <b>eso sí mezcla</b>.</p>
+    <p>El <b>número de Reynolds</b> es simplemente el número que te dice en cuál de los dos estás. Es una pelea entre dos fuerzas: la <b>inercia</b> (el fluido quiere seguir moviéndose y hacer lío) contra la <b>viscosidad</b> (el fluido quiere quedarse quieto y ordenado). Si gana la inercia, Re es alto y hay turbulencia.</p>
+  </div>
+
+  <div class="demo">
+    <div class="demo-h"><span class="tag">El demo importante</span><span class="ttl">Tu biorreactor: movelo y soltá colorante</span></div>
+    <canvas id="cvTank" height="300" aria-label="Simulación de un tanque agitado con partículas que muestran el patrón de flujo"></canvas>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--slate)"></i> medio de cultivo</span>
+      <span><i class="swatch" style="background:var(--amber)"></i> colorante trazador</span>
+    </div>
+    <div class="ctrls">
+      <div class="ctrl"><label for="tN">Velocidad de agitación <b><span id="ltN"></span> rpm</b></label><input type="range" id="tN" min="10" max="600" value="250" step="10"></div>
+      <div class="ctrl"><label for="tMu">Viscosidad del caldo <b><span id="ltMu"></span> cP</b></label><input type="range" id="tMu" min="1" max="2000" value="1"></div>
+      <div class="ctrl"><label for="tDi">Tamaño del agitador <b><span id="ltDi"></span> × D<sub>tanque</sub></b></label><input type="range" id="tDi" min="15" max="55" value="33"></div>
+    </div>
+    <div class="segs" style="margin-top:12px">
+      <button class="seg" id="tBaffle" aria-pressed="true">Con deflectores</button>
+      <button class="seg" id="tImpR" aria-pressed="true">Rushton (radial)</button>
+      <button class="seg" id="tImpA" aria-pressed="false">Hélice (axial)</button>
+      <button class="act" id="tDye">Soltar colorante</button>
+    </div>
+    <div class="outs">
+      <div class="out"><div class="k">Número de Reynolds</div><div class="v" id="tRe">—</div></div>
+      <div class="out"><div class="k">Régimen</div><div class="v" id="tReg" style="font-size:15px">—</div></div>
+      <div class="out"><div class="k">Homogeneidad
+        <div class="meter"><i id="tHomBar"></i></div></div><div class="v" id="tHom" style="font-size:15px">—</div></div>
+      <div class="out"><div class="k">Tiempo de mezclado</div><div class="v" id="tTm">—</div></div>
+    </div>
+    <div class="verdict v-warn" id="tVerdict"></div>
+  </div>
+
+  <div class="aside"><span class="t">Probá estas tres cosas</span>
+    <b>1.</b> Bajá la agitación a 40 rpm y soltá colorante: mirá cómo tarda una eternidad.
+    <b>2.</b> Subí la viscosidad a 1500 cP: el Re se derrumba y aparecen <b>zonas muertas</b>, donde el colorante nunca llega.
+    <b>3.</b> Apagá los deflectores: el líquido gira pero <b>no sube ni baja</b>, y el colorante se queda donde cayó. Eso es el <b>vórtice</b>.</div>
+
+  <div class="oneline"><span class="t">Los números que hay que saber</span>
+    <p>En un tanque agitado: <span class="mono">Re &lt; 10</span> es laminar, <span class="mono">Re &gt; 10.000</span> es turbulento, y en el medio es zona de transición. La fórmula es <span class="mono">Re = ρ·N·D<sub>i</sub>²/μ</span>, con <b>N en vueltas por segundo</b> (no en rpm).</p></div>
+  <div class="check" data-q="5"></div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="lesson" id="L6">
+  <div class="num"><i>6</i> Lección seis</div>
+  <h2>Revolver cuesta caro</h2>
+  <div class="body">
+    <p>Ya viste que agitar más mezcla mejor. La pregunta obvia: ¿por qué no agitamos siempre al máximo?</p>
+    <p>Por dos motivos. El primero es la <b>energía</b>, y acá hay una trampa: la potencia no crece proporcional a la velocidad, sino <b>al cubo</b>. Si duplicás las vueltas, el consumo se multiplica por <b>ocho</b>. Y crece con el diámetro del agitador <b>a la quinta</b>.</p>
+    <p>El segundo motivo es la <b>cizalla</b>. La punta de la paleta es lo más rápido del tanque, y las células que pasan por ahí se rompen. A eso se le llama <b>velocidad de punta</b> o <i>tip speed</i>, y cada tipo de célula aguanta hasta cierto valor.</p>
+  </div>
+
+  <div class="demo">
+    <div class="demo-h"><span class="tag">Jugá</span><span class="ttl">El precio de agitar</span></div>
+    <div id="pwPlot"></div>
+    <div class="ctrls">
+      <div class="ctrl"><label for="pN">Velocidad de agitación <b><span id="lpN"></span> rpm</b></label><input type="range" id="pN" min="20" max="500" value="150" step="5"></div>
+      <div class="ctrl"><label for="pD">Diámetro del agitador <b><span id="lpD"></span> m</b></label><input type="range" id="pD" min="10" max="120" value="40"></div>
+      <div class="ctrl"><label for="pC">¿Qué estás cultivando?</label>
+        <select id="pC" style="width:100%;background:var(--surface2);border:1px solid var(--edge);border-radius:8px;padding:7px 9px;color:var(--ink);font-family:'DM Mono',monospace;font-size:14px">
+          <option value="5">Bacterias — aguantan hasta 5 m/s</option>
+          <option value="2.5">Hongos filamentosos — 2 a 3 m/s</option>
+          <option value="1.5">Células de mamífero (CHO) — 1 a 1,5 m/s</option>
+          <option value="1">Células de insecto — 1 m/s</option>
+        </select></div>
+    </div>
+    <div class="outs">
+      <div class="out"><div class="k">Potencia al fluido</div><div class="v" id="pP">—</div></div>
+      <div class="out"><div class="k">Velocidad de punta</div><div class="v" id="pV">—</div></div>
+      <div class="out"><div class="k">vs. el doble de rpm</div><div class="v" id="pX">—</div></div>
+    </div>
+    <div class="verdict v-warn" id="pVerdict"></div>
+  </div>
+
+  <div class="oneline"><span class="t">La tensión que recorre toda la materia</span>
+    <p>Agitar más = mejor mezcla y más oxígeno, <b>pero</b> más energía, más calor y más células rotas. <b>Nunca hay una respuesta "más es mejor"</b>: siempre hay un óptimo.</p></div>
+  <div class="check" data-q="6"></div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="lesson" id="L7">
+  <div class="num"><i>7</i> Lección siete</div>
+  <h2>El oxígeno es el cuello de botella</h2>
+  <div class="body">
+    <p>El oxígeno casi no se disuelve en agua. En un cultivo saturado con aire hay apenas <b>7 miligramos por litro</b> — una nada. Y un cultivo de bacterias se lo come <b>en segundos</b>.</p>
+    <p>O sea que el oxígeno no se "carga" al principio: hay que estar <b>reponiéndolo todo el tiempo</b>, burbujeando aire. Y ahí aparecen las tres siglas de la materia:</p>
+    <ul class="body" style="margin-top:0">
+      <li><b>OUR</b> — lo que las <b>células consumen</b>. Depende de cuántas hay y de qué tan activas están.</li>
+      <li><b>OTR</b> — lo que el <b>equipo logra meter</b> al líquido.</li>
+      <li><b>k<sub>L</sub>a</b> — la <b>capacidad de transferencia</b> del equipo: qué tan bueno es tu tanque para pasar oxígeno del aire al caldo.</li>
+    </ul>
+    <p>La regla es una sola: <b>OTR tiene que ser mayor que OUR</b>. Si no, el oxígeno disuelto cae a cero y el cultivo se ahoga.</p>
+  </div>
+
+  <div class="demo">
+    <div class="demo-h"><span class="tag">Jugá</span><span class="ttl">¿Alcanza el oxígeno?</span></div>
+    <canvas id="cvOx" height="230" aria-label="Animación de burbujas de aire subiendo por el caldo y transfiriendo oxígeno"></canvas>
+    <div class="ctrls">
+      <div class="ctrl"><label for="oN">Agitación <b><span id="loN"></span> rpm</b></label><input type="range" id="oN" min="50" max="600" value="250" step="10"></div>
+      <div class="ctrl"><label for="oQ">Caudal de aire <b><span id="loQ"></span> vvm</b></label><input type="range" id="oQ" min="1" max="20" value="10"></div>
+      <div class="ctrl"><label for="oX">Cantidad de células <b><span id="loX"></span> g/L</b></label><input type="range" id="oX" min="1" max="40" value="8"></div>
+      <div class="ctrl"><label for="oMu">Viscosidad <b><span id="loMu"></span> cP</b></label><input type="range" id="oMu" min="1" max="1500" value="1"></div>
+    </div>
+    <div class="outs">
+      <div class="out"><div class="k">k<sub>L</sub>a del equipo</div><div class="v" id="oKla">—</div></div>
+      <div class="out"><div class="k">OTR (entrega)</div><div class="v" id="oOTR">—</div></div>
+      <div class="out"><div class="k">OUR (consumo)</div><div class="v" id="oOUR">—</div></div>
+      <div class="out"><div class="k">Oxígeno disuelto</div><div class="v" id="oDO">—</div></div>
+    </div>
+    <div class="verdict v-warn" id="oVerdict"></div>
+  </div>
+
+  <div class="aside"><span class="t">Dos detalles que suman puntos</span>
+    <b>Burbujas chicas son mejores</b>, porque dan más superficie de contacto… pero <b>por debajo de 1 mm dejan de servir</b>. Y <b>la viscosidad mata el k<sub>L</sub>a</b>: el caldo espeso engorda la película que rodea la burbuja y el oxígeno no logra cruzarla.</div>
+  <div class="check" data-q="7"></div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="lesson" id="L8">
+  <div class="num"><i>8</i> Lección ocho</div>
+  <h2>El otro reactor: airlift</h2>
+  <div class="body">
+    <p>Si las células son delicadas —células animales, vegetales, microalgas— un agitador las destroza. La solución es un reactor <b>sin partes móviles</b>: el <b>airlift</b>.</p>
+    <p>El truco es hermoso. Inyectás aire solo de un lado (el <b>riser</b>). Ese lado se llena de burbujas y <b>pesa menos</b>, así que sube. Del otro lado (el <b>downcomer</b>) el líquido ya soltó las burbujas, pesa más, y baja. Se arma una circulación sola, <b>por diferencia de densidad</b>, sin motor.</p>
+  </div>
+
+  <div class="demo">
+    <div class="demo-h"><span class="tag">Comparación</span><span class="ttl">Los dos reactores, lado a lado</span></div>
+    <canvas id="cvCmp" height="250" aria-label="Comparación animada entre un tanque agitado y un biorreactor airlift"></canvas>
+    <div class="ctrls">
+      <div class="ctrl"><label for="cAir">Caudal de aire del airlift <b><span id="lcAir"></span></b></label><input type="range" id="cAir" min="10" max="100" value="55"></div>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th></th><th>Tanque agitado</th><th>Airlift</th></tr></thead>
+        <tbody>
+          <tr><td><b>Cizalla</b></td><td>Alta, concentrada en la paleta</td><td><b>Baja</b>, repartida en todo el volumen</td></tr>
+          <tr><td><b>Mezcla</b></td><td><b>Fuerte y regulable</b> con las rpm</td><td>Más débil; depende solo del aire</td></tr>
+          <tr><td><b>Oxígeno</b></td><td><b>Mejor</b>: el agitador rompe las burbujas</td><td>Menor, salvo en columnas muy altas</td></tr>
+          <tr><td><b>Control</b></td><td>Mezcla y aireación <b>por separado</b></td><td>Van juntas: no se pueden separar</td></tr>
+          <tr><td><b>Mantenimiento</b></td><td>Motor, eje y sello: más para romperse</td><td><b>Casi nada</b>, y la esterilidad es más fácil</td></tr>
+          <tr><td><b>¿Para qué?</b></td><td>Bacterias y levaduras, procesos aerobios exigentes</td><td>Células animales, vegetales y microalgas</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="check" data-q="8"></div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section class="lesson" id="L9">
+  <div class="num"><i>9</i> Lección nueve</div>
+  <h2>Escalar: el problema que no tiene solución</h2>
+  <div class="body">
+    <p>Tenés un proceso que anda perfecto en 2 litros. Ahora hay que hacerlo en 2000. ¿Simplemente hacés todo mil veces más grande?</p>
+    <p>No, y por dos razones. La primera es geometría pura: el volumen crece <b>al cubo</b>, así que multiplicar el volumen por 1000 solo multiplica las dimensiones por <b>10</b>.</p>
+    <p>La segunda es la importante: <b>no se pueden mantener todas las condiciones a la vez</b>. Si conservás la potencia por unidad de volumen, la punta de la paleta se acelera y mata células. Si conservás la velocidad de punta, se te cae la potencia y ya no mezclás. <b>Hay que elegir qué conservar y bancarse lo que se rompe.</b></p>
+  </div>
+
+  <div class="demo">
+    <div class="demo-h"><span class="tag">Decidí vos</span><span class="ttl">De 2 L a 2000 L: ¿qué conservás?</span></div>
+    <div class="segs" id="scSegs">
+      <button class="seg" data-c="pv" aria-pressed="true">Potencia por volumen (P/V)</button>
+      <button class="seg" data-c="tip" aria-pressed="false">Velocidad de punta</button>
+      <button class="seg" data-c="n" aria-pressed="false">Las mismas rpm</button>
+      <button class="seg" data-c="re" aria-pressed="false">El número de Reynolds</button>
+    </div>
+    <div class="tw" style="margin-bottom:6px">
+      <table>
+        <thead><tr><th>Variable</th><th>En 2 L</th><th>En 2000 L</th><th>Cambio</th></tr></thead>
+        <tbody id="scBody"></tbody>
+      </table>
+    </div>
+    <div class="verdict v-warn" id="scVerdict"></div>
+  </div>
+
+  <div class="oneline"><span class="t">Cómo se responde esto en un examen</span>
+    <p>Siempre igual: <b>(1)</b> ¿qué limita a mi proceso — el oxígeno, la cizalla o la homogeneidad?; <b>(2)</b> elijo el criterio que conserva <i>esa</i> variable; <b>(3)</b> digo explícitamente <b>qué sacrifico</b>; <b>(4)</b> propongo cómo compensarlo.</p></div>
+  <div class="check" data-q="9"></div>
+</section>
+
+<!-- ============ CIERRE ============ -->
+<section class="lesson" id="L10">
+  <div class="num"><i>✓</i> Ya está</div>
+  <h2>Lo que acabás de aprender</h2>
+  <div class="body">
+    <p>Si llegaste hasta acá, ya tenés el esqueleto completo de la materia. Todo lo que falta son <b>detalles colgados de estas nueve ideas</b>: los tipos de producto, los viscosímetros, los sensores, los métodos para medir k<sub>L</sub>a. Nada de eso es nuevo conceptualmente.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Lección</th><th>La idea, en una línea</th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b></td><td>Un bioproceso es upstream → biorreactor → downstream. El reactor nunca está solo.</td></tr>
+        <tr><td><b>2</b></td><td>Cada pieza del tanque está por una razón, y las proporciones no son libres.</td></tr>
+        <tr><td><b>3</b></td><td>La viscosidad es la fricción interna del fluido: <span class="mono">τ = μ·γ̇</span>.</td></tr>
+        <tr><td><b>4</b></td><td>Los caldos de hongos son pseudoplásticos: se aflojan al revolverlos, y espesan durante el batch.</td></tr>
+        <tr><td><b>5</b></td><td>Reynolds decide si hay mezcla. Laminar &lt; 10, turbulento &gt; 10.000.</td></tr>
+        <tr><td><b>6</b></td><td>La potencia va con N³ y con D⁵; la cizalla, con la velocidad de punta.</td></tr>
+        <tr><td><b>7</b></td><td>OTR &gt; OUR o el cultivo se ahoga. El k<sub>L</sub>a es la capacidad del equipo.</td></tr>
+        <tr><td><b>8</b></td><td>Airlift = sin partes móviles, baja cizalla, menos control.</td></tr>
+        <tr><td><b>9</b></td><td>Al escalar hay que elegir qué conservar. Siempre se sacrifica algo.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:20px;margin:26px 0 4px">Y ahora, ¿qué hago?</h3>
+  <p class="body">En este orden:</p>
+  <div class="links">
+    <a class="link" href="https://claude.ai/artifact/ThkBmTH7ei7RruvAia6mHD" target="_blank" rel="noopener">
+      <div class="t">→ Practicar</div>
+      <div class="d">Sala de Cultivo: 84 tarjetas, 52 preguntas con explicación, simulacro cronometrado y una calculadora de biorreactor.</div>
+    </a>
+    <div class="link">
+      <div class="t">→ Leer el detalle</div>
+      <div class="d">El resumen en PDF de 60 páginas: las 4 clases completas, los dos TP, problemas resueltos y el formulario.</div>
+    </div>
+  </div>
+
+  <div class="aside" style="margin-top:22px"><span class="t">Sobre los videos</span>
+    Esta página no puede incrustar videos de YouTube (el entorno donde vive los bloquea), y por eso todo lo que ves acá son <b>simulaciones que corren en la página</b>. Si igual querés ver a alguien explicándolo, estas búsquedas abren YouTube en otra pestaña:
+    <div class="vids">
+      <a class="vid" href="https://www.youtube.com/results?search_query=n%C3%BAmero+de+Reynolds+explicaci%C3%B3n+flujo+laminar+turbulento" target="_blank" rel="noopener">Número de Reynolds</a>
+      <a class="vid" href="https://www.youtube.com/results?search_query=biorreactor+tanque+agitado+partes+funcionamiento" target="_blank" rel="noopener">Tanque agitado</a>
+      <a class="vid" href="https://www.youtube.com/results?search_query=biorreactor+airlift+funcionamiento" target="_blank" rel="noopener">Airlift</a>
+      <a class="vid" href="https://www.youtube.com/results?search_query=kLa+transferencia+de+oxigeno+biorreactor" target="_blank" rel="noopener">k<sub>L</sub>a y transferencia de O₂</a>
+      <a class="vid" href="https://www.youtube.com/results?search_query=fluidos+no+newtonianos+pseudopl%C3%A1stico" target="_blank" rel="noopener">Fluidos no newtonianos</a>
+      <a class="vid" href="https://www.youtube.com/results?search_query=escalado+de+bioprocesos+scale+up+criterios" target="_blank" rel="noopener">Escalado de bioprocesos</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  Armado a partir de las cuatro clases teóricas y las dos guías de trabajos prácticos de Industrias y Procesos Biotecnológicos, UADE 2026.
+  Las simulaciones son <b>aproximaciones didácticas</b>: sirven para entender cómo se relacionan las variables, no para diseñar un equipo real.
+</footer>
+
+<script>
+/* ===================== utilidades ===================== */
+const $ = s => document.querySelector(s);
+const nf = (x,d=1)=>{
+  if(!isFinite(x)) return "—";
+  const a=Math.abs(x);
+  if(a>=1e5||(a<0.01&&a>0)){
+    const e=Math.floor(Math.log10(a)), m=x/Math.pow(10,e);
+    return m.toFixed(1).replace(".",",")+"·10"+String(e).split("").map(c=>"⁻⁰¹²³⁴⁵⁶⁷⁸⁹"["-0123456789".indexOf(c)]).join("");
+  }
+  return x.toFixed(a>=100?0:a>=10?d:d+1).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/,"");
+};
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* tema */
+$("#theme").addEventListener("click",()=>{
+  const cur=document.documentElement.getAttribute("data-theme");
+  const dark = cur ? cur==="dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.setAttribute("data-theme", dark?"light":"dark");
+  drawRheo(); drawPower();
+});
+
+/* canvas responsivo */
+function fitCanvas(c){
+  const dpr = Math.min(window.devicePixelRatio||1, 2);
+  const w = c.clientWidth || 600, h = parseInt(c.getAttribute("height"),10);
+  c.width = Math.round(w*dpr); c.height = Math.round(h*dpr);
+  const x = c.getContext("2d"); x.setTransform(dpr,0,0,dpr,0,0);
+  return {w, h, ctx:x};
+}
+const scenes = [];
+function addScene(canvas, step){
+  const s = {canvas, step, on:false, dim:fitCanvas(canvas)};
+  scenes.push(s);
+  new IntersectionObserver(es=>es.forEach(e=>s.on=e.isIntersecting),{rootMargin:"120px"}).observe(canvas);
+  return s;
+}
+let last=performance.now();
+function loop(t){
+  const dt = Math.min((t-last)/16.67, 3); last=t;
+  for(const s of scenes){ if(s.on) s.step(s.dim.ctx, s.dim.w, s.dim.h, reduce?0:dt); }
+  requestAnimationFrame(loop);
+}
+addEventListener("resize",()=>{ scenes.forEach(s=>s.dim=fitCanvas(s.canvas)); drawRheo(); drawPower(); });
+
+/* ===================== 1 · etapas ===================== */
+const STAGES = {
+  up:{t:"Upstream — preparar el terreno",d:"Todo lo que pasa antes de que las células empiecen a trabajar: elegir el microorganismo, prepararle el medio de cultivo, <b>esterilizarlo todo</b> (si entra un contaminante, perdiste el lote) y hacer crecer un inóculo, que es el cultivo pequeño con el que se arranca el tanque grande."},
+  bio:{t:"Biorreactor — donde trabajan",d:"El tanque donde las células crecen y fabrican el producto. Acá se controlan <b>pH, temperatura, oxígeno disuelto y agitación</b>. Es el corazón del proceso y el tema central de la materia: casi todo lo que estudiás es cómo lograr que adentro del tanque las condiciones sean parejas."},
+  down:{t:"Downstream — sacar y limpiar",d:"El producto está mezclado con células, restos y medio gastado. Primero la <b>recuperación</b>: separar sólidos de líquido, romper células si el producto quedó adentro, clarificar. Después la <b>purificación</b>: sacar impurezas, concentrar y formular. Suele ser la parte <b>más cara</b> del proceso."}
+};
+function pickStage(k){
+  document.querySelectorAll('[data-stage]').forEach(el=>el.setAttribute("aria-pressed", el.dataset.stage===k));
+  $("#stageBox").innerHTML = `<h4>${STAGES[k].t}</h4>${STAGES[k].d}`;
+}
+document.querySelectorAll('[data-stage]').forEach(el=>{
+  el.addEventListener("click",()=>pickStage(el.dataset.stage));
+  el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pickStage(el.dataset.stage);}});
+});
+pickStage("up");
+
+/* ===================== 2 · partes ===================== */
+const PARTS = {
+  motor:{t:"Motor",d:"Le da la energía mecánica al sistema. Se elige por <b>velocidad, torque y potencia</b>, y tiene que estar a la altura de la viscosidad del caldo: un medio espeso le exige mucho más."},
+  eje:{t:"Eje agitador",d:"Transmite el torque del motor a las paletas. Además <b>aguanta las fuerzas de flexión</b> que genera el agitador y soporta su peso, todo sin vibrar. Por donde entra al tanque hay un sello, que es una vía clásica de contaminación."},
+  agit:{t:"Agitador (impulsor)",d:"Las paletas que mueven el líquido. Su forma define el <b>patrón de flujo</b>: las paletas planas tiran el líquido hacia los costados (radial) y las inclinadas hacia abajo (axial). Mide entre <b>1/4 y 1/2</b> del diámetro del tanque."},
+  baffle:{t:"Deflectores (baffles)",d:"Cuatro chapas verticales pegadas a la pared. Sin ellas el líquido simplemente <b>gira en redondo</b> y se forma un vórtice: no hay mezcla real. Rompen ese giro y generan turbulencia. Miden <b>1/10</b> del diámetro del tanque."},
+  sparger:{t:"Sparger (burbujeador)",d:"El anillo perforado que inyecta aire en burbujas, siempre <b>por debajo del agitador</b>, para que las paletas las rompan y las repartan. El aire entra filtrado por un filtro de <b>0,22 µm</b>, que es lo que garantiza la esterilidad."},
+  camisa:{t:"Camisa (jacket)",d:"La doble pared por donde circula agua fría o caliente. <b>Calienta y enfría sin tocar el medio.</b> Hace falta porque la fermentación <b>libera calor</b>: sin refrigeración el cultivo se cocina solo."},
+  sonda:{t:"Sondas y sensores",d:"Miden <b>temperatura, pH y oxígeno disuelto</b> en tiempo real y alimentan los lazos de control. Van dentro de vainas de acero inoxidable y tienen que aguantar la esterilización con vapor."}
+};
+function pickPart(k){
+  document.querySelectorAll('[data-part]').forEach(el=>el.setAttribute("aria-pressed", el.dataset.part===k));
+  $("#partBox").innerHTML = `<h4>${PARTS[k].t}</h4>${PARTS[k].d}`;
+}
+document.querySelectorAll('[data-part]').forEach(el=>{
+  el.addEventListener("click",()=>pickPart(el.dataset.part));
+  el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pickPart(el.dataset.part);}});
+});
+pickPart("agit");
+
+/* ===================== 3 · Couette ===================== */
+const cou = {parts:[], u:0};
+for(let i=0;i<150;i++) cou.parts.push({x:Math.random(), y:Math.random()});
+const cvC = $("#cvCouette");
+function couStep(ctx,w,h,dt){
+  const F = +$("#cS").value, mu = +$("#cM").value;
+  const U = F / (1 + Math.log10(mu)*1.9);          // más viscoso → más cuesta moverla
+  cou.u = U;
+  const top=28, bot=h-28;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = css("--surface2"); ctx.fillRect(0,0,w,h);
+  // líquido
+  ctx.fillStyle = css("--amber-soft"); ctx.fillRect(0,top,w,bot-top);
+  // partículas
+  ctx.fillStyle = css("--slate");
+  for(const p of cou.parts){
+    const speed = (1-p.y) * U * 0.0016;
+    p.x += speed*dt; if(p.x>1) p.x-=1;
+    ctx.globalAlpha = .55;
+    ctx.beginPath(); ctx.arc(p.x*w, top+p.y*(bot-top), 2.1, 0, 7); ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  // perfil de velocidades
+  ctx.strokeStyle = css("--amber"); ctx.lineWidth=2;
+  ctx.beginPath();
+  for(let i=0;i<=20;i++){ const yy=top+(i/20)*(bot-top); const xx=30+(1-i/20)*U*1.5; i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy); }
+  ctx.stroke();
+  ctx.fillStyle=css("--amber");
+  for(let i=0;i<=5;i++){
+    const yy=top+(i/5)*(bot-top), len=(1-i/5)*U*1.5;
+    ctx.beginPath(); ctx.moveTo(30,yy); ctx.lineTo(30+len,yy); ctx.stroke();
+    if(len>6){ctx.beginPath();ctx.moveTo(30+len,yy);ctx.lineTo(30+len-5,yy-3);ctx.lineTo(30+len-5,yy+3);ctx.closePath();ctx.fill();}
+  }
+  // placas
+  ctx.fillStyle=css("--slate"); ctx.fillRect(0,top-14,w,14);
+  ctx.fillStyle=css("--ink2"); ctx.fillRect(0,bot,w,14);
+  ctx.font='600 12px "Public Sans", sans-serif'; ctx.fillStyle=css("--surface");
+  ctx.fillText("PLACA QUE EMPUJÁS  →", 10, top-4);
+  ctx.fillText("PLACA FIJA — velocidad cero", 10, bot+11);
+}
+addScene(cvC, couStep);
+function couOut(){
+  const F=+$("#cS").value, mu=+$("#cM").value;
+  $("#lS").textContent = F<35?"suave":F<70?"media":"fuerte";
+  $("#lM").textContent = mu;
+  const U = F/(1+Math.log10(mu)*1.9);
+  $("#oU").textContent = nf(U/12,2)+" m/s";
+  $("#oTau").textContent = nf(F/10,1)+" Pa";
+  const like = mu<3?"agua":mu<80?"aceite fino":mu<400?"aceite de motor":mu<900?"miel":"caldo de hongos";
+  $("#oLike").textContent = like;
+  const v=$("#cVerdict");
+  if(mu<10){ v.className="verdict v-good"; v.innerHTML="<b>Poca viscosidad:</b> con el mismo empujón el líquido se mueve rápido y el perfil de velocidades es bien inclinado. Las capas se arrastran poco entre sí."; }
+  else if(mu<500){ v.className="verdict v-warn"; v.innerHTML="<b>Viscosidad media:</b> el mismo empujón mueve menos líquido. Fijate que el perfil se aplanó — hay más fricción interna."; }
+  else { v.className="verdict v-bad"; v.innerHTML="<b>Muy viscoso:</b> el líquido casi no se mueve. En un biorreactor esto significa <b>zonas muertas</b>: regiones donde el caldo no circula y las células se quedan sin comida ni oxígeno."; }
+}
+$("#cS").addEventListener("input",couOut); $("#cM").addEventListener("input",couOut); couOut();
+
+/* ===================== 4 · reología ===================== */
+let rheoType="newt";
+const RHEO = {
+  newt :{n:1,   K:0.05, lbl:"Newtoniano",     col:"--slate"},
+  pseudo:{n:0.4,K:0.6,  lbl:"Pseudoplástico", col:"--amber"},
+  dilat:{n:1.6, K:0.012,lbl:"Dilatante",      col:"--bad"},
+  bing :{n:1,   K:0.05, t0:1.2, lbl:"Bingham",col:"--good"}
+};
+function tau(g,f){ return (f.t0||0) + f.K*Math.pow(g,f.n); }
+function drawRheo(){
+  const f = RHEO[rheoType], W=560,H=210,ml=48,mb=34,mt=12,mr=12;
+  const gmax=100, tmax=Math.max(8, tau(gmax,f)*1.1);
+  const X = g => ml + (g/gmax)*(W-ml-mr);
+  const Y = t => H-mb - (t/tmax)*(H-mb-mt);
+  let d="";
+  for(let i=0;i<=100;i++){ const g=i; d += (i?"L":"M")+X(g).toFixed(1)+","+Y(tau(g,f)).toFixed(1); }
+  const g0=+$("#rhG").value, px=X(g0), py=Y(tau(g0,f));
+  const mua = tau(g0,f)/g0;
+  $("#rhPlot").innerHTML =
+`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Curva de esfuerzo de corte contra velocidad de cizalla para un fluido ${f.lbl}" style="display:block">
+  <line x1="${ml}" y1="${H-mb}" x2="${W-mr}" y2="${H-mb}" stroke="${css('--edge')}" stroke-width="1.4"/>
+  <line x1="${ml}" y1="${mt}" x2="${ml}" y2="${H-mb}" stroke="${css('--edge')}" stroke-width="1.4"/>
+  <text x="${(ml+W-mr)/2}" y="${H-8}" text-anchor="middle" font-size="11.5" fill="${css('--muted')}" font-family="Public Sans, sans-serif">velocidad de cizalla γ̇ — cuánto lo revolvés →</text>
+  <text x="14" y="${(mt+H-mb)/2}" text-anchor="middle" font-size="11.5" fill="${css('--muted')}" font-family="Public Sans, sans-serif" transform="rotate(-90 14 ${(mt+H-mb)/2})">esfuerzo τ</text>
+  <path d="${d}" fill="none" stroke="${css(f.col)}" stroke-width="2.6" stroke-linejoin="round"/>
+  <line x1="${px}" y1="${H-mb}" x2="${px}" y2="${py}" stroke="${css('--muted')}" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="${px}" cy="${py}" r="6.5" fill="${css('--surface')}"/>
+  <circle cx="${px}" cy="${py}" r="4.5" fill="${css(f.col)}"/>
+  <text x="${px<W-150?px+11:px-11}" y="${py-9}" text-anchor="${px<W-150?'start':'end'}" font-size="12" font-weight="600" fill="${css('--ink')}" font-family="DM Mono, monospace">μ aparente = ${nf(mua*100,1)}</text>
+</svg>`;
+  $("#lG").textContent = g0;
+  $("#oMuA").textContent = nf(mua*100,1);
+  $("#oIdx").textContent = f.n.toFixed(1).replace(".",",") + (f.t0?" + τ₀":"");
+  const v=$("#rhVerdict");
+  const TXT = {
+    newt:["v-good","<b>Newtoniano.</b> Movés la cizalla y la viscosidad aparente <b>no cambia</b>: la curva es una recta que pasa por el origen. Agua, alcoholes, medios de cultivo simples y caldos de bacterias y levaduras."],
+    pseudo:["v-warn","<b>Pseudoplástico (n &lt; 1).</b> Cuanto más lo revolvés, <b>menos viscoso se vuelve</b>. Es el caso típico de bioprocesos: hongos filamentosos, células vegetales, caldos con exopolisacáridos. Ojo: significa que cerca del agitador el caldo es fluido, pero <b>lejos es una pasta</b> — así se forman las cavernas."],
+    dilat:["v-bad","<b>Dilatante (n &gt; 1).</b> Al revés: cuanto más lo revolvés, <b>más se endurece</b>. Como la maicena con agua. <b>No es común en bioprocesos</b>, pero entra en el examen como contraste."],
+    bing:["v-warn","<b>Plástico de Bingham.</b> Tiene un <b>umbral τ₀</b>: por debajo de esa fuerza directamente <b>no fluye</b>, se comporta como un sólido. Como el dentífrico. Algunas suspensiones de hongos muy densas se modelan así."]
+  }[rheoType];
+  v.className="verdict "+TXT[0]; v.innerHTML=TXT[1];
+}
+document.querySelectorAll("#rhSegs .seg").forEach(b=>b.addEventListener("click",()=>{
+  rheoType=b.dataset.f;
+  document.querySelectorAll("#rhSegs .seg").forEach(x=>x.setAttribute("aria-pressed", x===b));
+  drawRheo();
+}));
+$("#rhG").addEventListener("input",drawRheo);
+drawRheo();
+
+/* ===================== 5 · tanque ===================== */
+const tank = {p:[], t:0, dyeT:null, tm:null, hom:0};
+function seedTank(n){
+  tank.p.length=0;
+  for(let i=0;i<n;i++) tank.p.push({x:Math.random(),y:Math.random(),dye:0});
+}
+seedTank(560);
+let baffles=true, impeller="R";
+function tankPhysics(){
+  const N=+$("#tN").value/60, mu=+$("#tMu").value*1e-3, di=(+$("#tDi").value/100)*0.30;
+  const Re = 1000*N*di*di/mu;
+  return {N,mu,di,Re};
+}
+function field(x,y,mode,strength){
+  // devuelve [u,v] normalizado según el patrón
+  if(mode==="vortex") return [strength*0.9, Math.sin(x*11+y*6)*strength*0.045];
+  if(mode==="axial"){          // una sola celda grande
+    const u =  Math.sin(Math.PI*x)*Math.cos(Math.PI*y);
+    const v = -Math.cos(Math.PI*x)*Math.sin(Math.PI*y);
+    return [u*strength, v*strength];
+  }
+  // radial: dos celdas apiladas
+  const u =  Math.sin(Math.PI*x)*Math.cos(2*Math.PI*y);
+  const v = -0.5*Math.cos(Math.PI*x)*Math.sin(2*Math.PI*y);
+  return [u*strength, v*strength];
+}
+function homogeneity(){
+  // fracción del tanque donde el colorante ya llegó a su concentración final (±60 %)
+  const GX=5, GY=4, tot=new Array(GX*GY).fill(0), dye=new Array(GX*GY).fill(0);
+  let nd=0;
+  for(const p of tank.p){
+    const i=Math.min(GX-1,Math.floor(p.x*GX))+GX*Math.min(GY-1,Math.floor(p.y*GY));
+    tot[i]++; if(p.dye){dye[i]++; nd++;}
+  }
+  if(!nd) return 0;
+  const target=nd/tank.p.length;
+  let ok=0, cells=0;
+  for(let i=0;i<GX*GY;i++){
+    if(tot[i]>6){ cells++; if(Math.abs(dye[i]/tot[i]-target) <= 0.6*target) ok++; }
+  }
+  return cells ? ok/cells : 0;
+}
+const cvT=$("#cvTank");
+function tankStep(ctx,w,h,dt){
+  const {Re} = tankPhysics();
+  const turb = Math.min(1, Math.max(0, (Math.log10(Math.max(Re,1))-1)/3));   // 0 en Re=10, 1 en Re=10^4
+  const spd  = Math.min(1.5, 0.12 + (+$("#tN").value/600)*1.3) * (baffles?1:0.85);
+  const mode = !baffles ? "vortex" : (impeller==="R"?"radial":"axial");
+  const strength = spd * (0.35 + 0.65*Math.min(1,(+$("#tDi").value)/45));
+
+  const adv = 0.006*dt;
+  const dif = Math.pow(turb,1.5)*0.055*dt*(0.3+spd);   // dispersión por remolinos
+  for(const p of tank.p){
+    const [u,v] = field(p.x,p.y,mode,strength);
+    p.x += u*adv + (Math.random()-.5)*dif;
+    p.y += v*adv + (Math.random()-.5)*dif*(mode==="vortex"?0.12:1);
+    if(p.x<0.01){p.x=0.01;} if(p.x>0.99){ p.x = mode==="vortex"?0.01:0.99; }
+    if(p.y<0.02)p.y=0.02; if(p.y>0.98)p.y=0.98;
+  }
+  tank.hom = homogeneity();
+  if(tank.dyeT!==null && tank.tm===null){
+    tank.dyeT += dt/60;
+    if(tank.hom>0.85) tank.tm = tank.dyeT;
+    else if(tank.dyeT>90) tank.tm = -1;
+  }
+
+  // dibujo
+  ctx.clearRect(0,0,w,h);
+  const pad=10, TW=w-pad*2, TH=h-pad*2-16;
+  ctx.fillStyle=css("--surface2"); ctx.fillRect(0,0,w,h);
+  // vaso
+  ctx.fillStyle=css("--slate-soft");
+  ctx.beginPath(); ctx.roundRect(pad,pad,TW,TH,[6,6,16,16]); ctx.fill();
+  // superficie / vórtice
+  ctx.fillStyle=css("--surface2");
+  if(!baffles){
+    ctx.beginPath(); ctx.moveTo(pad,pad);
+    for(let i=0;i<=30;i++){ const xx=pad+(i/30)*TW, dip=Math.cos((i/30-0.5)*Math.PI)*22; ctx.lineTo(xx,pad+22-dip+8); }
+    ctx.lineTo(pad+TW,pad); ctx.closePath(); ctx.fill();
+  }
+  // partículas
+  for(const p of tank.p){
+    ctx.fillStyle = p.dye?css("--amber"):css("--slate");
+    ctx.globalAlpha = p.dye?0.95:0.38;
+    ctx.beginPath(); ctx.arc(pad+p.x*TW, pad+8+p.y*(TH-12), p.dye?2.6:1.9, 0, 7); ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  // deflectores
+  if(baffles){
+    ctx.fillStyle=css("--amber"); ctx.globalAlpha=.55;
+    ctx.fillRect(pad,pad+26,9,TH-46); ctx.fillRect(pad+TW-9,pad+26,9,TH-46);
+    ctx.globalAlpha=1;
+  }
+  // eje y paleta
+  const cx=pad+TW/2, cy=pad+TH*0.62, R=TW*(+$("#tDi").value/100)/2;
+  ctx.fillStyle=css("--muted"); ctx.fillRect(cx-3,pad,6,cy-pad);
+  ctx.fillStyle=css("--good");
+  if(impeller==="R"){ ctx.fillRect(cx-R,cy-5,R*2,10); ctx.fillRect(cx-4,cy-12,8,24); }
+  else { ctx.beginPath(); ctx.moveTo(cx-R,cy-7); ctx.lineTo(cx-4,cy+3); ctx.lineTo(cx-4,cy+8); ctx.lineTo(cx-R,cy-2); ctx.closePath(); ctx.fill();
+         ctx.beginPath(); ctx.moveTo(cx+R,cy-7); ctx.lineTo(cx+4,cy+3); ctx.lineTo(cx+4,cy+8); ctx.lineTo(cx+R,cy-2); ctx.closePath(); ctx.fill(); }
+  // vaso borde
+  ctx.strokeStyle=css("--edge"); ctx.lineWidth=2;
+  ctx.beginPath(); ctx.roundRect(pad,pad,TW,TH,[6,6,16,16]); ctx.stroke();
+  // etiqueta
+  ctx.font='600 12px "Public Sans", sans-serif'; ctx.fillStyle=css("--muted");
+  ctx.fillText(!baffles?"sin deflectores — se forma vórtice":(impeller==="R"?"flujo radial — dos circuitos":"flujo axial — un circuito"), pad+2, h-4);
+}
+addScene(cvT, tankStep);
+function tankOut(){
+  const {Re}=tankPhysics();
+  $("#ltN").textContent=$("#tN").value; $("#ltMu").textContent=$("#tMu").value;
+  $("#ltDi").textContent=(+$("#tDi").value/100).toFixed(2).replace(".",",");
+  $("#tRe").textContent=nf(Re);
+  const reg = Re<10?"laminar":Re>1e4?"turbulento":"transición";
+  $("#tReg").textContent=reg;
+  const h=Math.round(tank.hom*100);
+  $("#tHom").textContent = tank.dyeT===null ? "—" : h+" %";
+  $("#tHomBar").style.width = (tank.dyeT===null?0:h)+"%";
+  $("#tTm").textContent = tank.tm===null ? (tank.dyeT===null?"—":"midiendo…") : (tank.tm<0?"no mezcla":nf(tank.tm,1)+" s");
+  const v=$("#tVerdict");
+  if(!baffles){ v.className="verdict v-bad"; v.innerHTML="<b>Sin deflectores.</b> El líquido gira en redondo y se forma un vórtice. No hay flujo de arriba abajo, así que <b>el colorante nunca termina de repartirse</b>: aparecen zonas muertas, entra aire por la superficie y el motor gasta energía sin mezclar."; }
+  else if(Re<10){ v.className="verdict v-bad"; v.innerHTML="<b>Flujo laminar.</b> Las capas se deslizan ordenadas y casi no se mezclan. En un biorreactor real esto es un desastre: gradientes de nutrientes, zonas sin oxígeno y k<sub>L</sub>a por el piso."; }
+  else if(Re<1e4){ v.className="verdict v-warn"; v.innerHTML="<b>Zona de transición.</b> Hay algo de turbulencia pero no está plenamente desarrollada. Acá el número de potencia todavía depende del Reynolds y las correlaciones de tiempo de mezclado <b>no valen</b>."; }
+  else { v.className="verdict v-good"; v.innerHTML="<b>Flujo turbulento.</b> Es el régimen que querés: los remolinos cruzan todo el tanque y reparten nutrientes, oxígeno y calor. A partir de acá el número de potencia ya no depende del Reynolds."; }
+}
+["#tN","#tMu","#tDi"].forEach(s=>$(s).addEventListener("input",tankOut));
+$("#tBaffle").addEventListener("click",()=>{
+  baffles=!baffles; $("#tBaffle").setAttribute("aria-pressed",baffles);
+  $("#tBaffle").textContent = baffles?"Con deflectores":"Sin deflectores";
+  tank.dyeT=null; tank.tm=null; tank.p.forEach(p=>p.dye=0); tankOut();
+});
+function setImp(k){
+  impeller=k;
+  $("#tImpR").setAttribute("aria-pressed", k==="R"); $("#tImpA").setAttribute("aria-pressed", k==="A");
+  tank.dyeT=null; tank.tm=null; tank.p.forEach(p=>p.dye=0); tankOut();
+}
+$("#tImpR").addEventListener("click",()=>setImp("R"));
+$("#tImpA").addEventListener("click",()=>setImp("A"));
+$("#tDye").addEventListener("click",()=>{
+  tank.p.forEach(p=>p.dye=0);
+  const near = tank.p.map((p,i)=>[i,(p.x-0.5)**2+(p.y-0.08)**2]).sort((a,b)=>a[1]-b[1]).slice(0,160);
+  near.forEach(([i])=>tank.p[i].dye=1);
+  tank.dyeT=0; tank.tm=null;
+});
+setInterval(()=>{ if(scenes.some(s=>s.canvas===cvT&&s.on)) tankOut(); }, 260);
+tankOut();
+
+/* ===================== 6 · potencia ===================== */
+function drawPower(){
+  const N=+$("#pN").value/60, D=+$("#pD").value/100, rho=1000, Np=5;
+  const P = Np*rho*Math.pow(N,3)*Math.pow(D,5);
+  const vtip = Math.PI*N*D, lim=+$("#pC").value;
+  const P2 = Np*rho*Math.pow(N*2,3)*Math.pow(D,5);
+  $("#lpN").textContent=$("#pN").value; $("#lpD").textContent=D.toFixed(2).replace(".",",");
+  $("#pP").textContent = P>=1000? nf(P/1000,2)+" kW" : nf(P,1)+" W";
+  $("#pV").textContent = nf(vtip,2)+" m/s";
+  $("#pX").textContent = "×8 → "+(P2>=1000?nf(P2/1000,2)+" kW":nf(P2,0)+" W");
+  // barra
+  const W=560,H=120,ml=10,mr=10,base=H-26;
+  const maxP = Math.max(P2, 1);
+  const bw=(W-ml-mr-16)/2;
+  const hA = Math.max(4,(P/maxP)*(base-18)), hB = Math.max(4,(P2/maxP)*(base-18));
+  $("#pwPlot").innerHTML =
+`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Comparación de la potencia consumida a la velocidad actual y al doble de velocidad" style="display:block">
+  <rect x="${ml}" y="${base-hA}" width="${bw}" height="${hA}" rx="4" fill="${css('--slate')}"/>
+  <rect x="${ml+bw+16}" y="${base-hB}" width="${bw}" height="${hB}" rx="4" fill="${css('--amber')}"/>
+  <text x="${ml+bw/2}" y="${base-hA-7}" text-anchor="middle" font-size="12.5" font-weight="600" fill="${css('--ink')}" font-family="DM Mono, monospace">${P>=1000?nf(P/1000,1)+" kW":nf(P,0)+" W"}</text>
+  <text x="${ml+bw+16+bw/2}" y="${base-hB-7}" text-anchor="middle" font-size="12.5" font-weight="600" fill="${css('--ink')}" font-family="DM Mono, monospace">${P2>=1000?nf(P2/1000,1)+" kW":nf(P2,0)+" W"}</text>
+  <text x="${ml+bw/2}" y="${H-8}" text-anchor="middle" font-size="12" fill="${css('--muted')}" font-family="Public Sans, sans-serif">a ${$("#pN").value} rpm</text>
+  <text x="${ml+bw+16+bw/2}" y="${H-8}" text-anchor="middle" font-size="12" fill="${css('--muted')}" font-family="Public Sans, sans-serif">al doble de rpm</text>
+</svg>`;
+  const v=$("#pVerdict");
+  if(vtip>lim){ v.className="verdict v-bad"; v.innerHTML=`<b>Te pasaste de cizalla.</b> La punta va a ${nf(vtip,2)} m/s y el límite de este cultivo es ${String(lim).replace(".",",")} m/s. Las células se rompen al pasar por la paleta. Bajá las rpm o usá un agitador más chico… pero entonces vas a mezclar peor. <b>Ese es exactamente el compromiso.</b>`; }
+  else if(vtip>0.8*lim){ v.className="verdict v-warn"; v.innerHTML=`Estás al <b>${Math.round(100*vtip/lim)} %</b> del límite de cizalla. Te queda muy poco margen para subir la agitación si más adelante necesitás más oxígeno.`; }
+  else { v.className="verdict v-good"; v.innerHTML=`Cizalla tolerable para este cultivo. Fijate igual el salto de potencia: pasar al doble de rpm multiplica el consumo por <b>8</b>, porque <b>P es proporcional a N³</b>.`; }
+}
+["#pN","#pD","#pC"].forEach(s=>$(s).addEventListener("input",drawPower));
+drawPower();
+
+/* ===================== 7 · oxígeno ===================== */
+const ox = {b:[], DO:100};
+for(let i=0;i<70;i++) ox.b.push({x:Math.random(),y:Math.random(),r:1+Math.random()*2,v:0});
+const CS_O2 = 7;                                    // mg/L: saturación con aire a 30 °C
+function oxNums(){
+  const N=+$("#oN").value, Q=+$("#oQ").value/10, X=+$("#oX").value, mu=+$("#oMu").value;
+  // correlación didáctica del tipo kLa ∝ (P/V)^0,4 · vs^0,5, con P/V ∝ N³  ⇒  kLa ∝ N^1,2
+  let kla = 0.504*Math.pow(N,1.2)*Math.pow(Q,0.5)/(1+Math.log10(mu)*0.85);
+  kla = Math.max(2, Math.min(900, kla));            // h⁻¹
+  const OUR = 300*X;                                // mg/(L·h): qO2 ≈ 300 mg por gramo de células y hora
+  return {N,Q,X,mu,kla,OTR:kla*CS_O2,OUR};
+}
+const cvO=$("#cvOx");
+function oxStep(ctx,w,h,dt){
+  const {N,Q,kla,OUR}=oxNums();
+  const C = ox.DO/100*CS_O2;
+  const dC = (kla*(CS_O2 - C) - OUR) * (dt/60) * 0.004;   // balance de O₂ en la fase líquida
+  ox.DO = Math.max(0, Math.min(100, (C+dC)/CS_O2*100));
+  const pad=10, TW=w-pad*2, TH=h-pad*2;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle=css("--surface2"); ctx.fillRect(0,0,w,h);
+  ctx.fillStyle=css("--slate-soft");
+  ctx.beginPath(); ctx.roundRect(pad,pad,TW-96,TH,[6,6,14,14]); ctx.fill();
+  const size = Math.max(1.2, 4.2 - N/180);
+  for(const b of ox.b){
+    b.y -= (0.0055+Q*0.004)*dt*(1+ (4-size)*0.1);
+    b.x += Math.sin((b.y+b.r)*9)*0.0014*dt*(N/250);
+    if(b.y<0.02){ b.y=0.99; b.x=0.35+Math.random()*0.3; }
+    if(b.x<0.02)b.x=0.02; if(b.x>0.98)b.x=0.98;
+    ctx.strokeStyle=css("--slate"); ctx.lineWidth=1.2; ctx.globalAlpha=.75;
+    ctx.beginPath(); ctx.arc(pad+b.x*(TW-96), pad+b.y*TH, size*(0.6+b.r*0.28), 0, 7); ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+  ctx.fillStyle=css("--good"); ctx.globalAlpha=.5;
+  for(let i=0;i<Math.round(+$("#oX").value*1.6);i++){
+    const px=pad+((i*97)%1000)/1000*(TW-96), py=pad+((i*61)%1000)/1000*TH;
+    ctx.beginPath(); ctx.arc(px,py,2.2,0,7); ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  ctx.strokeStyle=css("--edge"); ctx.lineWidth=2;
+  ctx.beginPath(); ctx.roundRect(pad,pad,TW-96,TH,[6,6,14,14]); ctx.stroke();
+  // medidor DO
+  const bx=w-pad-74, by=pad+14, bw=40, bh=TH-40;
+  ctx.fillStyle=css("--edge2"); ctx.beginPath(); ctx.roundRect(bx,by,bw,bh,6); ctx.fill();
+  const lvl = bh*ox.DO/100;
+  ctx.fillStyle = ox.DO<12?css("--bad"):ox.DO<35?css("--amber"):css("--good");
+  ctx.beginPath(); ctx.roundRect(bx,by+bh-lvl,bw,lvl,6); ctx.fill();
+  ctx.font='600 11px "Public Sans", sans-serif'; ctx.fillStyle=css("--muted");
+  ctx.fillText("O₂ disuelto", bx-6, by-4);
+  ctx.font='600 14px "DM Mono", monospace'; ctx.fillStyle=css("--ink");
+  ctx.fillText(Math.round(ox.DO)+"%", bx+4, by+bh+16);
+}
+addScene(cvO, oxStep);
+function oxOut(){
+  const {Q,X,mu,kla,OTR,OUR}=oxNums();
+  $("#loN").textContent=$("#oN").value; $("#loQ").textContent=(Q).toFixed(1).replace(".",",");
+  $("#loX").textContent=X; $("#loMu").textContent=mu;
+  $("#oKla").textContent=nf(kla,0)+" h⁻¹";
+  $("#oOTR").textContent=nf(OTR,0)+" mg/L·h";
+  $("#oOUR").textContent=nf(OUR,0)+" mg/L·h";
+  $("#oDO").textContent=Math.round(ox.DO)+" %";
+  const v=$("#oVerdict");
+  if(OTR>OUR*1.35){ v.className="verdict v-good"; v.innerHTML="<b>OTR &gt; OUR.</b> El equipo entrega más oxígeno del que el cultivo consume, así que el oxígeno disuelto se mantiene alto. Es la condición que hay que cumplir siempre."; }
+  else if(OTR>OUR){ v.className="verdict v-warn"; v.innerHTML="<b>Justo al límite.</b> Alcanza, pero sin margen: si las células siguen creciendo, el OUR sube y te quedás corta. Acordate de que en un batch <b>la biomasa aumenta con el tiempo</b>."; }
+  else { v.className="verdict v-bad"; v.innerHTML="<b>OUR &gt; OTR: el cultivo se está ahogando.</b> El oxígeno disuelto cae a cero y el crecimiento se frena. Subí la agitación o el caudal de aire… o fijate si el problema es la <b>viscosidad</b>, que te está tirando el k<sub>L</sub>a abajo."; }
+}
+["#oN","#oQ","#oX","#oMu"].forEach(s=>$(s).addEventListener("input",()=>{oxOut();}));
+setInterval(()=>{ if(scenes.some(s=>s.canvas===cvO&&s.on)) oxOut(); }, 300);
+oxOut();
+
+/* ===================== 8 · comparación ===================== */
+const cmp={a:[],b:[]};
+for(let i=0;i<110;i++) cmp.a.push({x:Math.random(),y:Math.random()});
+for(let i=0;i<110;i++) cmp.b.push({x:Math.random(),y:Math.random(),d:0});
+const cvCm=$("#cvCmp");
+function cmpStep(ctx,w,h,dt){
+  const air=+$("#cAir").value/100;
+  ctx.clearRect(0,0,w,h); ctx.fillStyle=css("--surface2"); ctx.fillRect(0,0,w,h);
+  const gap=14, W=(w-gap*3)/2, pad=gap, TH=h-40;
+  // ---- agitado
+  ctx.fillStyle=css("--slate-soft"); ctx.beginPath(); ctx.roundRect(pad,24,W,TH,[5,5,13,13]); ctx.fill();
+  for(const p of cmp.a){
+    const [u,v]=field(p.x,p.y,"radial",0.85);
+    p.x+=u*0.006*dt+(Math.random()-.5)*0.004*dt; p.y+=v*0.006*dt+(Math.random()-.5)*0.004*dt;
+    p.x=Math.max(0.02,Math.min(0.98,p.x)); p.y=Math.max(0.02,Math.min(0.98,p.y));
+    ctx.fillStyle=css("--slate"); ctx.globalAlpha=.42;
+    ctx.beginPath(); ctx.arc(pad+p.x*W,24+p.y*TH,2,0,7); ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  const cx=pad+W/2, cy=24+TH*0.62;
+  ctx.fillStyle=css("--muted"); ctx.fillRect(cx-2.5,24,5,cy-24);
+  ctx.fillStyle=css("--bad"); ctx.fillRect(cx-W*0.17,cy-4,W*0.34,8);
+  ctx.strokeStyle=css("--edge"); ctx.lineWidth=2; ctx.beginPath(); ctx.roundRect(pad,24,W,TH,[5,5,13,13]); ctx.stroke();
+  ctx.font='700 12.5px "Public Sans", sans-serif'; ctx.fillStyle=css("--ink"); ctx.textAlign="center";
+  ctx.fillText("TANQUE AGITADO", pad+W/2, 16);
+  ctx.font='11.5px "Public Sans", sans-serif'; ctx.fillStyle=css("--bad");
+  ctx.fillText("cizalla alta en la paleta", pad+W/2, h-6);
+  // ---- airlift
+  const bx=pad*2+W;
+  ctx.fillStyle=css("--slate-soft"); ctx.beginPath(); ctx.roundRect(bx,24,W,TH,[5,5,13,13]); ctx.fill();
+  ctx.fillStyle=css("--surface2"); ctx.fillRect(bx+W*0.36,34,W*0.28,TH-24);
+  for(const p of cmp.b){
+    const inRiser = p.x>0.36 && p.x<0.64;
+    const v = inRiser ? -air*1.5 : air*0.9;
+    let u = 0;
+    if(p.y<0.1) u = (p.x<0.5?-1:1)*air*1.1;
+    if(p.y>0.9) u = (p.x<0.5?1:-1)*air*1.1*(inRiser?0:1);
+    p.x+=u*0.006*dt; p.y+=v*0.006*dt;
+    if(p.y<0.03)p.y=0.03; if(p.y>0.97)p.y=0.97;
+    p.x=Math.max(0.04,Math.min(0.96,p.x));
+    ctx.fillStyle=css("--slate"); ctx.globalAlpha=.42;
+    ctx.beginPath(); ctx.arc(bx+p.x*W,24+p.y*TH,2,0,7); ctx.fill();
+  }
+  ctx.globalAlpha=.8; ctx.strokeStyle=css("--amber"); ctx.lineWidth=1.2;
+  for(let i=0;i<12;i++){
+    const yy = ((performance.now()/ (14-air*8) + i*70)%(TH-30));
+    ctx.beginPath(); ctx.arc(bx+W*(0.42+0.16*((i%3)/2)), 24+TH-20-yy, 2.6, 0, 7); ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+  ctx.strokeStyle=css("--edge"); ctx.lineWidth=2; ctx.beginPath(); ctx.roundRect(bx,24,W,TH,[5,5,13,13]); ctx.stroke();
+  ctx.font='700 12.5px "Public Sans", sans-serif'; ctx.fillStyle=css("--ink");
+  ctx.fillText("AIRLIFT", bx+W/2, 16);
+  ctx.font='11.5px "Public Sans", sans-serif'; ctx.fillStyle=css("--good");
+  ctx.fillText("sin partes móviles · baja cizalla", bx+W/2, h-6);
+  ctx.textAlign="left";
+}
+addScene(cvCm, cmpStep);
+$("#cAir").addEventListener("input",()=>{ $("#lcAir").textContent = +$("#cAir").value<35?"bajo":+$("#cAir").value<70?"medio":"alto"; });
+$("#lcAir").textContent="medio";
+
+/* ===================== 9 · escalado ===================== */
+const SC = {
+  pv :{lbl:"potencia por volumen", keep:"P/V"},
+  tip:{lbl:"velocidad de punta",   keep:"v_tip"},
+  n  :{lbl:"las mismas rpm",       keep:"N"},
+  re :{lbl:"el número de Reynolds",keep:"Re"}
+};
+let scKey="pv";
+function scale(){
+  const R = Math.cbrt(1000);                  // 2 L → 2000 L  ⇒ ×10 lineal
+  const N1=200/60, D1=0.05, rho=1000, Np=5, V1=0.002;
+  const D2=D1*R, V2=V1*1000;
+  let N2;
+  if(scKey==="pv")  N2 = N1*Math.pow(1/R,2/3);      // N ∝ D^(-2/3)
+  else if(scKey==="tip") N2 = N1/R;                 // N·D = cte
+  else if(scKey==="n")   N2 = N1;
+  else                   N2 = N1/(R*R);             // N·D² = cte
+  const P1=Np*rho*Math.pow(N1,3)*Math.pow(D1,5), P2=Np*rho*Math.pow(N2,3)*Math.pow(D2,5);
+  const row=(k,a,b,unit,fmt)=>`<tr><td><b>${k}</b></td><td class="n">${fmt(a)}${unit}</td><td class="n">${fmt(b)}${unit}</td><td class="n">${Math.abs(b/a-1)<0.01?"sin cambio":(b/a>=1?"×"+nf(b/a,2):"÷"+nf(a/b,2))}</td></tr>`;
+  $("#scBody").innerHTML =
+    row("Volumen",V1*1000,V2*1000," L",x=>nf(x,0)) +
+    row("Diámetro del agitador",D1,D2," m",x=>nf(x,2)) +
+    row("Velocidad",N1*60,N2*60," rpm",x=>nf(x,0)) +
+    row("Potencia",P1,P2," W",x=>nf(x,1)) +
+    row("Potencia / volumen",P1/V1/1000,P2/V2/1000," kW/m³",x=>nf(x,2)) +
+    row("Velocidad de punta",Math.PI*N1*D1,Math.PI*N2*D2," m/s",x=>nf(x,2)) +
+    row("Reynolds",rho*N1*D1*D1/0.001,rho*N2*D2*D2/0.001,"",x=>nf(x,0));
+  const v=$("#scVerdict");
+  const T={
+    pv:["v-good","<b>Conservás P/V</b>, así que mantenés parecido el nivel de turbulencia y, aproximadamente, la transferencia de masa. <b>Lo que sacrificás:</b> mirá cómo se disparó la <b>velocidad de punta</b>. Si el cultivo es sensible a la cizalla, este criterio te lo mata. Es el criterio de fermentaciones alcohólicas y de procesos que no piden mucha aireación."],
+    tip:["v-warn","<b>Conservás la velocidad de punta</b>, o sea la cizalla máxima que sufren las células. <b>Lo que sacrificás:</b> la P/V se derrumba, y con ella el mezclado y el oxígeno. Vas a tener que compensar de otra forma — más impulsores, columna más alta, enriquecer con O₂. <b>Es el criterio estándar para células CHO y anticuerpos.</b>"],
+    n:["v-bad","<b>Mantener las mismas rpm es el error clásico.</b> Como la potencia va con D⁵, el consumo se vuelve absurdo y la velocidad de punta se multiplica por 10: no queda célula viva. Nadie escala así."],
+    re:["v-bad","<b>Conservar el Reynolds</b> suena elegante pero casi no se usa: para lograrlo hay que bajar tanto las rpm que la potencia por volumen queda en nada y el tanque prácticamente no se mezcla. Además está atado a N, así que cambiarlo arrastra al k<sub>L</sub>a y al P/V."]
+  }[scKey];
+  v.className="verdict "+T[0]; v.innerHTML=T[1];
+}
+document.querySelectorAll("#scSegs .seg").forEach(b=>b.addEventListener("click",()=>{
+  scKey=b.dataset.c;
+  document.querySelectorAll("#scSegs .seg").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  scale();
+}));
+scale();
+
+/* ===================== checkpoints ===================== */
+const QS = {
+ 1:["¿Por qué se dice que el biorreactor no es una unidad aislada?",
+    ["Porque siempre hay más de un tanque en la planta",
+     "Porque forma parte de un proceso integrado, con un upstream antes y un downstream después",
+     "Porque necesita un operador permanente"],1,
+    "Antes hay que preparar y esterilizar el medio y hacer el inóculo; después hay que recuperar y purificar el producto. Las decisiones de una etapa condicionan a las otras, y por eso las limitaciones hay que verlas <b>lo más temprano posible</b>."],
+ 2:["¿Qué pasa en un tanque agitado si sacás los deflectores?",
+    ["Mezcla igual, solo que consume menos energía",
+     "El líquido gira en redondo, se forma un vórtice y la mezcla real desaparece",
+     "Aumenta la transferencia de oxígeno"],1,
+    "Sin deflectores el flujo es <b>puramente rotacional</b>: no hay movimiento de arriba hacia abajo. Aparecen zonas muertas y gradientes, el vórtice arrastra aire de la superficie sin control, y el motor gasta energía en mantener el remolino en vez de mezclar."],
+ 3:["Aplicás la misma fuerza a dos líquidos y uno se mueve mucho menos. ¿Qué tiene de distinto?",
+    ["Mayor densidad","Mayor viscosidad","Menor temperatura"],1,
+    "La <b>viscosidad</b> es la resistencia interna del fluido al movimiento. Con el mismo esfuerzo de corte τ, un fluido más viscoso se deforma menos: <span class='mono'>τ = μ·γ̇</span>. La densidad es otra cosa: es cuánto pesa por unidad de volumen."],
+ 4:["Un caldo de hongos filamentosos, ¿cómo se comporta?",
+    ["Newtoniano: su viscosidad no cambia",
+     "Pseudoplástico: se vuelve menos viscoso cuanto más fuerte lo revolvés",
+     "Dilatante: se endurece al revolverlo"],1,
+    "Es <b>pseudoplástico</b> (n &lt; 1). El problema práctico es que cerca del agitador —donde hay mucha cizalla— el caldo está fluido, pero lejos está espeso: se forman <b>cavernas</b> de mezclado intenso rodeadas de líquido quieto y sin oxígeno."],
+ 5:["En un tanque agitado con Re = 500, ¿en qué régimen estás?",
+    ["Laminar","Transición","Turbulento"],1,
+    "En sistemas de mezclado, <b>laminar es Re &lt; 10</b> y <b>turbulento es Re &gt; 10.000</b>. Todo lo del medio es <b>transición</b>, y ahí el número de potencia todavía depende del Reynolds y las correlaciones de tiempo de mezclado no se pueden aplicar."],
+ 6:["Si duplicás la velocidad de agitación en régimen turbulento, la potencia…",
+    ["Se duplica","Se multiplica por 4","Se multiplica por 8"],2,
+    "<b>P = N<sub>p</sub>·ρ·N³·D⁵</b>, o sea <b>P ∝ N³</b>: duplicar N multiplica la potencia por <b>8</b>. Y como va con D⁵, agrandar el agitador un 20 % ya multiplica el consumo por 2,5."],
+ 7:["El oxígeno disuelto de tu cultivo se está cayendo a cero. ¿Qué está pasando?",
+    ["El OTR superó al OUR","El OUR superó al OTR","El k<sub>L</sub>a aumentó demasiado"],1,
+    "Las células consumen (<b>OUR</b>) más rápido de lo que el equipo entrega (<b>OTR</b>), así que <span class='mono'>dC/dt = OTR − OUR</span> es negativo. Se arregla subiendo la agitación o el caudal de aire — o bajando la viscosidad, que es lo que muchas veces está matando el k<sub>L</sub>a."],
+ 8:["¿Por qué elegirías un airlift para cultivar células animales?",
+    ["Porque transfiere más oxígeno que un tanque agitado",
+     "Porque al no tener partes móviles genera muy baja cizalla",
+     "Porque es más barato a gran escala"],1,
+    "La ventaja del airlift es la <b>baja cizalla</b>, además de que la esterilidad es más fácil de mantener (no hay sello de eje). Justamente <b>no</b> es más barato a gran escala ni transfiere mejor el oxígeno: hay que comprimir mucho aire, y eso es caro."],
+ 9:["Vas a escalar un cultivo de células CHO para producir anticuerpos. ¿Qué criterio usás?",
+    ["k<sub>L</sub>a","Velocidad de punta","Tiempo de mezclado"],1,
+    "En células de mamífero lo que limita es la <b>cizalla</b>, así que se conserva la <b>velocidad de punta</b>. El costo es que la P/V cae con la escala, y hay que compensar el mezclado y la oxigenación de otra manera. Para un antibiótico, en cambio, lo limitante es el oxígeno y se conserva el <b>k<sub>L</sub>a</b>."]
+};
+const SEEN = (()=>{ try{ return JSON.parse(localStorage.getItem("bio-expl-v1")||"{}"); }catch(e){ return {}; } })();
+function save(){ try{ localStorage.setItem("bio-expl-v1", JSON.stringify(SEEN)); }catch(e){} }
+document.querySelectorAll(".check").forEach(box=>{
+  const id = box.dataset.q, [q,opts,ok,why] = QS[id];
+  box.innerHTML = `<div class="q">Comprobá que lo entendiste</div><div style="margin-bottom:11px">${q}</div>
+    <div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join("")}</div>
+    <div class="why" hidden></div>`;
+  box.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{
+    const i=+b.dataset.i;
+    box.querySelectorAll(".opt").forEach(x=>{
+      x.disabled=true;
+      if(+x.dataset.i===ok) x.classList.add("ok"); else if(x===b) x.classList.add("no");
+    });
+    const w=box.querySelector(".why");
+    w.hidden=false;
+    w.innerHTML = (i===ok?"<b>Correcto.</b> ":"<b>No exactamente.</b> ")+why;
+    SEEN[id]=1; save(); paintDots();
+  }));
+});
+function paintDots(){
+  const d=$("#dots");
+  d.innerHTML = Object.keys(QS).map(k=>`<button class="${SEEN[k]?'seen':''}" data-go="L${k}" title="Lección ${k}" aria-label="Ir a la lección ${k}"></button>`).join("");
+  d.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{
+    document.getElementById(b.dataset.go).scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});
+  }));
+}
+paintDots();
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const n=e.target.id.replace("L","");
+    document.querySelectorAll("#dots button").forEach(b=>b.classList.toggle("here", b.dataset.go==="L"+n));
+  });
+},{rootMargin:"-40% 0px -55% 0px"});
+document.querySelectorAll(".lesson").forEach(s=>io.observe(s));
+
+requestAnimationFrame(loop);
+</script>

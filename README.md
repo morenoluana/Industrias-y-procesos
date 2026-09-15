@@ -8,7 +8,8 @@ las dos guías de trabajos prácticos de laboratorio.
 | Archivo | Qué es |
 |---|---|
 | `Resumen_Industrias_y_Procesos_Biotecnologicos.pdf` | Resumen integral de 60 páginas: clases 1 a 4, TP 1 y TP 2, diagramas, seis problemas resueltos paso a paso, formulario completo, tabla de valores típicos y 45 preguntas de examen con respuesta. |
-| `app/sala-de-cultivo.html` | App de estudio interactiva: tarjetas, quiz, simulacro cronometrado, chuleta buscable y un biorreactor simulado que calcula Re, Np, P, P/V, v_tip y t_m. |
+| `app/biorreactor-explicado.html` | Curso interactivo desde cero: nueve lecciones cortas con simulaciones (flujo laminar vs turbulento con trazador, viscosidad, reología, potencia y cizalla, transferencia de oxígeno, airlift y escalado). |
+| `app/sala-de-cultivo.html` | App de práctica: tarjetas, quiz, simulacro cronometrado, chuleta buscable y un biorreactor simulado que calcula Re, Np, P, P/V, v_tip y t_m. |
 | `build/` | Fuentes HTML del resumen (`p1`…`p6`) y el archivo concatenado que se renderiza a PDF. |
 
 ## Regenerar el PDF
