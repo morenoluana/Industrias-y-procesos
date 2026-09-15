@@ -41,7 +41,7 @@
     <rect x="245" y="30" width="10" height="280" fill="#6b7f96"/>
     <!-- motor -->
     <rect x="212" y="4" width="76" height="28" rx="4" fill="#41536b"/>
-    <text x="250" y="22" font-size="9" fill="#fff" text-anchor="middle" font-weight="bold">MOTOR</text>
+    <text x="250" y="22" font-size="11.2" fill="#fff" text-anchor="middle" font-weight="bold">MOTOR</text>
     <!-- lid -->
     <rect x="148" y="74" width="204" height="12" rx="3" fill="#8fa3b8"/>
     <!-- impeller: pitched blade -->
@@ -65,7 +65,7 @@
       <circle cx="200" cy="230" r="3"/><circle cx="246" cy="196" r="3.4"/><circle cx="300" cy="212" r="3"/>
     </g>
     <line x1="250" y1="352" x2="250" y2="374" stroke="#8a3f8f" stroke-width="3"/>
-    <text x="250" y="386" font-size="8.2" fill="#8a3f8f" text-anchor="middle" font-weight="bold">Aire (0,22 µm)</text>
+    <text x="250" y="386" font-size="10.3" fill="#8a3f8f" text-anchor="middle" font-weight="bold">Aire (0,22 µm)</text>
     <!-- temp sensor -->
     <rect x="186" y="80" width="7" height="150" rx="3" fill="#c0392b"/>
     <!-- sampling port -->
@@ -75,7 +75,7 @@
     <path d="M304,26 L304,14 L330,14" stroke="#7d9cb8" stroke-width="3" fill="none"/>
 
     <!-- LABELS left -->
-    <g font-size="8.4" fill="#16202b">
+    <g font-size="10.5" fill="#16202b">
       <line x1="104" y1="118" x2="150" y2="118" stroke="#6b7f96"/><text x="100" y="121" text-anchor="end">Camisa (jacket): calienta/enfría</text>
       <line x1="104" y1="96" x2="180" y2="88" stroke="#6b7f96"/><text x="100" y="99" text-anchor="end">Tapa + puertos</text>
       <line x1="104" y1="170" x2="189" y2="170" stroke="#6b7f96"/><text x="100" y="173" text-anchor="end">Sensor de temperatura</text>
@@ -84,7 +84,7 @@
       <line x1="104" y1="334" x2="204" y2="334" stroke="#6b7f96"/><text x="100" y="337" text-anchor="end">Sparger / burbujeador anular</text>
     </g>
     <!-- LABELS right -->
-    <g font-size="8.4" fill="#16202b">
+    <g font-size="10.5" fill="#16202b">
       <line x1="320" y1="18" x2="386" y2="18" stroke="#6b7f96"/><text x="390" y="21">Condensador (gases de escape)</text>
       <line x1="288" y1="46" x2="386" y2="46" stroke="#6b7f96"/><text x="390" y="49">Eje agitador: transmite el torque</text>
       <line x1="366" y1="306" x2="386" y2="306" stroke="#6b7f96"/><text x="390" y="309">Puerto de muestreo</text>
@@ -92,17 +92,17 @@
     </g>
 
     <!-- DIMENSIONS -->
-    <g stroke="#c0392b" stroke-width="1.2" font-size="8.2" fill="#c0392b">
+    <g stroke="#c0392b" stroke-width="1.2" font-size="10.3" fill="#c0392b">
       <line x1="156" y1="404" x2="344" y2="404" marker-start="url(#dim2)" marker-end="url(#dim)"/>
-      <text x="250" y="422" text-anchor="middle" font-weight="bold">D⌄T — diámetro interno del tanque</text>
+      <text x="250" y="422" text-anchor="middle" font-weight="bold">D<tspan dy="2" font-size="80%">T</tspan><tspan dy="-2" font-size="100%"> — diámetro interno del tanque</tspan></text>
       <line x1="428" y1="150" x2="428" y2="352" marker-start="url(#dim2)" marker-end="url(#dim)"/>
-      <text x="434" y="256" font-weight="bold">H⌄L</text>
+      <text x="434" y="256" font-weight="bold">H<tspan dy="2" font-size="80%">L</tspan></text>
       <line x1="205" y1="272" x2="295" y2="272" marker-start="url(#dim2)" marker-end="url(#dim)"/>
-      <text x="250" y="268" text-anchor="middle" font-weight="bold">D⌄i</text>
+      <text x="250" y="268" text-anchor="middle" font-weight="bold">D<tspan dy="2" font-size="80%">i</tspan></text>
       <line x1="382" y1="300" x2="382" y2="352" marker-start="url(#dim2)" marker-end="url(#dim)"/>
-      <text x="388" y="330" font-weight="bold">C⌄i</text>
-      <line x1="156" y1="140" x2="171" y2="140" marker-start="url(#dim2)" marker-end="url(#dim)"/>
-      <text x="163" y="134" text-anchor="middle" font-weight="bold">W⌄BF</text>
+      <text x="388" y="330" font-weight="bold">C<tspan dy="2" font-size="80%">i</tspan></text>
+      <line x1="124" y1="140" x2="171" y2="140" marker-end="url(#dim)"/>
+      <text x="120" y="143" text-anchor="end" font-weight="bold">W<tspan dy="2" font-size="80%">BF</tspan></text>
     </g>
 
   </svg>
@@ -215,7 +215,7 @@
            <marker id="fb" markerWidth="8" markerHeight="8" refX="7" refY="2.5" orient="auto"><path d="M0,0 L8,2.5 L0,5 z" fill="#c0392b"/></marker></defs>
     <!-- ROTACIONAL -->
     <g>
-      <text x="118" y="16" font-size="10" font-weight="bold" fill="#c0392b" text-anchor="middle">ROTACIONAL (indeseable)</text>
+      <text x="118" y="16" font-size="12.5" font-weight="bold" fill="#c0392b" text-anchor="middle">ROTACIONAL (indeseable)</text>
       <path d="M48,36 L48,190 Q48,206 64,206 L172,206 Q188,206 188,190 L188,36" fill="#fdeceb" stroke="#41536b" stroke-width="1.8"/>
       <path d="M48,60 Q118,96 188,60 L188,36 L48,36 Z" fill="#fff"/>
       <path d="M48,60 Q118,96 188,60" stroke="#c0392b" stroke-width="2" fill="none"/>
@@ -225,12 +225,12 @@
         <path d="M66,110 Q118,128 170,110" marker-end="url(#fb)"/>
         <path d="M66,170 Q118,188 170,170" marker-end="url(#fb)"/>
       </g>
-      <text x="118" y="228" font-size="8.2" fill="#c0392b" text-anchor="middle" font-weight="bold">Vórtice · zonas muertas</text>
-      <text x="118" y="240" font-size="8" fill="#41536b" text-anchor="middle">Todos los agitadores lo generan</text>
+      <text x="118" y="228" font-size="10.3" fill="#c0392b" text-anchor="middle" font-weight="bold">Vórtice · zonas muertas</text>
+      <text x="118" y="240" font-size="10" fill="#41536b" text-anchor="middle">Todos los agitadores lo generan</text>
     </g>
     <!-- AXIAL -->
     <g transform="translate(230,0)">
-      <text x="118" y="16" font-size="10" font-weight="bold" fill="#0f7a56" text-anchor="middle">AXIAL</text>
+      <text x="118" y="16" font-size="12.5" font-weight="bold" fill="#0f7a56" text-anchor="middle">AXIAL</text>
       <path d="M48,36 L48,190 Q48,206 64,206 L172,206 Q188,206 188,190 L188,36" fill="#e6f5ef" stroke="#41536b" stroke-width="1.8"/>
       <line x1="48" y1="48" x2="188" y2="48" stroke="#0f7a56" stroke-width="1.5"/>
       <rect x="53" y="48" width="9" height="155" fill="#b4531b" opacity=".8"/>
@@ -242,12 +242,12 @@
         <path d="M117,158 L117,190 Q117,198 130,198 L166,198 Q176,198 176,186 L176,80 Q176,66 160,62 L126,58" marker-end="url(#fa)"/>
         <path d="M113,158 L113,190 Q113,198 100,198 L64,198 Q54,198 54,186 L54,80 Q54,66 70,62 L104,58" marker-end="url(#fa)"/>
       </g>
-      <text x="118" y="228" font-size="8.2" fill="#0f7a56" text-anchor="middle" font-weight="bold">Paletas inclinadas &lt; 90°</text>
-      <text x="118" y="240" font-size="8" fill="#41536b" text-anchor="middle">Evita sedimentación de sólidos</text>
+      <text x="118" y="228" font-size="10.3" fill="#0f7a56" text-anchor="middle" font-weight="bold">Paletas inclinadas &lt; 90°</text>
+      <text x="118" y="240" font-size="10" fill="#41536b" text-anchor="middle">Evita sedimentación de sólidos</text>
     </g>
     <!-- RADIAL -->
     <g transform="translate(460,0)">
-      <text x="118" y="16" font-size="10" font-weight="bold" fill="#1f6f8b" text-anchor="middle">RADIAL</text>
+      <text x="118" y="16" font-size="12.5" font-weight="bold" fill="#1f6f8b" text-anchor="middle">RADIAL</text>
       <path d="M48,36 L48,190 Q48,206 64,206 L172,206 Q188,206 188,190 L188,36" fill="#e6f2f6" stroke="#41536b" stroke-width="1.8"/>
       <line x1="48" y1="48" x2="188" y2="48" stroke="#1f6f8b" stroke-width="1.5"/>
       <rect x="53" y="48" width="9" height="155" fill="#b4531b" opacity=".8"/>
@@ -262,8 +262,8 @@
         <path d="M86,130 L62,130 Q52,130 52,118 L52,72 Q52,58 68,56 L110,54" marker-end="url(#fa)" stroke="#1f6f8b"/>
         <path d="M86,134 L62,134 Q52,134 52,150 L52,188 Q52,198 66,198 L108,198" marker-end="url(#fa)" stroke="#1f6f8b"/>
       </g>
-      <text x="118" y="228" font-size="8.2" fill="#1f6f8b" text-anchor="middle" font-weight="bold">Paletas paralelas al eje</text>
-      <text x="118" y="240" font-size="8" fill="#41536b" text-anchor="middle">Dos loops: superior e inferior</text>
+      <text x="118" y="228" font-size="10.3" fill="#1f6f8b" text-anchor="middle" font-weight="bold">Paletas paralelas al eje</text>
+      <text x="118" y="240" font-size="10" fill="#41536b" text-anchor="middle">Dos loops: superior e inferior</text>
     </g>
   </svg>
   <figcaption>El patrón de flujo depende del diseño del agitador, del tamaño y geometría del vaso y de las propiedades del fluido. Un mezclado eficaz provoca movimiento en las tres direcciones, pero <b>el radial y el axial son los principales responsables de lograr homogeneidad</b>.</figcaption>
@@ -306,19 +306,19 @@
   <svg viewBox="0 0 740 180" width="700" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
     <g>
       <rect x="12" y="26" width="200" height="120" rx="6" fill="#fdeceb" stroke="#c0392b" stroke-width="1.6"/>
-      <text x="112" y="18" font-size="10" font-weight="bold" fill="#c0392b" text-anchor="middle">(a) FLOODING — inundación</text>
+      <text x="112" y="18" font-size="12.5" font-weight="bold" fill="#c0392b" text-anchor="middle">(a) FLOODING — inundación</text>
       <rect x="108" y="30" width="7" height="70" fill="#6b7f96"/>
       <rect x="86" y="96" width="51" height="7" fill="#41536b"/>
       <g fill="none" stroke="#c0392b" stroke-width="1.3">
         <circle cx="105" cy="120" r="5"/><circle cx="118" cy="128" r="6"/><circle cx="111" cy="86" r="7"/>
         <circle cx="106" cy="66" r="6"/><circle cx="116" cy="50" r="5"/><circle cx="108" cy="38" r="4"/>
       </g>
-      <text x="112" y="162" font-size="8" fill="#16202b" text-anchor="middle">Alta aireación o baja agitación:</text>
-      <text x="112" y="173" font-size="8" fill="#16202b" text-anchor="middle">el gas rodea al agitador y no puede bombear</text>
+      <text x="112" y="162" font-size="10" fill="#16202b" text-anchor="middle">Alta aireación o baja agitación:</text>
+      <text x="112" y="173" font-size="10" fill="#16202b" text-anchor="middle">el gas rodea al agitador y no puede bombear</text>
     </g>
     <g transform="translate(252,0)">
       <rect x="12" y="26" width="200" height="120" rx="6" fill="#fdf6df" stroke="#e0b100" stroke-width="1.6"/>
-      <text x="112" y="18" font-size="10" font-weight="bold" fill="#8a6a00" text-anchor="middle">(b) LOADING — carga</text>
+      <text x="112" y="18" font-size="12.5" font-weight="bold" fill="#8a6a00" text-anchor="middle">(b) LOADING — carga</text>
       <rect x="108" y="30" width="7" height="70" fill="#6b7f96"/>
       <rect x="86" y="96" width="51" height="7" fill="#41536b"/>
       <g fill="none" stroke="#8a6a00" stroke-width="1.3">
@@ -326,12 +326,12 @@
         <circle cx="146" cy="84" r="5"/><circle cx="160" cy="62" r="4"/><circle cx="138" cy="60" r="4"/>
         <circle cx="78" cy="84" r="5"/><circle cx="64" cy="62" r="4"/><circle cx="86" cy="58" r="4"/>
       </g>
-      <text x="112" y="162" font-size="8" fill="#16202b" text-anchor="middle">Se sube N o se baja el caudal: las paletas</text>
-      <text x="112" y="173" font-size="8" fill="#16202b" text-anchor="middle">procesan el gas y lo dispersan hacia las paredes</text>
+      <text x="112" y="162" font-size="10" fill="#16202b" text-anchor="middle">Se sube N o se baja el caudal: las paletas</text>
+      <text x="112" y="173" font-size="10" fill="#16202b" text-anchor="middle">procesan el gas y lo dispersan hacia las paredes</text>
     </g>
     <g transform="translate(504,0)">
       <rect x="12" y="26" width="212" height="120" rx="6" fill="#e6f5ef" stroke="#0f7a56" stroke-width="1.6"/>
-      <text x="118" y="18" font-size="10" font-weight="bold" fill="#0b5e42" text-anchor="middle">(c) DISPERSIÓN COMPLETA ✓</text>
+      <text x="118" y="18" font-size="12.5" font-weight="bold" fill="#0b5e42" text-anchor="middle">(c) DISPERSIÓN COMPLETA ✓</text>
       <rect x="112" y="30" width="7" height="70" fill="#6b7f96"/>
       <rect x="90" y="96" width="51" height="7" fill="#41536b"/>
       <g fill="none" stroke="#0f7a56" stroke-width="1.2">
@@ -340,8 +340,8 @@
         <circle cx="184" cy="60" r="4"/><circle cx="52" cy="86" r="4"/><circle cx="92" cy="120" r="4"/>
         <circle cx="140" cy="122" r="4"/><circle cx="180" cy="90" r="4"/><circle cx="30" cy="120" r="3.5"/><circle cx="200" cy="120" r="3.5"/>
       </g>
-      <text x="118" y="162" font-size="8" fill="#16202b" text-anchor="middle">Distribución homogénea del gas en todo el vaso:</text>
-      <text x="118" y="173" font-size="8" fill="#0b5e42" text-anchor="middle" font-weight="bold">es la situación deseada</text>
+      <text x="118" y="162" font-size="9.4" fill="#16202b" text-anchor="middle">Gas distribuido de forma homogénea:</text>
+      <text x="118" y="173" font-size="10" fill="#0b5e42" text-anchor="middle" font-weight="bold">es la situación deseada</text>
     </g>
   </svg>
   <figcaption>Los agitadores con baja relación entre superficie de paleta y volumen que deben mover tienden a inundarse a menores velocidades de aireación.</figcaption>
@@ -397,11 +397,11 @@
         <path d="M72,64 L72,267 L119,298 L211,298 L258,267 L258,64 Z" fill="#eef6fb"/>
         <!-- draft tube -->
         <rect x="136" y="82" width="58" height="176" fill="#e6f5ef" stroke="#0f7a56" stroke-width="2"/>
-        <text x="165" y="24" font-size="10" font-weight="bold" fill="#16202b" text-anchor="middle">AIRLIFT de tubo draft interno</text>
+        <text x="165" y="24" font-size="12.5" font-weight="bold" fill="#16202b" text-anchor="middle">AIRLIFT de tubo draft interno</text>
         <!-- degassing zone -->
         <rect x="72" y="46" width="186" height="30" fill="#fdf6df" opacity=".85"/>
-        <text x="165" y="60" font-size="8" fill="#8a6a00" text-anchor="middle" font-weight="bold">ZONA DE DESGASIFICACIÓN</text>
-        <text x="165" y="71" font-size="7.6" fill="#8a6a00" text-anchor="middle">el gas se desprende aquí</text>
+        <text x="165" y="60" font-size="10" fill="#8a6a00" text-anchor="middle" font-weight="bold">ZONA DE DESGASIFICACIÓN</text>
+        <text x="165" y="71" font-size="9.5" fill="#8a6a00" text-anchor="middle">el gas se desprende aquí</text>
         <line x1="72" y1="64" x2="258" y2="64" stroke="#1f6f8b" stroke-width="1.4"/>
         <!-- bubbles in riser -->
         <g fill="none" stroke="#8a3f8f" stroke-width="1.2">
@@ -419,15 +419,15 @@
         <!-- sparger -->
         <ellipse cx="165" cy="280" rx="26" ry="6" fill="none" stroke="#8a3f8f" stroke-width="3"/>
         <line x1="165" y1="300" x2="165" y2="318" stroke="#8a3f8f" stroke-width="3"/>
-        <text x="165" y="328" font-size="8.4" fill="#8a3f8f" text-anchor="middle" font-weight="bold">AIRE (única energía del sistema)</text>
+        <text x="165" y="328" font-size="10.5" fill="#8a3f8f" text-anchor="middle" font-weight="bold">AIRE (única energía del sistema)</text>
         <!-- labels -->
-        <g font-size="8.4">
+        <g font-size="10.5">
           <text x="165" y="176" fill="#0b5e42" text-anchor="middle" font-weight="bold" transform="rotate(-90 165 176)">RISER (asciende)</text>
           <text x="100" y="176" fill="#14556c" text-anchor="middle" font-weight="bold" transform="rotate(-90 100 176)">DOWNCOMER</text>
           <text x="230" y="176" fill="#14556c" text-anchor="middle" font-weight="bold" transform="rotate(-90 230 176)">DOWNCOMER</text>
         </g>
-        <text x="270" y="290" font-size="8" fill="#41536b">Base cónica</text>
-        <text x="270" y="301" font-size="8" fill="#41536b">+ sparger</text>
+        <text x="270" y="290" font-size="10" fill="#41536b">Base cónica</text>
+        <text x="270" y="301" font-size="10" fill="#41536b">+ sparger</text>
       </svg>
       <figcaption>La circulación es <b>natural</b>: el aire baja la densidad en el riser, el líquido sube, el gas se desprende arriba y el líquido más pesado y sin burbujas baja por el downcomer.</figcaption>
       </figure>
@@ -542,26 +542,26 @@
       <figure>
       <svg viewBox="0 0 380 150" width="370" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
         <defs><marker id="ct" markerWidth="8" markerHeight="8" refX="7" refY="2.5" orient="auto"><path d="M0,0 L8,2.5 L0,5 z" fill="#41536b"/></marker></defs>
-        <text x="190" y="14" font-size="10" font-weight="bold" fill="#16202b" text-anchor="middle">Lazo cerrado (closed loop)</text>
+        <text x="190" y="14" font-size="12.5" font-weight="bold" fill="#16202b" text-anchor="middle">Lazo cerrado (closed loop)</text>
         <circle cx="52" cy="58" r="13" fill="#fff" stroke="#c0392b" stroke-width="1.8"/>
-        <text x="52" y="62" font-size="12" fill="#c0392b" text-anchor="middle">Σ</text>
-        <text x="20" y="44" font-size="8" fill="#41536b">set point</text>
+        <text x="52" y="62" font-size="15" fill="#c0392b" text-anchor="middle">Σ</text>
+        <text x="20" y="44" font-size="10" fill="#41536b">set point</text>
         <path d="M6,58 L37,58" stroke="#41536b" stroke-width="1.6" marker-end="url(#ct)"/>
         <rect x="86" y="42" width="72" height="32" rx="5" fill="#fdf6df" stroke="#e0b100" stroke-width="1.5"/>
-        <text x="122" y="62" font-size="9" fill="#8a6a00" text-anchor="middle" font-weight="bold">PID</text>
+        <text x="122" y="62" font-size="11.2" fill="#8a6a00" text-anchor="middle" font-weight="bold">PID</text>
         <path d="M65,58 L82,58" stroke="#41536b" stroke-width="1.6" marker-end="url(#ct)"/>
         <rect x="176" y="42" width="78" height="32" rx="5" fill="#e6f2f6" stroke="#1f6f8b" stroke-width="1.5"/>
-        <text x="215" y="62" font-size="8.6" fill="#14556c" text-anchor="middle" font-weight="bold">Actuador</text>
+        <text x="215" y="62" font-size="10.8" fill="#14556c" text-anchor="middle" font-weight="bold">Actuador</text>
         <path d="M158,58 L172,58" stroke="#41536b" stroke-width="1.6" marker-end="url(#ct)"/>
         <rect x="272" y="42" width="94" height="32" rx="5" fill="#e6f5ef" stroke="#0f7a56" stroke-width="1.5"/>
-        <text x="319" y="62" font-size="8.6" fill="#0b5e42" text-anchor="middle" font-weight="bold">BIORREACTOR</text>
+        <text x="319" y="62" font-size="10.8" fill="#0b5e42" text-anchor="middle" font-weight="bold">BIORREACTOR</text>
         <path d="M254,58 L268,58" stroke="#41536b" stroke-width="1.6" marker-end="url(#ct)"/>
         <path d="M366,58 L374,58 L374,110 L200,110" stroke="#41536b" stroke-width="1.6" fill="none"/>
         <rect x="132" y="96" width="68" height="28" rx="5" fill="#f6ecf7" stroke="#8a3f8f" stroke-width="1.5"/>
-        <text x="166" y="114" font-size="8.6" fill="#6d2f72" text-anchor="middle" font-weight="bold">SENSOR</text>
+        <text x="166" y="114" font-size="10.8" fill="#6d2f72" text-anchor="middle" font-weight="bold">SENSOR</text>
         <path d="M132,110 L52,110 L52,73" stroke="#41536b" stroke-width="1.6" fill="none" marker-end="url(#ct)"/>
-        <text x="190" y="140" font-size="8" fill="#41536b" text-anchor="middle">La señal controlada se realimenta y se compara con la referencia;</text>
-        <text x="190" y="150" font-size="8" fill="#41536b" text-anchor="middle">se envía una señal actuante proporcional al error para corregir la salida.</text>
+        <text x="190" y="140" font-size="10" fill="#41536b" text-anchor="middle">La señal controlada se realimenta y se compara con la referencia;</text>
+        <text x="190" y="150" font-size="9.4" fill="#41536b" text-anchor="middle">se envía una señal actuante proporcional al error.</text>
       </svg>
       </figure>
       <h4 class="sub">PID aplicado al oxígeno disuelto (ejemplo de la cátedra)</h4>
