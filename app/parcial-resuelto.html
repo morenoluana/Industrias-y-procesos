@@ -1,0 +1,676 @@
+<title>Parcial Resuelto</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#eceff1; --surface:#ffffff; --surface2:#f4f6f7; --edge:#d6dde1; --edge2:#e6ebee;
+  --ink:#131b21; --ink2:#364650; --muted:#64757f;
+  --amber:#a8650f; --amber-soft:#fbeeda; --amber-ink:#8a5209;
+  --slate:#2b5f7e; --slate-soft:#e2edf3;
+  --good:#276d4e; --good-soft:#e0f0e8;
+  --bad:#a93c2c; --bad-soft:#fae7e3;
+  --paper:#fbfaf6; --paper-edge:#e3ded0;
+  --shadow:0 1px 2px rgba(19,27,33,.07), 0 6px 18px -12px rgba(19,27,33,.22);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0f1519; --surface:#171f25; --surface2:#131b20; --edge:#26333b; --edge2:#1d272d;
+    --ink:#e6edf1; --ink2:#c0ccd4; --muted:#8b9aa4;
+    --amber:#e5a444; --amber-soft:#2e2211; --amber-ink:#f0bd6b;
+    --slate:#6fb4d6; --slate-soft:#132833;
+    --good:#5fc496; --good-soft:#12291f;
+    --bad:#e4806d; --bad-soft:#2d1713;
+    --paper:#141a1d; --paper-edge:#2a353a;
+    --shadow:0 1px 2px rgba(0,0,0,.45), 0 8px 22px -14px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0f1519; --surface:#171f25; --surface2:#131b20; --edge:#26333b; --edge2:#1d272d;
+  --ink:#e6edf1; --ink2:#c0ccd4; --muted:#8b9aa4;
+  --amber:#e5a444; --amber-soft:#2e2211; --amber-ink:#f0bd6b;
+  --slate:#6fb4d6; --slate-soft:#132833;
+  --good:#5fc496; --good-soft:#12291f;
+  --bad:#e4806d; --bad-soft:#2d1713;
+  --paper:#141a1d; --paper-edge:#2a353a;
+  --shadow:0 1px 2px rgba(0,0,0,.45), 0 8px 22px -14px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ground);color:var(--ink);
+  font-family:"Public Sans",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.62;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:"Fraunces","Public Sans",Georgia,serif;margin:0;line-height:1.14;text-wrap:balance;font-weight:600}
+p{margin:0 0 .85em}
+a{color:var(--slate)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:5px}
+.mono{font-family:"DM Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+[hidden]{display:none!important}
+sub,sup{font-size:.74em}
+
+/* ---- barra ---- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--surface) 92%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--edge)}
+.bar-in{max-width:880px;margin:0 auto;padding:8px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav a,.nav span{font-size:13.5px;text-decoration:none;padding:5px 11px;border-radius:7px;color:var(--muted);white-space:nowrap;border:1px solid transparent}
+.nav a:hover{background:var(--surface2);color:var(--ink)}
+.nav span[aria-current]{background:var(--amber-soft);color:var(--amber-ink);font-weight:600;border-color:transparent}
+.bar .right{margin-left:auto;display:flex;gap:7px;align-items:center}
+.tbtn{background:none;border:1px solid var(--edge);border-radius:7px;padding:4px 10px;cursor:pointer;color:var(--muted);font-size:13px;line-height:1.5}
+.tbtn[aria-pressed="true"]{background:var(--slate);color:#fff;border-color:var(--slate)}
+:root[data-theme="dark"] .tbtn[aria-pressed="true"]{color:#0f1519}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tbtn[aria-pressed="true"]{color:#0f1519}}
+
+main{max-width:880px;margin:0 auto;padding-left:18px;padding-right:18px;padding-block:0 70px}
+
+/* ---- hero ---- */
+.hero{padding-block:40px 26px;border-bottom:1px solid var(--edge)}
+.kicker{font-family:"DM Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber-ink);margin-bottom:13px}
+.hero h1{font-size:clamp(32px,7.5vw,50px);letter-spacing:-.025em;margin-bottom:14px}
+.hero .lede{font-size:17.5px;color:var(--ink2);max-width:60ch}
+
+/* ---- cobertura ---- */
+.cov{background:var(--surface);border:1px solid var(--edge);border-radius:13px;padding:17px;margin:22px 0;box-shadow:var(--shadow)}
+.cov h3{font-family:"Public Sans",sans-serif;font-size:16px;font-weight:700;margin-bottom:9px}
+.covbar{display:flex;height:13px;border-radius:7px;overflow:hidden;border:1px solid var(--edge);margin:11px 0 7px}
+.covbar i{display:block;height:100%}
+.covlegend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.covlegend span{display:flex;align-items:center;gap:6px}
+.sw{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+
+/* ---- preguntas ---- */
+.q{padding-block:34px;border-bottom:1px solid var(--edge)}
+.q:last-of-type{border-bottom:none}
+.qhead{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:14px}
+.qhead h2{font-size:clamp(23px,4.6vw,30px);letter-spacing:-.02em}
+.pts{font-family:"DM Mono",monospace;font-size:12px;background:var(--slate-soft);color:var(--slate);padding:3px 9px;border-radius:6px;white-space:nowrap}
+
+.enun{background:var(--paper);border:1px solid var(--paper-edge);border-radius:12px;padding:17px 19px;margin-bottom:20px;
+  font-size:15.5px;color:var(--ink2);box-shadow:var(--shadow)}
+.enun .et{font-family:"DM Mono",monospace;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.enun p{margin-bottom:.6em}
+.enun p:last-child{margin-bottom:0}
+.enun ol,.enun ul{margin:.3em 0 .4em;padding-left:1.3em}
+.enun li{margin-bottom:.3em}
+.enun em{color:var(--ink);font-style:italic}
+
+.sol{max-width:66ch}
+.sol h3{font-family:"Public Sans",sans-serif;font-size:17px;font-weight:700;margin:22px 0 7px}
+.sol h3:first-child{margin-top:0}
+.sol h4{font-family:"Public Sans",sans-serif;font-size:15.5px;font-weight:700;margin:16px 0 5px;color:var(--ink)}
+.sol p,.sol li{color:var(--ink2)}
+.sol b,.sol strong{color:var(--ink);font-weight:600}
+.sol ul,.sol ol{padding-left:1.25em;margin:.3em 0 .9em}
+.sol li{margin-bottom:.4em}
+
+.key{border-left:3px solid var(--amber);background:var(--amber-soft);padding:13px 17px;border-radius:0 9px 9px 0;margin:16px 0}
+.key .t{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-ink);display:block;margin-bottom:3px}
+.key p{margin:0;color:var(--ink)}
+.note{background:var(--surface2);border:1px solid var(--edge2);border-radius:10px;padding:13px 16px;margin:16px 0;font-size:15px;color:var(--ink2)}
+.note .t{font-weight:700;color:var(--ink);display:block;margin-bottom:3px}
+
+/* fórmulas */
+.fml{background:var(--surface);border:1px solid var(--edge);border-radius:10px;padding:14px 16px;margin:14px 0;text-align:center;
+  font-family:"DM Mono",monospace;font-size:16px;color:var(--ink);overflow-x:auto}
+.fml small{display:block;font-family:"Public Sans",sans-serif;font-size:12.5px;color:var(--muted);margin-top:7px;text-align:center}
+
+/* V/F */
+.vf{display:flex;flex-direction:column;gap:11px;margin:4px 0 8px}
+.vfi{background:var(--surface);border:1px solid var(--edge);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+.vfi .stmt{display:flex;gap:11px;align-items:flex-start}
+.vfi .n{font-family:"DM Mono",monospace;font-size:12.5px;color:var(--muted);flex:0 0 auto;margin-top:2px}
+.vfi .txt{font-size:15.5px;color:var(--ink)}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;letter-spacing:.04em;
+  padding:3px 10px;border-radius:20px;margin-top:10px}
+.b-v{background:var(--good-soft);color:var(--good)}
+.b-f{background:var(--bad-soft);color:var(--bad)}
+.just{margin-top:9px;font-size:15px;color:var(--ink2);border-left:3px solid var(--edge);padding-left:13px}
+.just b{color:var(--ink)}
+.tagtheme{display:inline-block;font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  padding:2px 7px;border-radius:5px;margin-left:8px;vertical-align:2px}
+.t-si{background:var(--slate-soft);color:var(--slate)}
+.t-no{background:var(--bad-soft);color:var(--bad)}
+
+/* tablas */
+.tw{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;width:100%;font-size:14.8px;min-width:420px}
+th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--edge2);vertical-align:top;color:var(--ink2)}
+th{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td b{color:var(--ink)}
+
+figure{margin:20px 0;background:var(--surface);border:1px solid var(--edge);border-radius:13px;padding:16px;box-shadow:var(--shadow)}
+figcaption{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
+svg{display:block;max-width:100%;height:auto;margin:0 auto}
+
+footer{max-width:880px;margin:0 auto;padding:24px 18px 44px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--edge)}
+.hide-sol .sol,.hide-sol .badge,.hide-sol .just,.hide-sol .cov-sol{display:none!important}
+.hide-sol .vfi{opacity:.92}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<header class="bar">
+  <div class="bar-in">
+    <nav class="nav" aria-label="Materiales de la materia">
+      <a href="https://claude.ai/artifact/CqSquC4UziJUmM6faQZaVo">Curso</a>
+      <a href="https://claude.ai/artifact/ThkBmTH7ei7RruvAia6mHD">Práctica</a>
+      <span aria-current="page">Parcial resuelto</span>
+    </nav>
+    <div class="right">
+      <button class="tbtn" id="examMode" aria-pressed="false">Ocultar respuestas</button>
+      <button class="tbtn" id="theme" title="Cambiar tema">◐</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="kicker">Industrias y Procesos Biotecnológicos · UADE</div>
+  <h1>Primer parcial, enunciado y resolución</h1>
+  <p class="lede">El enunciado completo, tal cual, y la resolución de cada punto. Con el botón <b>“Ocultar respuestas”</b> de arriba podés esconder toda la resolución y probar a resolverlo vos primero.</p>
+
+  <div class="cov">
+    <h3>¿Está todo cubierto por las cuatro clases?</h3>
+    <p style="margin:0;color:var(--ink2);font-size:15.5px">De los 10 puntos del parcial, <b>8,75 salen de las clases 1 a 4</b>. Lo que falta es un bloque entero: <b>esterilización y filtración industrial</b>, que aparece en el temario de la Clase 1 como <i>“Esterilización y limpieza de reactores y materiales a nivel industrial”</i> pero no está en esos cuatro PDF.</p>
+    <div class="covbar">
+      <i style="flex:8.75;background:var(--slate)"></i><i style="flex:1.25;background:var(--bad)"></i>
+    </div>
+    <div class="covlegend">
+      <span><i class="sw" style="background:var(--slate)"></i> 8,75 pts — clases 1 a 4</span>
+      <span><i class="sw" style="background:var(--bad)"></i> 1,25 pts — esterilización y filtración</span>
+    </div>
+    <div class="tw" style="margin-bottom:0">
+      <table>
+        <thead><tr><th>Parte del parcial</th><th>Puntos</th><th>¿De dónde sale?</th></tr></thead>
+        <tbody>
+          <tr><td><b>P1 · ítems 1, 2, 3, 4 y 8</b></td><td class="mono">1,25</td><td><b style="color:var(--bad)">Esterilización y filtración</b> — clase que falta</td></tr>
+          <tr><td><b>P1 · ítems 5, 6 y 7</b></td><td class="mono">0,75</td><td>Clases 2 y 3</td></tr>
+          <tr><td><b>P2 · Reynolds y potencia</b></td><td class="mono">2,00</td><td>Clases 2 y 4</td></tr>
+          <tr><td><b>P3 · Tiempo de mezclado</b></td><td class="mono">1,00</td><td>Clase 4</td></tr>
+          <tr><td><b>P4 · Upstream y escalado</b></td><td class="mono">1,00</td><td>Clases 1 y 4</td></tr>
+          <tr><td><b>P5 · Ácido itacónico</b></td><td class="mono">4,00</td><td>Clases 3 y 4 (ejercicio integrador)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PREGUNTA 1 ==================== -->
+<section class="q" id="p1">
+  <div class="qhead"><h2>Pregunta 1</h2><span class="pts">2 puntos</span></div>
+  <div class="enun">
+    <div class="et">Enunciado</div>
+    <p><b>a)</b> Indique verdadero o falso. Justifique las afirmaciones falsas.</p>
+    <ol>
+      <li>En la filtración por lecho profundo el fluido debe recorrer un camino tortuoso antes de poder llegar al otro lado.</li>
+      <li>Los filtros de esterilización de medios de cultivo suelen instalarse en serie de dos o tres.</li>
+      <li>El parámetro termodinámico Z es el tiempo de exposición a temperatura constante, necesario para inactivar el 90 % de una población microbiana.</li>
+      <li>Para la esterilización de gases se utilizan habitualmente filtros de fibra de vidrio (HEPA).</li>
+      <li>El flooding es un fenómeno deseable en un tanque agitado, que se logra combinando agitación con aireación.</li>
+      <li>La viscosidad es una propiedad relacionada a la resistencia al movimiento de un fluido cuando se ejercen fuerzas de corte.</li>
+      <li>Cultivos de hongos filamentosos o de células vegetales suelen modelarse como fluidos newtonianos.</li>
+      <li>Una ventaja de la esterilización en batch es que puede operar a mayores temperaturas que en modo continuo.</li>
+    </ol>
+  </div>
+
+  <div class="vf">
+    <div class="vfi"><div class="stmt"><span class="n">1</span><span class="txt">En la filtración por lecho profundo el fluido debe recorrer un camino tortuoso.<span class="tagtheme t-no">esterilización</span></span></div>
+      <span class="badge b-v">VERDADERO</span>
+      <div class="just">El medio filtrante <b>tiene espesor</b> y retiene las partículas <b>en todo su volumen</b>, no en una superficie. El fluido recorre un camino tortuoso y la retención ocurre por <b>intercepción, impacto inercial, difusión y atracción electrostática</b> — no por un tamaño de poro absoluto, como sí pasa en un filtro de membrana.</div></div>
+
+    <div class="vfi"><div class="stmt"><span class="n">2</span><span class="txt">Los filtros de esterilización de medios suelen instalarse en serie de dos o tres.<span class="tagtheme t-no">esterilización</span></span></div>
+      <span class="badge b-v">VERDADERO</span>
+      <div class="just">Se coloca un <b>prefiltro</b> que retiene la carga gruesa y <b>protege al filtro esterilizante de 0,22 µm</b>, alargando su vida útil. El tercero, cuando está, aporta <b>redundancia</b> por si falla el test de integridad del filtro final.</div></div>
+
+    <div class="vfi"><div class="stmt"><span class="n">3</span><span class="txt">El parámetro termodinámico Z es el tiempo para inactivar el 90 % de una población.<span class="tagtheme t-no">esterilización</span></span></div>
+      <span class="badge b-f">FALSO</span>
+      <div class="just">Esa es la definición de <b>D</b>, el <b>tiempo de reducción decimal</b>: el tiempo, a temperatura constante, necesario para inactivar el 90 % (un ciclo logarítmico) de la población. El parámetro <b>z</b> es el <b>aumento de temperatura</b> necesario para que D se reduzca diez veces, y por lo tanto <b>se expresa en °C, no en unidades de tiempo</b>.</div></div>
+
+    <div class="vfi"><div class="stmt"><span class="n">4</span><span class="txt">Para la esterilización de gases se usan filtros de fibra de vidrio (HEPA).<span class="tagtheme t-no">esterilización</span></span></div>
+      <span class="badge b-v">VERDADERO</span>
+      <div class="just">Los gases <b>no se esterilizan por calor</b> sino <b>por filtración</b>, con filtros de fibra de vidrio tipo HEPA o membranas hidrofóbicas de 0,22 µm. En el biorreactor van tanto en el aire de entrada como en el de salida, y los de escape se <b>calefaccionan</b> para evitar condensación y taponamiento.</div></div>
+
+    <div class="vfi"><div class="stmt"><span class="n">5</span><span class="txt">El flooding es un fenómeno deseable en un tanque agitado.<span class="tagtheme t-si">clase 3</span></span></div>
+      <span class="badge b-f">FALSO</span>
+      <div class="just">El <b>flooding (inundación) es indeseable</b>: aparece con <b>alta aireación o baja agitación</b>, el gas <b>rodea al agitador</b> y éste no puede bombear ni dispersar — se excedió su capacidad de manejo de gas. Subiendo N o bajando el caudal se pasa a <b>loading</b>, y el estado <b>deseado</b> es la <b>dispersión completa</b>, con el gas repartido homogéneamente en todo el vaso.</div></div>
+
+    <div class="vfi"><div class="stmt"><span class="n">6</span><span class="txt">La viscosidad se relaciona con la resistencia al movimiento bajo fuerzas de corte.<span class="tagtheme t-si">clase 2</span></span></div>
+      <span class="badge b-v">VERDADERO</span>
+      <div class="just">Es la <b>resistencia interna del fluido al movimiento</b>, generada por la fricción entre capas. Se define como la relación entre el esfuerzo de corte y el gradiente de velocidad <b>en condiciones de flujo laminar</b>: <span class="mono">τ = μ·γ̇</span>.</div></div>
+
+    <div class="vfi"><div class="stmt"><span class="n">7</span><span class="txt">Los cultivos de hongos filamentosos o células vegetales se modelan como newtonianos.<span class="tagtheme t-si">clase 2</span></span></div>
+      <span class="badge b-f">FALSO</span>
+      <div class="just">Se modelan como <b>pseudoplásticos</b> — ley de la potencia <span class="mono">τ = K·γ̇ⁿ</span> con <b>n &lt; 1</b> — o como <b>plásticos de Bingham</b> si hay un esfuerzo de cedencia τ₀ inicial. Los que <b>sí</b> son newtonianos son los cultivos de <b>bacterias y levaduras</b>, y las suspensiones de células eucariotas, que mantienen una viscosidad cercana a la del agua.</div></div>
+
+    <div class="vfi"><div class="stmt"><span class="n">8</span><span class="txt">Una ventaja de la esterilización en batch es que opera a mayores temperaturas que la continua.<span class="tagtheme t-no">esterilización</span></span></div>
+      <span class="badge b-f">FALSO</span>
+      <div class="just">Es <b>exactamente al revés</b>. La <b>esterilización continua</b> trabaja en modo <b>HTST</b> (alta temperatura, tiempo corto: ~140 °C durante segundos). Eso se aprovecha porque la <b>destrucción de esporas tiene mayor energía de activación</b> que la degradación de nutrientes: a mayor temperatura se matan más esporas <b>dañando menos el medio</b>. La batch, en cambio, queda limitada a ~121 °C con <b>rampas largas</b> de calentamiento y enfriamiento.</div></div>
+  </div>
+</section>
+
+<!-- ==================== PREGUNTA 2 ==================== -->
+<section class="q" id="p2">
+  <div class="qhead"><h2>Pregunta 2</h2><span class="pts">2 puntos</span></div>
+  <div class="enun">
+    <div class="et">Enunciado</div>
+    <p>¿Qué es el número de Reynolds y cómo se relaciona con las propiedades reológicas de un cultivo? <em>Explique paso a paso cómo haría para calcular la potencia necesaria para hacer funcionar un biorreactor, detallando qué parámetros del cultivo debería conocer de antemano.</em></p>
+  </div>
+
+  <div class="sol">
+    <h3>Qué es el número de Reynolds</h3>
+    <p>Es un número <b>adimensional</b> que representa el cociente entre las <b>fuerzas de inercia</b> —que mantienen el movimiento— y las <b>fuerzas viscosas</b> —que lo resisten. Define el <b>régimen de flujo</b>. En un tanque agitado:</p>
+    <div class="fml">Re<sub>i</sub> = ρ · N<sub>i</sub> · D<sub>i</sub>² / μ
+      <small>N<sub>i</sub> en <b>rev/s</b> · D<sub>i</sub> = diámetro del <b>impulsor</b> · ρ = densidad · μ = viscosidad</small></div>
+    <p>Los límites en sistemas de mezclado son: <b>Re &lt; 10</b> laminar · <b>10 – 10.000</b> transición · <b>Re &gt; 10.000</b> turbulento.</p>
+
+    <h3>Cómo se relaciona con la reología del cultivo</h3>
+    <p>La viscosidad está en el denominador, así que <b>domina el Reynolds</b>. Si el cultivo es <b>newtoniano</b> (bacterias, levaduras), μ es un valor constante y el Re no cambia a lo largo del batch. Pero si es <b>pseudoplástico</b> —el caso de hongos filamentosos y células vegetales— la viscosidad <b>no es un único número</b>: es una <b>viscosidad aparente</b> <span class="mono">μ<sub>a</sub> = K·γ̇⁽ⁿ⁻¹⁾</span> que depende de cuánta cizalla haya en cada punto. Consecuencias:</p>
+    <ul>
+      <li>Hay que usar la μ aparente <b>a la velocidad de cizalla del impulsor</b> (γ̇ ≈ k·N, con k ≈ 11 para turbinas), no una viscosidad medida en reposo.</li>
+      <li>Cerca del agitador la cizalla es alta y el caldo está fluido; <b>lejos está espeso</b> → se forman <b>cavernas</b> de mezclado intenso rodeadas de <b>zonas muertas</b> sin oxígeno.</li>
+      <li>Como <b>K aumenta y n disminuye</b> a medida que crece la biomasa, <b>el Re cae a lo largo del batch</b>: un proceso que arranca turbulento puede terminar en zona de transición.</li>
+    </ul>
+
+    <h3>Cálculo de la potencia, paso a paso</h3>
+    <ol>
+      <li><b>Convertir unidades</b> a kg, m, s. N de rpm a <b>rev/s</b> (÷ 60) y μ de cP a <b>Pa·s</b> (× 10⁻³). <i>Es el error más común del examen.</i></li>
+      <li><b>Calcular el Reynolds</b> con la fórmula de arriba.</li>
+      <li><b>Determinar el régimen</b> a partir del Re.</li>
+      <li><b>Obtener N<sub>p</sub></b> de la curva N<sub>p</sub> vs Re o de tabla, <b>según el tipo de impulsor y la geometría</b> del tanque.</li>
+      <li><b>Aplicar la ecuación del régimen correspondiente.</b></li>
+      <li><b>Corregir por aireación</b> si el reactor está gaseado: el gas reduce la densidad aparente del fluido y baja la potencia (P<sub>g</sub>/P<sub>0</sub> &lt; 1).</li>
+      <li><b>Sumar el rendimiento del accionamiento</b>: la potencia eléctrica del motor es siempre mayor que la entregada al fluido, por la fricción en la caja de engranajes y las juntas.</li>
+    </ol>
+
+    <div class="tw"><table>
+      <thead><tr><th>Régimen</th><th>Ecuación</th><th>De qué depende</th><th>Constante típica</th></tr></thead>
+      <tbody>
+        <tr><td><b>Turbulento</b><br>Re &gt; 10⁴</td><td class="mono">P = N<sub>p</sub>'·ρ·N³·D<sub>i</sub>⁵</td><td>N<sub>p</sub>' es constante e <b>independiente de Re</b>. P <b>no depende de μ</b>, sí de ρ</td><td>N<sub>p</sub>' ≈ <b>5</b> Rushton<br>≈ <b>0,35</b> hélice marina</td></tr>
+        <tr><td><b>Laminar</b><br>Re &lt; 10</td><td class="mono">P = k₁·N²·D<sub>i</sub>³·μ</td><td>P <b>no depende de ρ</b>, sí de μ. En fluidos muy viscosos el motor vence la resistencia interna</td><td>k₁ ≈ <b>71</b> turbina de 6 paletas<br>≈ <b>41</b> hélice marina</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Parámetros del cultivo que hay que conocer de antemano</h3>
+    <ul>
+      <li><b>Densidad ρ</b> del caldo — picnómetro o densímetro.</li>
+      <li><b>Viscosidad μ</b>, y si no es newtoniano, <b>K y n</b> de la ley de la potencia — medidos con <b>viscosímetro de rodete</b>, que es el único que no sedimenta ni destruye las partículas de una suspensión celular.</li>
+      <li><b>Cómo evolucionan esas propiedades durante el batch</b>: la reología del final no es la del principio.</li>
+      <li>La <b>sensibilidad a la cizalla</b> del microorganismo, para no superar la v<sub>tip</sub> tolerable.</li>
+      <li>La <b>demanda de oxígeno (OUR)</b>, que fija la agitación mínima necesaria para que OTR &gt; OUR.</li>
+      <li>La <b>geometría</b>: D<sub>i</sub>, D<sub>T</sub>, H<sub>L</sub>, número y tipo de impulsores, deflectores.</li>
+    </ul>
+
+    <div class="key"><span class="t">Alternativa experimental</span>
+      <p>Si el equipo lo permite, se mide el <b>torque M</b> en el eje del agitador y se aplica <span class="mono">P = 2π · N<sub>i</sub> · M</span>. Es una medición directa que no depende de leer N<sub>p</sub> en una curva.</p></div>
+  </div>
+</section>
+
+<!-- ==================== PREGUNTA 3 ==================== -->
+<section class="q" id="p3">
+  <div class="qhead"><h2>Pregunta 3</h2><span class="pts">1 punto</span></div>
+  <div class="enun">
+    <div class="et">Enunciado</div>
+    <p><b>a)</b> Defina tiempo de mezclado y cómo puede determinarse.<br>
+       <b>b)</b> Describa los fenómenos involucrados en el mezclado de un reactor.</p>
+  </div>
+
+  <div class="sol">
+    <h3>a) Tiempo de mezclado</h3>
+    <p><b>Definición.</b> El <b>tiempo de mezclado t<sub>m</sub></b> es el tiempo requerido para alcanzar un grado de homogeneidad determinado <b>partiendo de un estado completamente segregado</b>. En la práctica se toma como el tiempo tras el cual la concentración del trazador <b>difiere de la concentración final C<sub>f</sub> en menos del 10 %</b> de la diferencia total (C<sub>f</sub> − C<sub>i</sub>).</p>
+
+    <h4>Cómo se determina — técnica de estímulo-respuesta</h4>
+    <p>Se inyecta un <b>trazador</b> y se sigue su concentración a la salida con el sensor adecuado:</p>
+    <ul>
+      <li><b>Señal en pulso:</b> se inyecta toda la cantidad de trazador <b>en el menor tiempo posible</b> y se registra la respuesta.</li>
+      <li><b>Señal en escalón:</b> desde t = 0 se alimenta un <b>flujo molar constante</b> de trazador y se mide a la salida hasta que su concentración iguala a la de entrada.</li>
+      <li><b>Trazadores habituales:</b> ácidos, bases o soluciones salinas concentradas, leídos con <b>pH-metro o conductímetro</b>; también colorante (lectura visual o por absorbancia) o un pulso de <b>fluido caliente</b> leído con termocupla.</li>
+    </ul>
+
+    <h4>Estimación teórica — correlación de Grenville–Nienow</h4>
+    <div class="fml">t<sub>m</sub> = 5,9 · D<sub>T</sub><sup>2/3</sup> · (P / ρV<sub>L</sub>)<sup>−1/3</sup> · (D<sub>i</sub>/D<sub>T</sub>)<sup>−1/3</sup>
+      <small>Vale en <b>régimen turbulento</b>, tanque <b>con deflectores</b>, <b>un solo agitador</b> y <b>H<sub>L</sub> = D<sub>T</sub></b>, con el gas efectivamente dispersado (no <i>flooded</i>)</small></div>
+    <p>De ahí salen las dos conclusiones que se preguntan: <b>t<sub>m</sub> ∝ 1/N</b> y, a N constante, <b>t<sub>m</sub> ∝ (D<sub>T</sub>/D<sub>i</sub>)²</b>. Valor industrial de referencia: <b>30 a 120 s</b> en reactores de 1 a 100 m³.</p>
+
+    <h3>b) Los tres fenómenos del mezclado</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Fenómeno</th><th>Qué es</th><th>Por qué importa</th></tr></thead>
+      <tbody>
+        <tr><td><b>1. Distribución</b><br>(macromezclado)</td>
+            <td>Transporte del soluto a todas las regiones del vaso por la <b>circulación global</b> del fluido. Se caracteriza por el tiempo que tarda una molécula en volver al mismo punto.</td>
+            <td><b>Es el paso más lento</b> y el que domina el t<sub>m</sub>. Es lo que se observa al mirar el camino de una gota de colorante.</td></tr>
+        <tr><td><b>2. Dispersión</b><br>(micro o macro)</td>
+            <td>Ruptura del flujo en <b>remolinos cada vez más pequeños</b>.</td>
+            <td>El grado de homogeneidad alcanzable está <b>limitado por el tamaño del remolino más chico</b>, dado por la <b>escala de Kolmogorov</b> <span class="mono">λ = (ν³/ε)^(1/4)</span>.</td></tr>
+        <tr><td><b>3. Difusión</b><br>(micromezclado)</td>
+            <td>Dentro de los remolinos el flujo es rotacional y ocurre en líneas de corriente, que <b>no mezclan</b>: por debajo de la escala de Kolmogorov solo actúa la <b>difusión molecular</b>.</td>
+            <td>Es lenta en general, pero <b>a distancias muy cortas es rapidísima</b>: en remolinos de <b>30–100 µm</b> la homogeneidad se alcanza en <b>≈ 1 segundo</b>.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="key"><span class="t">La conclusión que cierra la respuesta</span>
+      <p>Si la potencia entregada alcanza para generar remolinos de ese tamaño, el mezclado a nivel molecular es <b>prácticamente instantáneo</b>, y entonces <b>todo el t<sub>m</sub> lo determina la circulación global</b>. Por eso lo que hay que asegurar es un buen macromezclado.</p></div>
+  </div>
+</section>
+
+<!-- ==================== PREGUNTA 4 ==================== -->
+<section class="q" id="p4">
+  <div class="qhead"><h2>Pregunta 4</h2><span class="pts">1 punto</span></div>
+  <div class="enun">
+    <div class="et">Enunciado</div>
+    <p>Describa las etapas de desarrollo inicial y avanzada del proceso upstream. Explique al menos 3 problemas o consideraciones que tendría que tener en cuenta a la hora de escalar el bioproceso.</p>
+  </div>
+
+  <div class="sol">
+    <div class="tw"><table>
+      <thead><tr><th style="width:26%">Etapa</th><th>Actividades</th><th>Consideraciones</th></tr></thead>
+      <tbody>
+        <tr><td><b>Desarrollo inicial</b></td>
+          <td>Selección del <b>organismo hospedador</b> · ingenierización de la línea celular, construcción de vectores y transformación · selección de <b>clones candidatos productivos</b> · <b>desarrollo del proceso</b> (método y medio de cultivo, parámetros, tipo de biorreactor) · caracterización de proceso y producto · <b>comienzo del escalado</b> · producción de material <b>GLP</b> para desarrollo preclínico y <b>GMP</b> para ensayos clínicos.</td>
+          <td>Comunicación cruzada entre upstream, downstream y desarrollo analítico · involucrar a producción <b>en etapa temprana</b> · evaluar la <b>facilidad de manipulación</b> de la línea celular además de su productividad · investigar estrategias de menor costo · implementar <b>QbD y PAT</b> · comprender los escenarios de <b>propiedad intelectual</b>.</td></tr>
+        <tr><td><b>Desarrollo avanzado</b></td>
+          <td>Mejoras en la <b>robustez y productividad</b> del proceso · <b>escalado final</b> · caracterización y <b>validación</b> para cumplir la exigencia regulatoria · monitoreo de la calidad del producto y <b>comparabilidad</b> durante los cambios de proceso.</td>
+          <td>Comprender a fondo el <b>efecto de los parámetros de proceso</b> sobre la performance y sobre la calidad del producto.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Tres problemas al escalar</h3>
+    <h4>1. No se pueden mantener todos los criterios a la vez</h4>
+    <p>Si conservás <b>P/V</b>, la <b>velocidad de punta aumenta</b> y daña las células; si conservás <b>v<sub>tip</sub></b>, la <b>P/V cae</b> por debajo de lo necesario para mezclar y oxigenar. Hay que <b>elegir qué conservar</b> según qué limite al proceso: <b>k<sub>L</sub>a</b> en aerobios, <b>v<sub>tip</sub></b> en cultivos sensibles a la cizalla, <b>P/V</b> cuando no hace falta alta aireación.</p>
+
+    <h4>2. El tiempo de mezclado aumenta inevitablemente</h4>
+    <p>Mantener t<sub>m</sub> constante al pasar de 1 m³ a 1000 m³ exigiría un gasto de potencia <b>2000 veces mayor</b>: ni económica ni técnicamente viable. El resultado son <b>gradientes de pH, oxígeno y nutrientes</b> en el tanque grande, y por eso el escalado <b>suele venir acompañado de una caída del rendimiento y la productividad</b>.</p>
+
+    <h4>3. La transferencia de oxígeno y de calor se vuelven limitantes</h4>
+    <p>La relación <b>superficie/volumen cae</b> al crecer el tanque: cuesta mucho más <b>remover el calor</b> de fermentación, y garantizar <b>OTR &gt; OUR</b> exige más potencia y más caudal de aire, con el costo de compresión asociado.</p>
+
+    <div class="note"><span class="t">Otras consideraciones igualmente válidas</span>
+      La <b>geometría no siempre es semejante</b> entre escalas, así que no se puede escalar por simple proporcionalidad · la <b>esterilización del medio</b> debe pasar de batch a continuo · el <b>cambio reológico</b> del caldo se agrava con el volumen · y hay que asegurar <b>escalabilidad y trazabilidad</b> de materiales y diseño para el cumplimiento regulatorio.</div>
+  </div>
+</section>
+
+<!-- ==================== PREGUNTA 5 ==================== -->
+<section class="q" id="p5">
+  <div class="qhead"><h2>Pregunta 5</h2><span class="pts">4 puntos</span></div>
+  <div class="enun">
+    <div class="et">Enunciado</div>
+    <p>Según el trabajo analizado en clase <em>“Application of Scale Up Criterion of Constant Oxygen Mass Transfer Coefficient (k<sub>L</sub>a) for Production of Itaconic Acid in a 50 L Pilot Scale Fermentor by Fungal Cells of Aspergillus terreus”</em>, responda:</p>
+    <p><b>Características del biorreactor:</b> de 50 litros de volumen total, 35 litros de volumen útil; motor inferior con dos agitadores tipo turbina con 6 paletas; burbujeador tipo anillo con 12 agujeros; 3 deflectores. Controladores de velocidad de agitación, temperatura, pH y oxígeno disuelto. Camisa calentada por vapor.</p>
+    <p><b>a)</b> ¿Cuáles son las características generales de este tipo de biorreactores? Realice un esquema aproximado del biorreactor con los componentes que se describen en el trabajo. Detalle el funcionamiento de cada uno.</p>
+    <p><b>b)</b> Según se describe en el trabajo, el biorreactor fue esterilizado junto con el medio de cultivo por medio de una camisa calentada por vapor. ¿Qué tipo de esterilización es esta? ¿Cómo funciona? ¿Recomendaría este tipo de esterilización para volúmenes más grandes? Justifique.</p>
+    <p><b>c)</b> ¿A qué se conoce como criterio de escalado? ¿Cómo se aplica este concepto experimentalmente? Explíquelo basándose en el gráfico de k<sub>L</sub>a vs caudal de aireación.</p>
+    <p><b>d)</b> ¿Qué método de determinación de k<sub>L</sub>a se utiliza en este trabajo? Explique.</p>
+  </div>
+
+  <div class="sol">
+    <h3>a) Características generales y esquema</h3>
+    <p>Es un <b>biorreactor de tanque agitado (STR)</b>, el tipo más usado en la industria de fermentaciones por su historial de rendimiento y facilidad de operación. Es el adecuado acá porque <i>A. terreus</i> es un <b>hongo filamentoso aerobio</b> con alta demanda de O₂, cuyo caldo se vuelve <b>viscoso y pseudoplástico</b>: hace falta una <b>agitación mecánica intensa</b> que rompa las burbujas (alto k<sub>L</sub>a) y mantenga en movimiento un medio espeso. Un airlift no lograría suficiente transferencia de oxígeno ni evitaría las zonas muertas.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="-218 -8 696 400" width="100%" role="img" aria-label="Esquema del fermentador de 50 litros con motor inferior, dos turbinas de seis paletas, burbujeador anular, tres deflectores y camisa de vapor">
+      <!-- camisa -->
+      <path d="M96,40 L96,300 Q96,332 128,332 L272,332 Q304,332 304,300 L304,40" fill="none" stroke="var(--slate)" stroke-width="9" opacity=".45"/>
+      <!-- vaso -->
+      <path d="M106,40 L106,298 Q106,322 130,322 L270,322 Q294,322 294,298 L294,40 Z" fill="var(--surface2)" stroke="var(--edge)" stroke-width="2"/>
+      <!-- líquido: 35 de 50 L -->
+      <path d="M108,118 L108,298 Q108,320 130,320 L270,320 Q292,320 292,298 L292,118 Z" fill="var(--amber-soft)"/>
+      <line x1="108" y1="118" x2="292" y2="118" stroke="var(--amber)" stroke-width="1.6"/>
+      <!-- tapa -->
+      <rect x="98" y="30" width="204" height="12" rx="3" fill="var(--muted)" opacity=".7"/>
+      <!-- deflectores (3) -->
+      <rect x="106" y="118" width="13" height="196" fill="var(--amber)" opacity=".62"/>
+      <rect x="281" y="118" width="13" height="196" fill="var(--amber)" opacity=".62"/>
+      <rect x="192" y="118" width="9" height="196" fill="var(--amber)" opacity=".28"/>
+      <!-- eje desde abajo -->
+      <rect x="195" y="200" width="10" height="150" fill="var(--muted)"/>
+      <rect x="160" y="350" width="80" height="30" rx="5" fill="var(--ink2)"/>
+      <text x="200" y="369" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--surface)" font-family="Public Sans, sans-serif">MOTOR</text>
+      <!-- turbinas Rushton x2 -->
+      <g fill="var(--good)">
+        <rect x="148" y="236" width="104" height="9" rx="2"/><circle cx="200" cy="240" r="15" fill="none" stroke="var(--good)" stroke-width="3"/>
+        <rect x="148" y="166" width="104" height="9" rx="2"/><circle cx="200" cy="170" r="15" fill="none" stroke="var(--good)" stroke-width="3"/>
+      </g>
+      <!-- sparger anillo -->
+      <ellipse cx="200" cy="288" rx="52" ry="10" fill="none" stroke="var(--slate)" stroke-width="3.5"/>
+      <g fill="var(--slate)">
+        <circle cx="158" cy="280" r="2.6"/><circle cx="176" cy="276" r="2.6"/><circle cx="200" cy="275" r="2.6"/>
+        <circle cx="224" cy="276" r="2.6"/><circle cx="242" cy="280" r="2.6"/>
+      </g>
+      <g fill="none" stroke="var(--slate)" stroke-width="1.3" opacity=".8">
+        <circle cx="166" cy="258" r="3.6"/><circle cx="192" cy="248" r="3"/><circle cx="228" cy="256" r="3.6"/>
+        <circle cx="152" cy="206" r="3"/><circle cx="184" cy="196" r="3.6"/><circle cx="240" cy="200" r="3"/>
+        <circle cx="168" cy="150" r="3.4"/><circle cx="214" cy="140" r="3"/><circle cx="246" cy="158" r="3.4"/>
+      </g>
+      <line x1="252" y1="292" x2="330" y2="292" stroke="var(--slate)" stroke-width="3"/>
+      <!-- sondas -->
+      <rect x="132" y="46" width="8" height="150" rx="3" fill="var(--bad)"/>
+      <rect x="150" y="46" width="8" height="130" rx="3" fill="var(--good)"/>
+      <rect x="246" y="46" width="8" height="140" rx="3" fill="var(--slate)"/>
+
+      <!-- etiquetas izquierda -->
+      <g font-size="12" fill="var(--ink2)" font-family="Public Sans, sans-serif" text-anchor="end">
+        <line x1="-6" y1="36" x2="96" y2="36" stroke="var(--muted)" stroke-width=".9"/><text x="-10" y="39">Tapa y puertos</text>
+        <line x1="-6" y1="80" x2="100" y2="80" stroke="var(--muted)" stroke-width=".9"/><text x="-10" y="83">Camisa calentada por vapor</text>
+        <line x1="-6" y1="118" x2="104" y2="118" stroke="var(--muted)" stroke-width=".9"/><text x="-10" y="121">Volumen útil: 35 de 50 L</text>
+        <line x1="-6" y1="160" x2="136" y2="160" stroke="var(--muted)" stroke-width=".9"/><text x="-10" y="163">Sondas de T, pH y OD</text>
+        <line x1="-6" y1="216" x2="112" y2="216" stroke="var(--muted)" stroke-width=".9"/><text x="-10" y="219">3 deflectores</text>
+        <line x1="-6" y1="290" x2="148" y2="290" stroke="var(--muted)" stroke-width=".9"/><text x="-10" y="293">Burbujeador anular, 12 agujeros</text>
+        <line x1="-6" y1="364" x2="158" y2="364" stroke="var(--muted)" stroke-width=".9"/><text x="-10" y="367">Motor inferior</text>
+      </g>
+      <!-- etiquetas derecha -->
+      <g font-size="12" fill="var(--ink2)" font-family="Public Sans, sans-serif">
+        <line x1="256" y1="170" x2="340" y2="170" stroke="var(--muted)" stroke-width=".9"/><text x="344" y="173">Turbina superior</text>
+        <line x1="256" y1="240" x2="340" y2="240" stroke="var(--muted)" stroke-width=".9"/><text x="344" y="243">Turbina inferior</text>
+        <text x="344" y="188" font-size="11" fill="var(--muted)">2 × 6 paletas (Rushton)</text>
+        <text x="334" y="296" font-size="11.5" fill="var(--slate)">aire estéril</text>
+      </g>
+    </svg>
+    <figcaption>Esquema del fermentador de 50 L descrito en el trabajo. El eje entra <b>por la base</b>, con las dos turbinas separadas verticalmente para cubrir toda la altura de líquido.</figcaption>
+  </figure>
+
+  <div class="sol">
+    <div class="tw"><table>
+      <thead><tr><th style="width:30%">Componente</th><th>Función</th></tr></thead>
+      <tbody>
+        <tr><td><b>Vaso de 50 L</b><br>(35 L útiles)</td><td>El <b>headspace</b> restante deja lugar a la espuma y a la desgasificación, y evita que el líquido llegue al filtro de escape.</td></tr>
+        <tr><td><b>Motor inferior</b></td><td>Acciona el eje <b>desde la base</b>. Se usa cuando conviene un <b>eje más corto</b>, para evitar tensiones mecánicas y vibración excesiva; además libera la tapa para los puertos de sondas y adiciones.</td></tr>
+        <tr><td><b>2 agitadores turbina de 6 paletas</b><br>(tipo Rushton)</td><td>Generan <b>flujo radial</b>; detrás de cada paleta se forman <b>cavidades ventiladas</b> que son las responsables de la dispersión del gas. Son <b>dos</b> porque H<sub>L</sub>/D<sub>T</sub> supera 1,2, y deben ir separados <b>1 a 1,5 D<sub>i</sub></b>: más cerca actúan como un solo impulsor gigante gastando el doble de energía, más lejos dejan una zona sin mezclar en el medio.</td></tr>
+        <tr><td><b>Burbujeador anular de 12 agujeros</b></td><td>Libera el aire en <b>varios puntos simultáneamente</b>, siempre <b>por debajo del agitador inferior</b>, para que las paletas rompan las burbujas y las repartan. El aire entra filtrado por <b>0,22 µm</b>.</td></tr>
+        <tr><td><b>3 deflectores</b></td><td>Rompen el flujo rotacional que genera la rotación del agitador y evitan el <b>vórtice</b>. <b>Ojo:</b> el estándar de la bibliografía son <b>4, equidistantes</b>, de ancho D<sub>T</sub>/10 a D<sub>T</sub>/12; con 3 la ruptura del giro es menos simétrica — es un buen punto para señalar como desvío respecto de García-Ochoa.</td></tr>
+        <tr><td><b>Camisa calentada por vapor</b></td><td>Esteriliza el conjunto y controla la temperatura <b>sin contacto con el medio</b>, calentando o enfriando según qué fluido circule.</td></tr>
+        <tr><td><b>Sensor de oxígeno disuelto</b></td><td>Verifica que el OD no caiga por debajo de la <b>concentración crítica</b> y es el que permite <b>calcular el k<sub>L</sub>a</b>.</td></tr>
+        <tr><td><b>Sensor y control de pH</b></td><td>El ácido itacónico <b>acidifica el medio</b> a medida que se produce; sin control el pH cae y se inhibe la producción. Va conectado a bombas que inyectan ácido o base.</td></tr>
+        <tr><td><b>Control de temperatura y agitación</b></td><td>La fermentación <b>libera calor</b>; sin removerlo se desnaturalizan las enzimas y muere el cultivo. El control de agitación fija la potencia entregada y, con ella, el k<sub>L</sub>a.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>b) Tipo de esterilización</h3>
+    <p>Es <b>esterilización en batch, in situ (SIP)</b>, por <b>calor húmedo indirecto</b>.</p>
+    <h4>Cómo funciona</h4>
+    <p>El vapor circula <b>por la camisa</b> y calienta por conducción y convección el conjunto <b>reactor + medio</b> hasta ~121 °C. Se mantiene esa temperatura el <b>tiempo de retención</b> necesario para alcanzar el nivel de esterilidad buscado, y luego se enfría haciendo circular agua por la misma camisa. El medio <b>nunca toma contacto con el vapor</b>, así que no se diluye por condensado.</p>
+
+    <h4>¿La recomendaría para volúmenes mayores?</h4>
+    <p><b>No.</b> La justificación tiene cuatro partes:</p>
+    <ul>
+      <li>Al crecer el volumen, la <b>relación superficie/volumen cae</b>, así que los tiempos de <b>calentamiento y enfriamiento se alargan muchísimo</b>: el calor tiene que entrar y salir por una pared que, proporcionalmente, es cada vez más chica.</li>
+      <li>Durante esas rampas largas el medio sufre <b>sobrecalentamiento</b>: se degradan vitaminas y aminoácidos y ocurren <b>reacciones de Maillard</b> entre azúcares y aminas, que oscurecen el medio y generan compuestos inhibitorios.</li>
+      <li><b>Baja la productividad del equipo</b>: el reactor pasa horas ocupado sin producir.</li>
+      <li>Mayor <b>consumo energético</b>, sin posibilidad de recuperar calor.</li>
+    </ul>
+    <div class="key"><span class="t">Qué se usa en su lugar</span>
+      <p>A gran escala se pasa a <b>esterilización continua HTST</b>, con intercambiadores de calor y un tubo de retención: alcanza temperaturas más altas durante segundos, lo que <b>mata las esporas dañando mucho menos el medio</b> —porque la destrucción de esporas tiene <b>mayor energía de activación</b> que la de los nutrientes—, permite <b>recuperación de calor</b> y deja el reactor libre.</p></div>
+
+    <h3>c) Criterio de escalado</h3>
+    <p><b>Qué es.</b> Al escalar es <b>físicamente imposible mantener todas las variables constantes de manera simultánea</b>. El <b>criterio de escalado</b> es la variable que se decide <b>conservar</b> entre escalas, aceptando que las demás cambien. Los cinco son <b>Re, P/V, v<sub>tip</sub>, k<sub>L</sub>a y t<sub>m</sub></b>. En este trabajo el criterio es el <b>k<sub>L</sub>a</b>, porque el proceso es <b>aerobio</b> y lo limitante es la <b>disponibilidad de oxígeno</b>.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 600 310" width="100%" role="img" aria-label="Esquema del gráfico del trabajo: coeficiente de transferencia de oxígeno contra caudal de aireación, con familias de curvas para 5 y 50 litros a distintas rpm">
+      <g font-family="Public Sans, sans-serif">
+        <line x1="62" y1="250" x2="470" y2="250" stroke="var(--edge)" stroke-width="1.5"/>
+        <line x1="62" y1="26" x2="62" y2="250" stroke="var(--edge)" stroke-width="1.5"/>
+        <g font-size="11" fill="var(--muted)" text-anchor="end">
+          <text x="56" y="253">0,00</text><text x="56" y="216">0,01</text><text x="56" y="179">0,02</text>
+          <text x="56" y="142">0,03</text><text x="56" y="105">0,04</text><text x="56" y="68">0,05</text><text x="56" y="31">0,06</text>
+        </g>
+        <g font-size="11" fill="var(--muted)" text-anchor="middle">
+          <text x="62" y="267">0,2</text><text x="164" y="267">0,6</text><text x="266" y="267">1,0</text><text x="368" y="267">1,4</text><text x="444" y="267">1,7</text>
+          <text x="266" y="287" font-size="12">Caudal de aireación (vvm)</text>
+        </g>
+        <text x="16" y="138" font-size="12" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 16 138)">k<tspan dy="2.4" font-size="74%">L</tspan><tspan dy="-2.4" font-size="100%">a (1/s)</tspan></text>
+        <g stroke="var(--edge2)" stroke-width="1">
+          <line x1="62" y1="216" x2="470" y2="216"/><line x1="62" y1="179" x2="470" y2="179"/>
+          <line x1="62" y1="142" x2="470" y2="142"/><line x1="62" y1="105" x2="470" y2="105"/><line x1="62" y1="68" x2="470" y2="68"/>
+        </g>
+        <!-- familia 50 L (trazo lleno) -->
+        <g stroke="var(--slate)" stroke-width="2" fill="none">
+          <path d="M88,200 L164,168 L266,120 L368,86 L420,72"/>
+          <path d="M88,216 L164,190 L266,150 L368,118 L420,106"/>
+          <path d="M88,228 L164,208 L266,176 L368,148 L420,138"/>
+          <path d="M88,238 L164,224 L266,200 L368,178 L420,170"/>
+        </g>
+        <g fill="var(--slate)">
+          <circle cx="88" cy="200" r="3.4"/><circle cx="164" cy="168" r="3.4"/><circle cx="266" cy="120" r="3.4"/><circle cx="368" cy="86" r="3.4"/><circle cx="420" cy="72" r="3.4"/>
+          <circle cx="88" cy="216" r="3.4"/><circle cx="164" cy="190" r="3.4"/><circle cx="266" cy="150" r="3.4"/><circle cx="368" cy="118" r="3.4"/><circle cx="420" cy="106" r="3.4"/>
+          <circle cx="88" cy="228" r="3.4"/><circle cx="164" cy="208" r="3.4"/><circle cx="266" cy="176" r="3.4"/><circle cx="368" cy="148" r="3.4"/><circle cx="420" cy="138" r="3.4"/>
+          <circle cx="88" cy="238" r="3.4"/><circle cx="164" cy="224" r="3.4"/><circle cx="266" cy="200" r="3.4"/><circle cx="368" cy="178" r="3.4"/><circle cx="420" cy="170" r="3.4"/>
+        </g>
+        <!-- familia 5 L (trazo punteado) -->
+        <g stroke="var(--amber)" stroke-width="2" fill="none" stroke-dasharray="5 4">
+          <path d="M88,222 L164,198 L266,164 L368,134 L420,122"/>
+          <path d="M88,232 L164,214 L266,188 L368,162 L420,152"/>
+          <path d="M88,240 L164,226 L266,206 L368,186 L420,178"/>
+          <path d="M88,245 L164,236 L266,222 L368,206 L420,200"/>
+        </g>
+        <g fill="none" stroke="var(--amber)" stroke-width="1.6">
+          <circle cx="88" cy="222" r="3.2"/><circle cx="164" cy="198" r="3.2"/><circle cx="266" cy="164" r="3.2"/><circle cx="368" cy="134" r="3.2"/><circle cx="420" cy="122" r="3.2"/>
+          <circle cx="88" cy="232" r="3.2"/><circle cx="164" cy="214" r="3.2"/><circle cx="266" cy="188" r="3.2"/><circle cx="368" cy="162" r="3.2"/><circle cx="420" cy="152" r="3.2"/>
+        </g>
+        <!-- línea de kLa objetivo -->
+        <line x1="62" y1="179" x2="470" y2="179" stroke="var(--bad)" stroke-width="1.8" stroke-dasharray="6 4"/>
+        <text x="474" y="176" font-size="11.5" fill="var(--bad)" font-weight="700">k<tspan dy="2.4" font-size="74%">L</tspan><tspan dy="-2.4" font-size="100%">a = 0,02 s⁻¹</tspan></text>
+        <text x="474" y="190" font-size="10.5" fill="var(--bad)">el criterio</text>
+        <!-- puntos de trabajo -->
+        <circle cx="266" cy="179" r="6" fill="var(--bad)"/>
+        <circle cx="140" cy="179" r="6" fill="var(--bad)"/>
+        <text x="272" y="62" font-size="11.5" fill="var(--ink)" text-anchor="middle" font-weight="700">5 L</text>
+        <text x="272" y="75" font-size="10.5" fill="var(--ink2)" text-anchor="middle">200 rpm · 1,5 vvm</text>
+        <line x1="272" y1="80" x2="268" y2="172" stroke="var(--muted)" stroke-width=".9" stroke-dasharray="2 2"/>
+        <text x="86" y="60" font-size="11.5" fill="var(--ink)" font-weight="700">50 L</text>
+        <text x="86" y="73" font-size="10.5" fill="var(--ink2)">180 rpm · 0,5 vvm</text>
+        <line x1="118" y1="78" x2="138" y2="172" stroke="var(--muted)" stroke-width=".9" stroke-dasharray="2 2"/>
+        <!-- leyenda -->
+        <g font-size="11.5">
+          <line x1="70" y1="304" x2="96" y2="304" stroke="var(--slate)" stroke-width="2"/>
+          <circle cx="83" cy="304" r="3.4" fill="var(--slate)"/>
+          <text x="102" y="308" fill="var(--ink2)">50 L · 120 / 150 / 180 / 200 rpm</text>
+          <line x1="290" y1="304" x2="316" y2="304" stroke="var(--amber)" stroke-width="2" stroke-dasharray="5 4"/>
+          <circle cx="303" cy="304" r="3.2" fill="none" stroke="var(--amber)" stroke-width="1.6"/>
+          <text x="322" y="308" fill="var(--ink2)">5 L · 120 / 150 / 200 / 250 rpm</text>
+        </g>
+      </g>
+    </svg>
+    <figcaption><b>Redibujo esquemático</b> del gráfico del trabajo: las curvas reproducen las <b>tendencias</b>, no los valores punto a punto. Lo que importa acá es que <b>las dos escalas se cruzan sobre la misma línea de k<sub>L</sub>a</b>, y que esa línea es la que fija el criterio.</figcaption>
+  </figure>
+
+  <div class="sol">
+    <h4>Cómo se aplica experimentalmente — leyendo el gráfico</h4>
+    <p>El gráfico es <b>k<sub>L</sub>a (s⁻¹) en función del caudal de aireación (vvm)</b>, con una familia de curvas para el fermentador de <b>5 L</b> (120, 150, 200 y 250 rpm) y otra para el de <b>50 L</b> (120, 150, 180 y 200 rpm). Se lee que:</p>
+    <ul>
+      <li>El <b>k<sub>L</sub>a crece con el vvm</b> en todas las curvas: más gas es más área interfacial <i>a</i>.</li>
+      <li>El <b>k<sub>L</sub>a crece con las rpm</b>: las curvas de mayor velocidad están por encima, porque el agitador rompe más las burbujas y evita que coalezcan.</li>
+      <li>Para un mismo vvm, el reactor de <b>50 L da un k<sub>L</sub>a mayor</b> a igual rpm, porque la <b>columna de líquido es más alta</b>: la burbuja tiene más tiempo de residencia y hay más presión hidrostática, lo que sube la solubilidad del O₂.</li>
+    </ul>
+    <p><b>El procedimiento es:</b></p>
+    <ol>
+      <li>Se <b>construye este mapa</b> midiendo el k<sub>L</sub>a en cada combinación de N y vvm, <b>en ambas escalas</b>.</li>
+      <li>Se elige en el reactor chico la condición con <b>mejor desempeño biológico</b> y se <b>lee su k<sub>L</sub>a</b>.</li>
+      <li>Se entra al gráfico del reactor grande y se busca <b>la combinación de N y vvm que corta a ese mismo valor de k<sub>L</sub>a</b>.</li>
+    </ol>
+    <div class="key"><span class="t">El resultado concreto del trabajo</span>
+      <p><b>5 L a 200 rpm y 1,5 vvm</b> y <b>50 L a 180 rpm y 0,5 vvm</b> dan el <b>mismo k<sub>L</sub>a ≈ 0,02 s⁻¹</b> (≈ 72 h⁻¹).</p></div>
+
+    <h4>Por qué las rpm y el vvm no se mantienen constantes</h4>
+    <p>Porque son <b>medios, no fines</b>. A la célula le importa <b>recibir oxígeno</b>, y eso lo describe el k<sub>L</sub>a, no la velocidad de giro en sí. A mayor escala el mismo k<sub>L</sub>a se consigue con <b>menos rpm</b> —porque D<sub>i</sub> es mayor y la potencia va con N³D<sub>i</sub>⁵— y con <b>menos vvm</b> —porque el volumen de líquido es mayor y la columna más alta aumenta el tiempo de residencia de la burbuja y la presión hidrostática. Mantener 1,5 vvm en 50 L sería un caudal enorme, innecesario y potencialmente causante de <b>flooding y espuma</b>.</p>
+
+    <h3>d) Método de determinación del k<sub>L</sub>a</h3>
+    <p>Se usa el <b>método de desgasificado (gassing-out)</b>, en su versión <b>estática</b>: es decir, <b>sin células consumiendo oxígeno</b>, solo con el medio.</p>
+    <h4>Fundamento y desarrollo</h4>
+    <ol>
+      <li>Se <b>desoxigena</b> el medio inyectando <b>nitrógeno</b> hasta llevar el oxígeno disuelto a cero.</li>
+      <li>Se corta el N₂ y se <b>inyecta aire a caudal constante</b>, con la agitación fijada en el valor a ensayar.</li>
+      <li>Se registra la <b>subida del oxígeno disuelto</b> con el sensor de OD en función del tiempo.</li>
+    </ol>
+    <p>Partiendo del balance de oxígeno en la fase líquida, y como no hay consumo (OUR = 0):</p>
+    <div class="fml">dC<sub>L</sub>/dt = k<sub>L</sub>a · (C* − C<sub>L</sub>)</div>
+    <p>Integrando con k<sub>L</sub>a constante, entre t = 0 (con C<sub>L</sub> = 0) y un tiempo t:</p>
+    <div class="fml">ln(1 − C<sub>L</sub>/C*) = − k<sub>L</sub>a · t
+      <small>Se grafica <b>ln(1 − C<sub>L</sub>/C*) en función de t</b> y se obtiene una recta cuya <b>pendiente es −k<sub>L</sub>a</b></small></div>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 520 250" width="100%" role="img" aria-label="Recta de linealización del método de desgasificado: logaritmo natural de uno menos la saturación fraccional contra el tiempo">
+      <g font-family="Public Sans, sans-serif">
+        <line x1="66" y1="34" x2="66" y2="196" stroke="var(--edge)" stroke-width="1.5"/>
+        <line x1="66" y1="34" x2="452" y2="34" stroke="var(--edge)" stroke-width="1.5"/>
+        <g font-size="11" fill="var(--muted)" text-anchor="middle">
+          <text x="66" y="26">0</text><text x="162" y="26">60</text><text x="258" y="26">120</text><text x="354" y="26">180</text><text x="450" y="26">240</text>
+          <text x="258" y="11" font-size="12">tiempo (s)</text>
+        </g>
+        <g font-size="11" fill="var(--muted)" text-anchor="end">
+          <text x="60" y="38">0</text><text x="60" y="78">−0,6</text><text x="60" y="118">−1,2</text><text x="60" y="158">−1,8</text><text x="60" y="198">−2,4</text>
+        </g>
+        <text x="18" y="115" font-size="12" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 18 115)">ln(1 − C<tspan dy="2.4" font-size="74%">L</tspan><tspan dy="-2.4" font-size="100%">/C*)</tspan></text>
+        <line x1="66" y1="34" x2="450" y2="188" stroke="var(--amber)" stroke-width="2.4"/>
+        <g fill="var(--amber-ink)">
+          <circle cx="66" cy="34" r="4"/><circle cx="130" cy="60" r="4"/><circle cx="194" cy="86" r="4"/>
+          <circle cx="258" cy="111" r="4"/><circle cx="322" cy="137" r="4"/><circle cx="386" cy="163" r="4"/><circle cx="450" cy="188" r="4"/>
+        </g>
+        <text x="300" y="100" font-size="13" font-weight="700" fill="var(--amber-ink)">pendiente = −k<tspan dy="2.4" font-size="74%">L</tspan>a</text>
+        <text x="258" y="228" font-size="11.5" fill="var(--muted)" text-anchor="middle">La linealidad confirma que el k<tspan dy="2.4" font-size="74%">L</tspan><tspan dy="-2.4" font-size="100%">a se mantuvo constante durante todo el ensayo.</tspan></text>
+      </g>
+    </svg>
+    <figcaption>Linealización del método de desgasificado. Cada punto es una lectura del sensor de oxígeno disuelto durante la reoxigenación.</figcaption>
+  </figure>
+
+  <div class="sol">
+    <h4>Ventajas y limitaciones</h4>
+    <ul>
+      <li><b>+</b> Es uno de los métodos <b>más ampliamente utilizados</b>, simple y de bajo costo, y puede aplicarse también <b>durante la fermentación</b> (versión dinámica, restando el término de OUR).</li>
+      <li><b>−</b> La respuesta del electrodo debe ser <b>mucho más rápida que 1/k<sub>L</sub>a</b>; si no, hay que corregir por el retardo de la sonda.</li>
+      <li><b>−</b> En la versión con células, el oxígeno debe mantenerse <b>por encima de la concentración crítica</b>, para que la velocidad de consumo no dependa de la tensión de oxígeno disuelto.</li>
+    </ul>
+    <div class="note"><span class="t">Contraste que conviene mencionar</span>
+      A diferencia del <b>método del sulfito (Cooper)</b>, que fue el primero en aplicarse pero <b>ya no se recomienda</b> —sus resultados dependen de las condiciones de operación de una manera desconocida y generalmente <b>arrojan valores de k<sub>L</sub>a más altos</b> que otras técnicas—, y del <b>balance de oxígeno</b> con analizadores de gases, que es el <b>más fiable</b> pero también el más caro y sensible a errores de medición.</div>
+  </div>
+</section>
+
+<section class="q" id="cierre">
+  <div class="qhead"><h2>Dos observaciones sobre el parcial</h2></div>
+  <div class="sol">
+    <h4>1. No hay ningún cálculo numérico</h4>
+    <p>Las preguntas 2 y 5 piden <b>explicar cómo calcularías</b>, no llegar a un número. El foco está en el <b>procedimiento, el criterio y la justificación</b>. Eso significa que lo que hay que tener afilado es el <b>razonamiento</b>, no la calculadora.</p>
+    <h4>2. Casi todas las respuestas son un compromiso</h4>
+    <p>Mirá el patrón: el flooding es malo <b>pero</b> se corrige subiendo N; agitar más mezcla mejor <b>pero</b> rompe células; la esterilización batch es simple <b>pero</b> no escala; se puede conservar P/V <b>pero</b> entonces sube la cizalla. <b>Si en tu respuesta aparece un “pero” seguido de la contrapartida, estás respondiendo como la cátedra espera.</b></p>
+  </div>
+</section>
+</main>
+
+<footer>
+  Enunciado transcrito del parcial y resolución elaborada a partir de las cuatro clases teóricas y las dos guías de trabajos prácticos de Industrias y Procesos Biotecnológicos, UADE 2026.
+  El bloque de <b>esterilización y filtración</b> se resolvió con material de referencia estándar, porque esa clase no está entre los PDF de la cursada.
+</footer>
+
+<script>
+document.getElementById("theme").addEventListener("click",()=>{
+  const cur=document.documentElement.getAttribute("data-theme");
+  const dark=cur?cur==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.setAttribute("data-theme",dark?"light":"dark");
+});
+const em=document.getElementById("examMode");
+em.addEventListener("click",()=>{
+  const on=em.getAttribute("aria-pressed")==="true";
+  em.setAttribute("aria-pressed",String(!on));
+  document.body.classList.toggle("hide-sol",!on);
+  em.textContent = !on ? "Mostrar respuestas" : "Ocultar respuestas";
+  if(!on) window.scrollTo({top:0,behavior:"smooth"});
+});
+</script>

@@ -54,6 +54,11 @@ button{font:inherit;color:inherit}
   font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.14em;
   color:var(--accent-ink); background:var(--accent-soft); padding:3px 7px;border-radius:5px;white-space:nowrap;
 }
+.xnav{display:flex;gap:3px;flex-wrap:wrap}
+.xnav a,.xnav span{font-size:13px;text-decoration:none;padding:5px 10px;border-radius:7px;white-space:nowrap;line-height:1.5}
+.xnav a{color:var(--muted)}
+.xnav a:hover{background:var(--panel2);color:var(--ink)}
+.xnav span[aria-current]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
 .brand h1{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .sat{margin-left:auto;display:flex;align-items:center;gap:9px}
 .sat-label{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
@@ -62,7 +67,7 @@ button{font:inherit;color:inherit}
 .sat-num{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
 .theme-btn{background:none;border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:13px;color:var(--muted)}
 
-nav.tabs{position:sticky;top:calc(env(safe-area-inset-top,0px) + 53px);z-index:29;background:var(--ground);border-bottom:1px solid var(--line)}
+nav.tabs{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--barh,53px));z-index:29;background:var(--ground);border-bottom:1px solid var(--line)}
 .tabs-in{max-width:980px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;padding:0 10px;scrollbar-width:none}
 .tabs-in::-webkit-scrollbar{display:none}
 .tab{
@@ -216,9 +221,13 @@ h3.sub{font-size:16px;font-weight:600;margin-bottom:6px}
 <header class="topbar">
   <div class="topbar-in">
     <div class="brand">
-      <span class="mark">I&amp;P · UADE</span>
       <h1>Sala de Cultivo</h1>
     </div>
+    <nav class="xnav" aria-label="Materiales de la materia">
+      <a href="https://claude.ai/artifact/CqSquC4UziJUmM6faQZaVo">Curso</a>
+      <span aria-current="page">Práctica</span>
+      <a href="https://claude.ai/artifact/P7ySXbD7ojByef1giTs9sN">Parcial resuelto</a>
+    </nav>
     <div class="sat">
       <span class="sat-label">Saturación</span>
       <div class="sat-bar"><div class="sat-fill" id="satFill"></div></div>
@@ -1126,6 +1135,13 @@ document.getElementById("resetBtn").onclick = ()=>{
   qRight=0; qTot=0; document.getElementById("quizScore").textContent="0 / 0";
   persist(); buildDeck(); buildQuiz();
 };
+
+/* la barra de pestañas se pega justo debajo del encabezado, mida lo que mida */
+function syncBar(){
+  const h = document.querySelector(".topbar").getBoundingClientRect().height;
+  document.documentElement.style.setProperty("--barh", Math.round(h)+"px");
+}
+syncBar(); addEventListener("resize", syncBar);
 
 /* ============================ ARRANQUE ============================ */
 buildDeck(); buildQuiz(); renderProgress(); renderSheet("");

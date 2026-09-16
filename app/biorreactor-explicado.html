@@ -50,7 +50,12 @@ button{font:inherit;color:inherit}
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
   background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(10px);
   border-bottom:1px solid var(--edge)}
-.bar-in{max-width:880px;margin:0 auto;padding:9px 18px;display:flex;align-items:center;gap:12px}
+.bar-in{max-width:880px;margin:0 auto;padding:9px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.xnav{display:flex;gap:3px;flex-wrap:wrap}
+.xnav a,.xnav span{font-size:13px;text-decoration:none;padding:5px 10px;border-radius:7px;white-space:nowrap;line-height:1.5}
+.xnav a{color:var(--muted)}
+.xnav a:hover{background:var(--surface2);color:var(--ink)}
+.xnav span[aria-current]{background:var(--amber-soft);color:var(--amber-ink);font-weight:600}
 .bar .name{font-family:"Fraunces",serif;font-weight:700;font-size:16px;letter-spacing:-.01em;white-space:nowrap}
 .dots{display:flex;gap:5px;margin-left:auto;align-items:center}
 .dots button{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--edge);background:transparent;padding:0;cursor:pointer}
@@ -162,7 +167,11 @@ footer{max-width:880px;margin:0 auto;padding:26px 18px 40px;color:var(--muted);f
 
 <header class="bar">
   <div class="bar-in">
-    <span class="name">Biorreactor Explicado</span>
+    <nav class="xnav" aria-label="Materiales de la materia">
+      <span aria-current="page">Curso</span>
+      <a href="https://claude.ai/artifact/ThkBmTH7ei7RruvAia6mHD">Práctica</a>
+      <a href="https://claude.ai/artifact/P7ySXbD7ojByef1giTs9sN">Parcial resuelto</a>
+    </nav>
     <div class="dots" id="dots" aria-label="Progreso"></div>
     <button class="tbtn" id="theme" title="Cambiar tema">◐</button>
   </div>
@@ -578,6 +587,10 @@ footer{max-width:880px;margin:0 auto;padding:26px 18px 40px;color:var(--muted);f
     <a class="link" href="https://claude.ai/artifact/ThkBmTH7ei7RruvAia6mHD" target="_blank" rel="noopener">
       <div class="t">→ Practicar</div>
       <div class="d">Sala de Cultivo: 84 tarjetas, 52 preguntas con explicación, simulacro cronometrado y una calculadora de biorreactor.</div>
+    </a>
+    <a class="link" href="https://claude.ai/artifact/P7ySXbD7ojByef1giTs9sN" target="_blank" rel="noopener">
+      <div class="t">→ Ver un parcial resuelto</div>
+      <div class="d">El enunciado completo del primer parcial y la resolución de cada punto, con modo examen para taparte las respuestas.</div>
     </a>
     <div class="link">
       <div class="t">→ Leer el detalle</div>
